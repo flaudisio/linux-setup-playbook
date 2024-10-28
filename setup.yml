@@ -4,10 +4,21 @@
 
   module_defaults:
     ansible.builtin.setup:
+      # Ohai is slow and unnecessary, so avoid using it
       gather_subset: "!ohai"
 
+  vars_files:
+    - config.default.yml
+
+  pre_tasks:
+    - name: Include playbook configuration
+      ansible.builtin.include_vars: "{{ item }}"
+      with_fileglob:
+        - config.yml
+      tags: [always]
+
   roles:
-    # Base
+    # Base system & desktop
     - role: packages
       tags: [base, packages]
     - role: base-system
@@ -54,12 +65,12 @@
     # Infrastructure
     - role: docker
       tags: [infra, docker]
-    - role: cinc-workstation
-      tags: [infra, cinc-workstation]
     - role: dive
       tags: [infra, dive]
     - role: lazydocker
       tags: [infra, lazydocker]
+    - role: cinc-workstation
+      tags: [infra, cinc-workstation]
     - role: kvm
       tags: [infra, kvm]
 

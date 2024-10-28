@@ -306,3 +306,6 @@ roles/public/*
 
 logs/*
 !logs/.gitkeep
+
+# Custom configs
+config.yml
