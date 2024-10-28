@@ -16,7 +16,6 @@
 - name: Generate key pair
   ansible.builtin.shell: >
     wg genkey | tee '{{ wireguard_private_key_file }}' | wg pubkey > '{{ wireguard_public_key_file }}'
-  register: wireguard_genkey
   changed_when: false
   when: not _private_key_check.stat.exists
   tags: wireguard:config
