@@ -1,4 +1,6 @@
 ---
+base_vm_swappiness: 10
+
 # Max disk space the systemd journal may use
 base_journald_system_max_use: 200M
 

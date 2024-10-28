@@ -2,7 +2,7 @@
 - name: Configure swappiness
   ansible.posix.sysctl:
     name: vm.swappiness
-    value: "10"
+    value: "{{ base_vm_swappiness }}"
     sysctl_file: /etc/sysctl.d/90-linux-setup-playbook.conf
     state: present
     reload: true
