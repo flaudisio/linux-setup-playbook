@@ -3,14 +3,11 @@ packages_base:
   - apt-transport-https
   - bash-completion
   - ca-certificates
-  - cryptsetup
   - curl
   - dkms
   - exo-utils
   - keepassxc
-  - less
   - seahorse
-  - software-properties-common
   - tmux
   - tree
   - wget
@@ -80,7 +77,7 @@ packages_utils:
   - ack
   - atool
   - atril
-  - colordiff
+  - mate-calc
   - dconf-editor
   - dos2unix
   - engrampa
@@ -108,8 +105,7 @@ packages_utils:
   - zenity
 
 packages_purge:
-  # Xubuntu-desktop
-  - gmusicbrowser
+  # Default Xubuntu packages
   - gnumeric
   - mousepad
   - pidgin
