@@ -13,10 +13,10 @@
 
   roles:
     # Base system & desktop
-    - role: packages
-      tags: [base, packages]
     - role: base-system
       tags: [base, base-system]
+    - role: packages
+      tags: [base, packages]
     - role: xubuntu-desktop
       tags: [base, xubuntu-desktop]
       when: configure_xubuntu_desktop
