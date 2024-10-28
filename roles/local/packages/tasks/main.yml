@@ -11,19 +11,19 @@
     state: present
   tags: packages:base
 
-- name: Install development tools
+- name: Install development packages
   ansible.builtin.apt:
     name: "{{ packages_dev }}"
     state: present
   tags: packages:dev
 
-- name: Install sysadmin tools
+- name: Install sysadmin packages
   ansible.builtin.apt:
     name: "{{ packages_sysadmin }}"
     state: present
   tags: packages:sysadmin
 
-- name: Install graphics and media tools
+- name: Install graphics and media packages
   ansible.builtin.apt:
     name: "{{ packages_media }}"
     state: present
