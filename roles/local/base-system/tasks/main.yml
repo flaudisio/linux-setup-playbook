@@ -19,7 +19,7 @@
     mode: "0644"
   tags: base-system:lightdm
 
-- name: Configure systemd Journal max log usage
+- name: Configure systemd Journal disk usage
   ansible.builtin.ini_file:
     path: /etc/systemd/journald.conf
     section: Journal
@@ -51,6 +51,6 @@
   ansible.builtin.import_tasks: hosts-file.yml
   tags: base-system:hosts
 
-- name: Include snap tasks
+- name: Include Snap tasks
   ansible.builtin.import_tasks: snap.yml
   tags: base-system:snap
