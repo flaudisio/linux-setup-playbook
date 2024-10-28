@@ -19,4 +19,4 @@ base_hosts_file_remove: []
 #   someuser ALL=(root) NOPASSWD:/usr/bin/virsh
 base_sudoers_config: ""
 
-base_disable_snapd: false
+base_remove_snapd: false
