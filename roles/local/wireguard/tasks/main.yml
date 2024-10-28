@@ -52,6 +52,7 @@
     owner: root
     group: root
     mode: "0600"
+    lstrip_blocks: true
   no_log: "{{ ansible_verbosity < 3 }}"
   notify: Restart WireGuard
   tags: wireguard:config
