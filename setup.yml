@@ -9,13 +9,7 @@
 
   vars_files:
     - config.default.yml
-
-  pre_tasks:
-    - name: Include playbook configuration
-      ansible.builtin.include_vars: "{{ item }}"
-      with_fileglob:
-        - config.yml
-      tags: [always]
+    - config.yml
 
   roles:
     # Base system & desktop
