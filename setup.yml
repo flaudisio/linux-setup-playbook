@@ -1,5 +1,5 @@
 ---
-- name: Ansible Workstation
+- name: Linux setup
   hosts: all
 
   module_defaults:

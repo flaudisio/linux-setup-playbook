@@ -1,7 +1,7 @@
 COLLECTIONS_PATH := collections
 ROLES_PATH := roles/public
 
-VENV_DIR ?= $(HOME)/.virtualenvs/ansible-workstation
+VENV_DIR ?= $(HOME)/.virtualenvs/linux-setup-playbook
 
 export PATH := $(VENV_DIR)/bin:$(PATH)
 

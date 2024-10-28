@@ -1,4 +1,4 @@
-# Ansible Workstation
+# Linux Setup Playbook
 
 Ansible playbooks and roles that I use to provision my Linux-based machines.
 
@@ -23,9 +23,9 @@ Initial setup in a default ("untouched") Ubuntu installation:
 sudo apt-get update
 sudo apt-get install git python3-venv
 
-git clone https://github.com/flaudisio/ansible-workstation.git ~/.local/share/ansible-workstation
+git clone https://github.com/flaudisio/linux-setup-playbook.git ~/.local/share/linux-setup-playbook
 
-cd ~/.local/share/ansible-workstation
+cd ~/.local/share/linux-setup-playbook
 
 make install
 eval $( make venv-activate )
@@ -38,7 +38,7 @@ ansible --version
 Run the `complete` playbook:
 
 ```bash
-cd ~/.local/share/ansible-workstation
+cd ~/.local/share/linux-setup-playbook
 
 ./run.sh setup.yml
 ```
