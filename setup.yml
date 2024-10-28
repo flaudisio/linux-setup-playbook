@@ -28,6 +28,7 @@
       tags: [backup, megasync]
     - role: rclone
       tags: [backup, rclone]
+      when: install_rclone
     - role: restic
       tags: [backup, restic]
     - role: resticprofile
@@ -44,10 +45,12 @@
       tags: [utils, chrome]
     - role: keybase
       tags: [utils, keybase]
+      when: install_keybase
     - role: spotify
       tags: [utils, spotify]
     - role: steam
       tags: [utils, steam]
+      when: install_steam
 
     # Chat
     - role: discord
@@ -56,6 +59,7 @@
       tags: [chat, slack]
     - role: zoom
       tags: [chat, zoom]
+      when: install_zoom
 
     # Infrastructure
     - role: docker
@@ -66,8 +70,10 @@
       tags: [infra, lazydocker]
     - role: cinc-workstation
       tags: [infra, cinc-workstation]
+      when: install_cinc_workstation
     - role: kvm
       tags: [infra, kvm]
+      when: install_kvm
 
     # Cloud tools
     - role: aws-cli
@@ -77,6 +83,7 @@
       tags: [cloud-tools, aws-vault]
     - role: cloudflare-client
       tags: [cloud-tools, cloudflare-client]
+      when: install_cloudflare_client
     - role: session-manager-plugin
       tags: [cloud-tools, session-manager-plugin]
     - role: doppler
@@ -89,3 +96,4 @@
       tags: [dev, vscode]
     - role: q
       tags: [dev, q]
+      when: install_q
