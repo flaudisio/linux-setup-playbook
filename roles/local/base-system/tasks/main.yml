@@ -1,12 +1,12 @@
 ---
 - name: Configure swappiness
-  ansible.builtin.sysctl:
+  ansible.posix.sysctl:
     name: vm.swappiness
     value: "10"
     sysctl_file: /etc/sysctl.d/90-linux-setup-playbook.conf
     state: present
     reload: true
-  tags: base-system:sysctl
+  tags: base-system:swappiness
 
 - name: Disable LightDM guest user
   ansible.builtin.copy:
