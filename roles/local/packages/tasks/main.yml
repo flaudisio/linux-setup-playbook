@@ -9,35 +9,30 @@
   ansible.builtin.apt:
     name: "{{ packages_base }}"
     state: present
-    install_recommends: false
   tags: packages:base
 
 - name: Install development tools
   ansible.builtin.apt:
     name: "{{ packages_dev }}"
     state: present
-    install_recommends: false
   tags: packages:dev
 
 - name: Install sysadmin tools
   ansible.builtin.apt:
     name: "{{ packages_sysadmin }}"
     state: present
-    install_recommends: false
   tags: packages:sysadmin
 
 - name: Install graphics and media tools
   ansible.builtin.apt:
     name: "{{ packages_media }}"
     state: present
-    install_recommends: false
   tags: packages:media
 
 - name: Install utilities
   ansible.builtin.apt:
     name: "{{ packages_utils }}"
     state: present
-    install_recommends: false
   tags: packages:utils
 
 - name: Remove selected packages
@@ -51,7 +46,6 @@
   ansible.builtin.apt:
     name: "{{ packages_extra }}"
     state: present
-    install_recommends: false
   tags: packages:extra
 
 - name: Install Git-related packages
@@ -64,7 +58,6 @@
       - qgit
       - tig
     state: present
-    install_recommends: false
   tags:
     - packages:git
     - packages:dev
