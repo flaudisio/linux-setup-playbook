@@ -1,0 +1,5 @@
+---
+- name: Restart WireGuard
+  ansible.builtin.service:
+    name: "{{ wireguard_service_name }}"
+    state: restarted

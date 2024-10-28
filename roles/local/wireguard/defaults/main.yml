@@ -1,0 +1,20 @@
+---
+wireguard_address: 10.0.0.1/24
+wireguard_port: 51820
+
+wireguard_interface: wg0
+
+wireguard_config_file: /etc/wireguard/{{ wireguard_interface }}.conf
+wireguard_private_key_file: /etc/wireguard/private.key
+wireguard_public_key_file: /etc/wireguard/public.key
+
+wireguard_service_name: wg-quick@{{ wireguard_interface }}.service
+
+# wireguard_peers:
+#   - name: my-laptop
+#     pubkey: pqVtb867OLma9rIBhRss791bWmIsyX2o1GgLtPa/xAg=
+#     ip: 10.0.0.2
+wireguard_peers: []
+
+wireguard_configure_iptables: false
+wireguard_enable_ip_forward: true

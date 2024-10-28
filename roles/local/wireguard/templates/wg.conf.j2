@@ -1,0 +1,23 @@
+#jinja2:lstrip_blocks: True
+# {{ ansible_managed }}
+
+[Interface]
+SaveConfig = false
+Address = {{ wireguard_address }}
+ListenPort = {{ wireguard_port }}
+PrivateKey = {{ wireguard_private_key }}
+{% if wireguard_configure_iptables %}
+PostUp = iptables -t nat -I POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+PostUp = iptables -A FORWARD -i %i -j ACCEPT
+PostUp = iptables -A FORWARD -o %i -j ACCEPT
+PreDown = iptables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+PreDown = iptables -D FORWARD -i %i -j ACCEPT
+PreDown = iptables -D FORWARD -o %i -j ACCEPT
+{% endif %}
+
+{% for peer in wireguard_peers %}
+[Peer]
+# {{ peer.name }}
+PublicKey = {{ peer.pubkey }}
+AllowedIPs = {{ peer.ip }}/32
+{% endfor %}
