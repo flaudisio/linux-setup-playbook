@@ -1,5 +1,5 @@
 ---
-- name: Check if restic {{ restic_version }} is installed
+- name: Check if version {{ restic_version }} is installed
   ansible.builtin.shell: restic version || true
   register: restic_check
   changed_when: false
