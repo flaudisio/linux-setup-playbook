@@ -5,6 +5,9 @@
 
 __current_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
 
+# Optional roles
+configure_xubuntu_desktop: "{{ lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu' }}"
+
 # ------------------------------------------------------------------------------
 # base
 # ------------------------------------------------------------------------------

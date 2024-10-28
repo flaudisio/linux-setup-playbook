@@ -19,6 +19,7 @@
       tags: [base, base-system]
     - role: xubuntu-desktop
       tags: [base, xubuntu-desktop]
+      when: configure_xubuntu_desktop
     - role: ulauncher
       tags: [base, ulauncher]
 
