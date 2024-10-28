@@ -31,30 +31,6 @@
   notify: Restart systemd-journald
   tags: base-system:journald
 
-- name: Enable sudo insults
-  ansible.builtin.copy:
-    content: |
-      # Managed by Ansible
-      Defaults  insults
-    dest: /etc/sudoers.d/90-ansible-insults
-    owner: root
-    group: root
-    mode: "0440"
-    validate: visudo --check --file %s
-  tags: base-system:sudo
-
-- name: Configure sudoers
-  ansible.builtin.copy:
-    content: |
-      # Managed by Ansible
-      {{ base_sudoers_config }}
-    dest: /etc/sudoers.d/90-ansible-custom
-    owner: root
-    group: root
-    mode: "0440"
-    validate: visudo --check --file %s
-  tags: base-system:sudo
-
 - name: Configure Num Lock behavior
   ansible.builtin.lineinfile:
     path: /etc/default/numlockx
@@ -66,6 +42,10 @@
     create: false
     state: present
   tags: base-system:numlock
+
+- name: Include sudoers tasks
+  ansible.builtin.import_tasks: sudoers.yml
+  tags: base-system:sudoers
 
 - name: Include hosts file tasks
   ansible.builtin.import_tasks: hosts-file.yml

@@ -1,0 +1,22 @@
+---
+- name: Enable sudo insults
+  ansible.builtin.copy:
+    content: |
+      # Managed by Ansible
+      Defaults  insults
+    dest: /etc/sudoers.d/90-ansible-insults
+    owner: root
+    group: root
+    mode: "0440"
+    validate: visudo --check --file %s
+
+- name: Configure sudoers
+  ansible.builtin.copy:
+    content: |
+      # Managed by Ansible
+      {{ base_sudoers_config }}
+    dest: /etc/sudoers.d/90-ansible-custom
+    owner: root
+    group: root
+    mode: "0440"
+    validate: visudo --check --file %s
