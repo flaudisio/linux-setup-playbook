@@ -4,8 +4,6 @@ base_vm_swappiness: 10
 # Max disk space the systemd journal may use
 base_journald_system_max_use: 200M
 
-base_enable_intel_tearing_fix: false
-
 # base_hosts_config: |
 #   10.0.0.1   foo.example.com
 #   10.0.2.20  another.example.com  another

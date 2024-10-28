@@ -31,26 +31,6 @@
   notify: Restart systemd-journald
   tags: base-system:journald
 
-- name: Create XOrg configuration directory
-  ansible.builtin.file:
-    path: /etc/X11/xorg.conf.d
-    state: directory
-    owner: root
-    group: root
-    mode: "0755"
-  when: base_enable_intel_tearing_fix | bool
-  tags: base-system:xorg
-
-- name: Configure Intel anti-tearing
-  ansible.builtin.copy:
-    src: xorg.conf.d/intel.conf
-    dest: /etc/X11/xorg.conf.d/20-intel.conf
-    owner: root
-    group: root
-    mode: "0644"
-  when: base_enable_intel_tearing_fix | bool
-  tags: base-system:xorg
-
 - name: Enable sudo insults
   ansible.builtin.copy:
     content: |
