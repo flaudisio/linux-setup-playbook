@@ -10,7 +10,7 @@
 - name: Check if private key exists
   ansible.builtin.stat:
     path: "{{ wireguard_private_key_file }}"
-  register: wireguard_key_check
+  register: _private_key_check
   tags: wireguard:config
 
 - name: Generate key pair
@@ -18,7 +18,7 @@
     wg genkey | tee '{{ wireguard_private_key_file }}' | wg pubkey > '{{ wireguard_public_key_file }}'
   register: wireguard_genkey
   changed_when: false
-  when: not wireguard_key_check.stat.exists
+  when: not _private_key_check.stat.exists
   tags: wireguard:config
 
 - name: Ensure correct key file permissions
@@ -41,7 +41,7 @@
 
 - name: Set private key variable
   ansible.builtin.set_fact:
-    wireguard_private_key: "{{ wireguard_private_key_b64.content | b64decode | trim }}"
+    wireguard_private_key_plain: "{{ wireguard_private_key_b64.content | b64decode | trim }}"
   no_log: "{{ ansible_verbosity < 3 }}"
   tags: wireguard:config
 
@@ -81,5 +81,5 @@
 
 - name: Set public key variable
   ansible.builtin.set_fact:
-    wireguard_public_key: "{{ wireguard_public_key_b64.content | b64decode | trim }}"
+    wireguard_public_key_plain: "{{ wireguard_public_key_b64.content | b64decode | trim }}"
   tags: wireguard:pubkey
