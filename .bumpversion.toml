@@ -1,5 +1,5 @@
 [tool.bumpversion]
-current_version = "2024.10.0"
+current_version = "2024.10.1"
 # Based on: https://callowayproject.github.io/bump-my-version/howtos/calver/
 parse = """(?x)              # Verbose mode
     (?P<release>             # The release part
