@@ -55,3 +55,14 @@ show-env:  ## Print information about the environment
 clean:  ## Remove Ansible installation artifacts (virtualenv, external collections, external roles, etc)
 	rm -rf -- '$(VENV_DIR)'
 	git clean -fdx -- '$(COLLECTIONS_PATH)' '$(ROLES_PATH)'
+
+.PHONY: bump-version
+bump-version:  ## Bump the project version
+	bump-my-version bump patch
+	git show
+	@echo
+	@echo "Done! Run 'make release' to push the new version to the repository."
+
+.PHONY: release
+release:  ## Push the project default branch and its related tags
+	git push --follow-tags origin

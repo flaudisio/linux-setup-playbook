@@ -1,0 +1,22 @@
+[tool.bumpversion]
+current_version = "2024.10.0"
+# Based on: https://callowayproject.github.io/bump-my-version/howtos/calver/
+parse = """(?x)              # Verbose mode
+    (?P<release>             # The release part
+        (?:[1-9][0-9]{3})\\. # YYYY.
+        (?:1[0-2]|[1-9])     # MM
+    )
+    (?:\\.(?P<patch>\\d+))   # .patch
+"""
+serialize = ["{release}.{patch}"]
+commit = true
+message = "chore: bump version to {new_version}"
+tag = true
+tag_name = "v{new_version}"
+tag_message = "Version {new_version}"
+
+[tool.bumpversion.parts.release]
+calver_format = "{YYYY}.{MM}"
+
+[[tool.bumpversion.files]]
+filename = "VERSION"
