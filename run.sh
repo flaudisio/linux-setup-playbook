@@ -6,6 +6,11 @@ AnsibleOpts=()
 
 set -e
 set -o pipefail
+
+if ! command -v ansible > /dev/null ; then
+    eval "$( make venv-activate )"
+fi
+
 set -x
 
 ansible-playbook "${AnsibleOpts[@]}" "$@"
