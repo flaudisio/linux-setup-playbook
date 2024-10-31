@@ -4,8 +4,8 @@
 
   module_defaults:
     ansible.builtin.setup:
-      # Ohai is slow and unnecessary, so avoid using it
-      gather_subset: "!ohai"
+      # Ohai is pretty slow, so avoid using it if available
+      gather_subset: "all,!ohai"
 
   vars_files:
     - config.default.yml
