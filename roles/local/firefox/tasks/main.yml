@@ -14,9 +14,8 @@
 
 - name: Download repository key
   ansible.builtin.get_url:
-    url: "{{ firefox_repo_key_url }}"
-    dest: "{{ firefox_apt_keyring_file }}"
-    checksum: sha256:{{ firefox_repo_key_sha256 }}
+    url: "{{ firefox_apt_repo_key_url }}"
+    dest: "{{ firefox_apt_repo_key_file }}"
     owner: root
     group: root
     mode: "0644"
@@ -26,8 +25,8 @@
 
 - name: Configure repository
   ansible.builtin.apt_repository:
-    repo: "{{ firefox_repo_line }}"
-    filename: "{{ firefox_repo_filename }}"
+    repo: "{{ firefox_apt_repo_line }}"
+    filename: "{{ firefox_apt_repo_file }}"
     state: present
     update_cache: true
   tags:
@@ -38,10 +37,6 @@
   ansible.builtin.copy:
     content: |
       # Managed by Ansible
-      Package: *
-      Pin: origin packages.mozilla.org
-      Pin-Priority: 1000
-
       Package: firefox
       Pin: version /.*snap.*/
       Pin-Priority: -1
@@ -65,7 +60,7 @@
     name: "{{ item }}"
     link: /usr/bin/{{ item }}
     path: /usr/bin/firefox
-    priority: 200
+    priority: 100
     state: selected
   loop:
     - gnome-www-browser

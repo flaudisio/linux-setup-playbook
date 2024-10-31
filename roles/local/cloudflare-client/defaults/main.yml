@@ -1,7 +1,9 @@
 ---
+# Ref: https://pkg.cloudflareclient.com/#ubuntu
+
 cloudflare_client_apt_repo_key_url: https://pkg.cloudflareclient.com/pubkey.gpg
 
-cloudflare_client_apt_repo_key_file: /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+cloudflare_client_apt_repo_key_file: /usr/share/keyrings/cloudflare-warp-archive-keyring.asc
 
 cloudflare_client_apt_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
 

@@ -1,13 +1,12 @@
 ---
 # Ref: https://support.mozilla.org/en-US/kb/install-firefox-linux#w_install-firefox-deb-package-for-debian-based-distributions
 
-firefox_apt_keyring_file: /etc/apt/keyrings/packages.mozilla.org.asc
+firefox_apt_repo_key_url: https://packages.mozilla.org/apt/repo-signing-key.gpg
 
-firefox_repo_key_url: https://packages.mozilla.org/apt/repo-signing-key.gpg
-firefox_repo_key_sha256: 3ce6a27fe0538464191eebb9ff1a0b8a269af16d872524822b25198328263e84
+firefox_apt_repo_key_file: /etc/apt/keyrings/packages.mozilla.org.asc
 
-firefox_repo_line: deb [signed-by={{ firefox_apt_keyring_file }}] https://packages.mozilla.org/apt mozilla main
+firefox_apt_repo_line: deb [signed-by={{ firefox_apt_repo_key_file }}] https://packages.mozilla.org/apt mozilla main
 
-firefox_repo_filename: mozilla
+firefox_apt_repo_file: mozilla
 
 firefox_set_as_default_browser: true

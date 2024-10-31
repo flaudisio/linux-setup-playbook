@@ -1,4 +1,4 @@
-# Ansible Workstation
+# Linux Setup Playbook
 
 Ansible playbooks and roles that I use to provision my Linux-based machines.
 
@@ -23,9 +23,9 @@ Initial setup in a default ("untouched") Ubuntu installation:
 sudo apt-get update
 sudo apt-get install git python3-venv
 
-git clone https://github.com/flaudisio/ansible-workstation.git ~/.local/share/ansible-workstation
+git clone https://github.com/flaudisio/linux-setup-playbook.git ~/.local/share/linux-setup-playbook
 
-cd ~/.local/share/ansible-workstation
+cd ~/.local/share/linux-setup-playbook
 
 make install
 eval $( make venv-activate )
@@ -38,9 +38,9 @@ ansible --version
 Run the `complete` playbook:
 
 ```bash
-cd ~/.local/share/ansible-workstation
+cd ~/.local/share/linux-setup-playbook
 
-./run.sh playbooks/setup.yml
+./run.sh setup.yml
 ```
 
 The [run.sh](run.sh) script is a simple wrapper for the `ansible-playbook` command. By default it uses the `--become --ask-become-pass`
@@ -53,10 +53,10 @@ Use `ansible-playbook` arguments for advanced actions like running specific task
 Example:
 
 ```bash
-./run.sh playbooks/setup.yml --list-tasks
-./run.sh playbooks/setup.yml --tags backup,spotify
-./run.sh playbooks/setup.yml -t package:misc -t restic
-./run.sh playbooks/setup.yml -t spotify --diff -C
+./run.sh setup.yml --list-tasks
+./run.sh setup.yml --tags backup,spotify
+./run.sh setup.yml -t package:misc -t restic
+./run.sh setup.yml -t spotify --diff -C
 ```
 
 ## License

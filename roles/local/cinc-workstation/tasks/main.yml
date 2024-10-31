@@ -16,11 +16,6 @@
         url: https://omnitruck.cinc.sh/stable/cinc-workstation/packages?v={{ cinc_workstation_version }}
         return_content: true
       register: _cinc_uri
-      when:
-        - not ansible_check_mode
-        - >
-          _cinc_version.stdout_lines | length == 0
-          or ("Cinc Workstation version: " + cinc_workstation_version) not in _cinc_version.stdout_lines[0]
 
     - name: Download package
       ansible.builtin.get_url:

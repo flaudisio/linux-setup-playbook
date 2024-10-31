@@ -10,3 +10,15 @@
     state: present
     install_recommends: false
   when: bat_check.stdout != bat_version
+
+- name: Disable package installation from Ubuntu repos
+  ansible.builtin.copy:
+    content: |
+      # Managed by Ansible
+      Package: bat
+      Pin: release o=Ubuntu
+      Pin-Priority: -1
+    dest: /etc/apt/preferences.d/bat
+    owner: root
+    group: root
+    mode: "0644"

@@ -1,21 +1,26 @@
 ---
 # ------------------------------------------------------------------------------
-# Locals
+# Setup
 # ------------------------------------------------------------------------------
 
 __current_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
 
-# ------------------------------------------------------------------------------
-# Ansible
-# ------------------------------------------------------------------------------
-
-ansible_connection: local
+# Optional roles
+configure_xubuntu_desktop: "{{ lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu' }}"
+install_cinc_workstation: false
+install_cloudflare_client: false
+install_keybase: false
+install_kvm: false
+install_q: false
+install_rclone: false
+install_steam: false
+install_zoom: false
 
 # ------------------------------------------------------------------------------
 # base
 # ------------------------------------------------------------------------------
 
-base_disable_snapd: true
+base_remove_snapd: true
 
 # ------------------------------------------------------------------------------
 # docker

@@ -1,10 +1,8 @@
 ---
-base_ssh_port: 22
+base_vm_swappiness: 10
 
-# Tamanho máximo de logs do Journal (systemd)
+# Max disk space the systemd journal may use
 base_journald_system_max_use: 200M
-
-base_enable_intel_tearing_fix: false
 
 # base_hosts_config: |
 #   10.0.0.1   foo.example.com
@@ -21,4 +19,4 @@ base_hosts_file_remove: []
 #   someuser ALL=(root) NOPASSWD:/usr/bin/virsh
 base_sudoers_config: ""
 
-base_disable_snapd: false
+base_remove_snapd: false
