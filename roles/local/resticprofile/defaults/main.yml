@@ -17,78 +17,28 @@ resticprofile_config_dir: /etc/resticprofile
 resticprofile_config_file: "{{ resticprofile_config_dir }}/temp-profiles.yaml"
 
 resticprofile_config_content: ""
+# Note: '!unsafe' is used to avoid templating errors in the string and use it as is
+# See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_advanced_syntax.html#unsafe-or-raw-strings
 # resticprofile_config_content: !unsafe |
-#   version: "1"
-
-#   {{ $hostname := "fulgore" }}
-
-#   global:
-#     priority: low
-#     ionice: true
-#     ionice-class: 2
-#     ionice-level: 6
-#     restic-lock-retry-after: 1m
-#     restic-stale-lock-age: 12h
-#     schedule-defaults:
-#       permission: system
-#       after-network-online: true
-#       lock-wait: 10m
-#       log: /var/log/resticprofile.{{ .Profile.Name }}.log
-
-#   .base:
-#     lock: /tmp/resticprofile.{{ .Profile.Name }}.lock
-#     force-inactive-lock: true
-#     password-file: credentials/password.{{ $hostname }}.txt
-#     compression: max
-#     verbose: true
-#     host: "{{ $hostname }}"
-#     backup:
-#       exclude-caches: true
-#       exclude-file:
-#         - excludes.txt
-#       files-from-verbatim:
-#         - includes.txt
-#     forget: &forget
-#       # Behavior
-#       compact: true
-#       group-by: host
-#       path: false
-#       prune: false
-#       # Policy
-#       keep-last: 12
-#       keep-within: 5d
-#       keep-daily: 15
-#       keep-weekly: 8
-#       keep-monthly: 120
-#       keep-yearly: 10
-#       keep-tag:
-#         - final-backup
-#         - pre-format
-#     retention:
-#       # Retention-specific
-#       before-backup: false
-#       after-backup: false
-#       # Reuse 'forget' config
-#       <<: *forget
-#     prune:
-#       cleanup-cache: true
-#     check:
-#       cleanup-cache: true
-#       check-unused: true
-
-#   groups:
-#     all:
-#       - default
-#       - local-storage
-
-#   default:
-#     inherit: .base
-#     repository: s3:s3.us-west-002.backblazeb2.com/flaudisio-restic-backups-s3/{{ $hostname }}
-#     env-file:
-#       - credentials/backblaze.env
-#     backup:
-#       schedule: "*:40"
-
-#   local-storage:
-#     inherit: .base
-#     repository: local:/storage03/CSTRG01/backup/trabalho/ifood/{{ $hostname }}.restic
+# version: "1"
+#
+# default:
+#   repository: s3:s3.us-east-1.amazonaws.com/restic-backups-example/{{ .Hostname }}
+#   password-file: password.txt
+#   env:
+#     AWS_ACCESS_KEY_ID: <MY_ACCESS_KEY>
+#     AWS_SECRET_ACCESS_KEY: <MY_SECRET_ACCESS_KEY>
+#   # Or:
+#   # env-file:
+#   #   - aws.env
+#
+#   backup:
+#     exclude-file: excludes.txt
+#     exclude-caches: true
+#     one-file-system: true
+#     source:
+#       - /home
+#       - /etc
+#       - /var
+#     schedule: daily
+#     schedule-after-network-online: true
