@@ -14,7 +14,7 @@ resticprofile_symlink_name: rp
 
 resticprofile_config_dir: /etc/resticprofile
 
-resticprofile_config_file: "{{ resticprofile_config_dir }}/temp-profiles.yaml"
+resticprofile_config_file: "{{ resticprofile_config_dir }}/profiles.yaml"
 
 resticprofile_config_content: ""
 # Note: '!unsafe' is used to avoid templating errors in the string and use it as is
