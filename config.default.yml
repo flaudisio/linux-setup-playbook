@@ -1,11 +1,11 @@
 ---
 # ------------------------------------------------------------------------------
-# Setup
+# Helper variables
 # ------------------------------------------------------------------------------
 
 __current_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
 
-# Optional roles
+# Opt-in tasks (see the 'setup.yml' playbook)
 configure_xubuntu_desktop: "{{ lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu' }}"
 install_cinc_workstation: false
 install_cloudflare_client: false
@@ -29,8 +29,9 @@ base_remove_snapd: true
 docker_users:
   - "{{ __current_user }}"
 
-# Ref: https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
 docker_daemon_options:
+  # Change the default IPAM config to avoid overlapping production networks that use the 172.16/12 range
+  # Ref: https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
   bip: 192.168.243.1/24
   default-address-pools:
     # Ref: ipcalc-ng 192.168.244.0/22 -S 27
