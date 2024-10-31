@@ -3,65 +3,16 @@
   ansible.builtin.apt:
     name: wireguard
     state: present
-    update_cache: true
-    cache_valid_time: 3600
   tags: wireguard:install
 
-- name: Check if private key exists
-  ansible.builtin.stat:
-    path: "{{ wireguard_private_key_file }}"
-  register: _private_key_check
-  tags: wireguard:config
-
-- name: Generate key pair
-  ansible.builtin.shell: >
-    wg genkey | tee '{{ wireguard_private_key_file }}' | wg pubkey > '{{ wireguard_public_key_file }}'
-  changed_when: false
-  when: not _private_key_check.stat.exists
-  tags: wireguard:config
-
-- name: Ensure correct key file permissions
-  ansible.builtin.file:
-    path: "{{ item }}"
-    owner: root
-    group: root
-    mode: "0600"
-  loop:
-    - "{{ wireguard_private_key_file }}"
-    - "{{ wireguard_public_key_file }}"
-  tags: wireguard:config
-
-- name: Load private key file contents
-  ansible.builtin.slurp:
-    src: "{{ wireguard_private_key_file }}"
-  register: wireguard_private_key_b64
-  no_log: "{{ ansible_verbosity < 3 }}"
-  tags: wireguard:config
-
-- name: Set private key variable
-  ansible.builtin.set_fact:
-    wireguard_private_key_plain: "{{ wireguard_private_key_b64.content | b64decode | trim }}"
-  no_log: "{{ ansible_verbosity < 3 }}"
-  tags: wireguard:config
-
-- name: Create configuration file
-  ansible.builtin.template:
-    src: wg.conf.j2
-    dest: "{{ wireguard_config_file }}"
-    owner: root
-    group: root
-    mode: "0600"
-    lstrip_blocks: true
-  no_log: "{{ ansible_verbosity < 3 }}"
-  notify: Restart WireGuard
-  tags: wireguard:config
-
-- name: Ensure service is running
-  ansible.builtin.service:
-    name: "{{ wireguard_service_name }}"
-    state: started
-    enabled: true
-  tags: wireguard:config
+- name: Include configuration tasks
+  ansible.builtin.include_tasks:
+    file: configure.yml
+    apply:
+      tags: wireguard:config
+  loop: "{{ wireguard_configs }}"
+  loop_control:
+    loop_var: _wg_config_item
 
 - name: Configure IP forwarding
   ansible.posix.sysctl:
@@ -71,15 +22,4 @@
     sysctl_file: /etc/sysctl.d/90-wireguard.conf
     reload: true
   when: wireguard_enable_ip_forward
-  tags: wireguard:sysctl
-
-- name: Load public key file contents
-  ansible.builtin.slurp:
-    src: "{{ wireguard_public_key_file }}"
-  register: wireguard_public_key_b64
-  tags: wireguard:pubkey
-
-- name: Set public key variable
-  ansible.builtin.set_fact:
-    wireguard_public_key_plain: "{{ wireguard_public_key_b64.content | b64decode | trim }}"
-  tags: wireguard:pubkey
+  tags: wireguard:configure

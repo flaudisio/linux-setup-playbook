@@ -1,0 +1,51 @@
+---
+- name: Set configuration variables
+  ansible.builtin.set_fact:
+    _wg_config_file: "{{ wireguard_config_dir }}/{{ _wg_config_item.name }}.conf"
+    _wg_private_key_file: "{{ wireguard_config_dir }}/{{ _wg_config_item.name }}.private.key"
+    _wg_public_key_file: "{{ wireguard_config_dir }}/{{ _wg_config_item.name }}.public.key"
+    _wg_service_name: wg-quick@{{ _wg_config_item.name }}.service
+    _wg_service_enabled: "{{ _wg_config_item.enable_service | default(true) }}"
+
+- name: Check if private key exists
+  ansible.builtin.stat:
+    path: "{{ _wg_private_key_file }}"
+  register: _private_key_check
+
+- name: Generate key pair
+  ansible.builtin.shell: >
+    wg genkey | tee '{{ _wg_private_key_file }}' | wg pubkey > '{{ _wg_public_key_file }}'
+  when: not _private_key_check.stat.exists
+
+- name: Ensure correct key file permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: "0600"
+  loop:
+    - "{{ _wg_private_key_file }}"
+    - "{{ _wg_public_key_file }}"
+
+- name: Load private key file contents
+  ansible.builtin.slurp:
+    src: "{{ _wg_private_key_file }}"
+  register: _wg_private_key_slurp
+  no_log: "{{ ansible_verbosity < 3 }}"
+
+- name: Create configuration file
+  ansible.builtin.template:
+    src: wg.conf.j2
+    dest: "{{ _wg_config_file }}"
+    owner: root
+    group: root
+    mode: "0600"
+    lstrip_blocks: true
+  no_log: "{{ ansible_verbosity < 3 }}"
+  notify: "{{ _wg_service_enabled | ternary('Restart WireGuard', omit) }}"
+
+- name: Configure system service
+  ansible.builtin.service:
+    name: "{{ _wg_service_name }}"
+    state: "{{ _wg_service_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ _wg_service_enabled }}"
