@@ -34,4 +34,4 @@ wireguard_config_dir: /etc/wireguard
 #     enable_service: false
 wireguard_configs: []
 
-wireguard_enable_ip_forward: true
+wireguard_enable_ip_forward: false
