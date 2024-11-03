@@ -31,6 +31,11 @@ desktop_theme_packages:
 desktop_system_theme: Greybird-dark
 desktop_cursor_theme: oxy-zion
 
+desktop_xfce_default_web_browser: firefox
+
+# firefox
+firefox_set_as_default_browser: true
+
 # docker
 docker_users:
   - "{{ __current_user }}"
