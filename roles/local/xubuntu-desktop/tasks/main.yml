@@ -26,7 +26,7 @@
     channel: thunar
     property: "{{ item.property }}"
     value: "{{ item.value }}"
-    value_type: "{{ item.value_type | default('string') }}"
+    value_type: "{{ item.value_type }}"
     state: present
   loop: "{{ desktop_thunar_settings }}"
   loop_control:
@@ -40,7 +40,7 @@
     channel: "{{ item.channel }}"
     property: "{{ item.property }}"
     value: "{{ item.value }}"
-    value_type: "{{ item.value_type | default('string') }}"
+    value_type: "{{ item.value_type }}"
     state: present
   loop: "{{ desktop_xfconf_settings }}"
   loop_control:
