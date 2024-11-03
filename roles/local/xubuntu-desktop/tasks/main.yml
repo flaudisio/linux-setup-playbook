@@ -17,6 +17,10 @@
   become_user: "{{ desktop_user }}"
   tags: xubuntu-desktop:keyboard-shortcuts
 
+- name: Include theme tasks
+  ansible.builtin.import_tasks: theme.yml
+  tags: xubuntu-desktop:theme
+
 - name: Apply Xfconf settings
   community.general.xfconf:
     channel: "{{ item.channel }}"
@@ -28,31 +32,3 @@
   become: true
   become_user: "{{ desktop_user }}"
   tags: xubuntu-desktop:xfconf
-
-- name: Install defined packages
-  ansible.builtin.apt:
-    name: "{{ desktop_packages }}"
-    state: present
-    install_recommends: false
-  tags: xubuntu-desktop:packages
-
-- name: Define Oxygen Zion as cursor theme (alternatives)
-  community.general.alternatives:
-    name: x-cursor-theme
-    path: /etc/X11/cursors/oxy-zion.theme
-  when: >
-    'oxygen-cursor-theme' in desktop_packages
-  tags: xubuntu-desktop:cursor
-
-- name: Define Oxygen Zion as cursor theme (xsettings)
-  community.general.xfconf:
-    channel: xsettings
-    property: /Gtk/CursorThemeName
-    value: oxy-zion
-    value_type: string
-    state: present
-  when: >
-    'oxygen-cursor-theme' in desktop_packages
-  become: true
-  become_user: "{{ desktop_user }}"
-  tags: xubuntu-desktop:cursor

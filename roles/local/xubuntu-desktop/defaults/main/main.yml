@@ -131,11 +131,12 @@ desktop_xfconf_settings:
     value: "CMH|O"
     value_type: string
 
+# System and cursor theme
+
+desktop_theme_packages: []
+
+desktop_system_theme: ""
+desktop_cursor_theme: ""
+
 # Keyboard shortcuts
 # See 'defaults/main/keyboard-shortcuts.yml'.
-
-# Packages
-
-desktop_packages:
-  - oxygen-cursor-theme
-  - tumbler
