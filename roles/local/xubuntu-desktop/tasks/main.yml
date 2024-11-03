@@ -17,42 +17,43 @@
   become_user: "{{ desktop_user }}"
   tags: xubuntu-desktop:keyboard-shortcuts
 
+- name: Include theme tasks
+  ansible.builtin.import_tasks: theme.yml
+  tags: xubuntu-desktop:theme
+
+- name: Apply Thunar settings
+  community.general.xfconf:
+    channel: thunar
+    property: "{{ item.property }}"
+    value: "{{ item.value }}"
+    value_type: "{{ item.value_type }}"
+    state: present
+  loop: "{{ desktop_thunar_settings }}"
+  loop_control:
+    label: "{{ item.property }} - {{ item.value }}"
+  become: true
+  become_user: "{{ desktop_user }}"
+  tags: xubuntu-desktop:thunar
+
 - name: Apply Xfconf settings
   community.general.xfconf:
     channel: "{{ item.channel }}"
     property: "{{ item.property }}"
     value: "{{ item.value }}"
-    value_type: "{{ item.value_type | default('string') }}"
+    value_type: "{{ item.value_type }}"
     state: present
   loop: "{{ desktop_xfconf_settings }}"
+  loop_control:
+    label: "{{ item.property }} - {{ item.value }}"
   become: true
   become_user: "{{ desktop_user }}"
   tags: xubuntu-desktop:xfconf
 
-- name: Install defined packages
-  ansible.builtin.apt:
-    name: "{{ desktop_packages }}"
-    state: present
-    install_recommends: false
-  tags: xubuntu-desktop:packages
-
-- name: Define Oxygen Zion as cursor theme (alternatives)
-  community.general.alternatives:
-    name: x-cursor-theme
-    path: /etc/X11/cursors/oxy-zion.theme
-  when: >
-    'oxygen-cursor-theme' in desktop_packages
-  tags: xubuntu-desktop:cursor
-
-- name: Define Oxygen Zion as cursor theme (xsettings)
-  community.general.xfconf:
-    channel: xsettings
-    property: /Gtk/CursorThemeName
-    value: oxy-zion
-    value_type: string
-    state: present
-  when: >
-    'oxygen-cursor-theme' in desktop_packages
-  become: true
-  become_user: "{{ desktop_user }}"
-  tags: xubuntu-desktop:cursor
+- name: Configure Xfce default applications
+  ansible.builtin.template:
+    src: xfce4/helpers.rc.j2
+    dest: "{{ desktop_config_dir }}/xfce4/helpers.rc"
+    owner: "{{ desktop_user }}"
+    group: "{{ desktop_user }}"
+    lstrip_blocks: true
+  tags: xubuntu-desktop:default-apps

@@ -6,12 +6,24 @@ packages_base:
   - curl
   - dkms
   - exo-utils
-  - keepassxc
-  - seahorse
   - tmux
   - tree
   - wget
   - xfce4-terminal
+
+packages_passwd:
+  - keepassxc
+  - makepasswd
+  - pwgen
+  - seahorse
+
+packages_git:
+  - git
+  - git-doc
+  - git-gui
+  - gitk
+  - qgit
+  - tig
 
 packages_dev:
   - gedit
@@ -50,7 +62,6 @@ packages_sysadmin:
   - network-manager-openvpn-gnome
   - nmap
   - openssh-client
-  - openssh-server
   - rsync
   - traceroute
   - whois
@@ -83,7 +94,6 @@ packages_utils:
   - engrampa
   - gvfs-backends
   - ipcalc-ng
-  - makepasswd
   - moreutils
   - multitail
   - p7zip-full
@@ -91,7 +101,6 @@ packages_utils:
   - pbzip2
   - pigz
   - printer-driver-cups-pdf
-  - pwgen
   - rename
   - sqlite3
   - transmission-gtk
