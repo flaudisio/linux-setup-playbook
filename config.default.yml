@@ -23,6 +23,17 @@ install_zoom: false
 base_remove_snapd: true
 
 # ------------------------------------------------------------------------------
+# xubuntu-desktop
+# ------------------------------------------------------------------------------
+
+desktop_theme_packages:
+  - greybird-gtk-theme
+  - oxygen-cursor-theme
+
+desktop_system_theme: Greybird-dark
+desktop_cursor_theme: oxy-zion
+
+# ------------------------------------------------------------------------------
 # docker
 # ------------------------------------------------------------------------------
 
