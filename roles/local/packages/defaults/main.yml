@@ -17,6 +17,14 @@ packages_passwd:
   - pwgen
   - seahorse
 
+packages_git:
+  - git
+  - git-doc
+  - git-gui
+  - gitk
+  - qgit
+  - tig
+
 packages_dev:
   - gedit
   - gedit-plugins

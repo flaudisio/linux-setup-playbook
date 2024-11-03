@@ -56,13 +56,7 @@
 
 - name: Install Git-related packages
   ansible.builtin.apt:
-    name:
-      - git
-      - git-doc
-      - git-gui
-      - gitk
-      - qgit
-      - tig
+    name: "{{ packages_git }}"
     state: present
   tags:
     - packages:git
