@@ -17,15 +17,13 @@ install_steam: false
 install_zoom: false
 
 # ------------------------------------------------------------------------------
-# base
+# Tasks configuration
 # ------------------------------------------------------------------------------
 
+# base
 base_remove_snapd: true
 
-# ------------------------------------------------------------------------------
 # xubuntu-desktop
-# ------------------------------------------------------------------------------
-
 desktop_theme_packages:
   - greybird-gtk-theme
   - oxygen-cursor-theme
@@ -33,10 +31,7 @@ desktop_theme_packages:
 desktop_system_theme: Greybird-dark
 desktop_cursor_theme: oxy-zion
 
-# ------------------------------------------------------------------------------
 # docker
-# ------------------------------------------------------------------------------
-
 docker_users:
   - "{{ __current_user }}"
 
@@ -49,10 +44,7 @@ docker_daemon_options:
     - base: 192.168.244.0/22
       size: 27
 
-# ------------------------------------------------------------------------------
 # kvm
-# ------------------------------------------------------------------------------
-
 kvm_server_mode: true
 kvm_install_virt_manager: true
 kvm_install_client_utilities: true
