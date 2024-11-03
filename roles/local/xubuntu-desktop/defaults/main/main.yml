@@ -46,67 +46,55 @@ desktop_bookmarks:
   - "{{ desktop_home_dir }}/cache"
   - "{{ desktop_home_dir }}/projects"
 
-# Xfconf
+# Thunar
 
-desktop_xfconf_settings:
-  # Thunar
-  - channel: thunar
-    property: /last-location-bar
+desktop_thunar_settings:
+  - property: /last-location-bar
     value: ThunarLocationButtons
     value_type: string
-  - channel: thunar
-    property: /last-menubar-visible
+  - property: /last-menubar-visible
     value: "false"
     value_type: bool
-  - channel: thunar
-    property: /last-sort-column
+  - property: /last-sort-column
     value: THUNAR_COLUMN_NAME
     value_type: string
-  - channel: thunar
-    property: /last-sort-order
+  - property: /last-sort-order
     value: GTK_SORT_ASCENDING
     value_type: string
-  - channel: thunar
-    property: /last-view
+  - property: /last-view
     value: ThunarDetailsView
     value_type: string
-  - channel: thunar
-    property: /last-window-maximized
+  - property: /last-window-maximized
     value: "true"
     value_type: bool
-  - channel: thunar
-    property: /misc-change-window-icon
+  - property: /misc-change-window-icon
     value: "true"
     value_type: bool
-  - channel: thunar
-    property: /misc-date-style
+  - property: /misc-date-style
     value: THUNAR_DATE_STYLE_LONG
     value_type: string
-  - channel: thunar
-    property: /misc-full-path-in-title
+  - property: /misc-full-path-in-title
     value: "false"
     value_type: bool
-  - channel: thunar
-    property: /misc-open-new-window-as-tab
+  - property: /misc-open-new-window-as-tab
     value: "true"
     value_type: bool
-  - channel: thunar
-    property: /misc-thumbnail-mode
+  - property: /misc-thumbnail-mode
     value: THUNAR_THUMBNAIL_MODE_ONLY_LOCAL
     value_type: string
-  - channel: thunar
-    property: /misc-folders-first
+  - property: /misc-folders-first
     value: "true"
     value_type: bool
-  - channel: thunar
-    property: /misc-volume-management
+  - property: /misc-volume-management
     value: "false"
     value_type: bool
-  - channel: thunar
-    property: /shortcuts-icon-size
+  - property: /shortcuts-icon-size
     value: THUNAR_ICON_SIZE_24
     value_type: string
 
+# Xfconf (misc)
+
+desktop_xfconf_settings:
   # Desktop
   - channel: xfce4-desktop
     property: /desktop-icons/style
@@ -138,5 +126,4 @@ desktop_theme_packages: []
 desktop_system_theme: ""
 desktop_cursor_theme: ""
 
-# Keyboard shortcuts
-# See 'defaults/main/keyboard-shortcuts.yml'.
+# Keyboard shortcuts - see 'keyboard-shortcuts.yml'

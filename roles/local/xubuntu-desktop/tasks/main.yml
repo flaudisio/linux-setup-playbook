@@ -21,6 +21,20 @@
   ansible.builtin.import_tasks: theme.yml
   tags: xubuntu-desktop:theme
 
+- name: Apply Thunar settings
+  community.general.xfconf:
+    channel: thunar
+    property: "{{ item.property }}"
+    value: "{{ item.value }}"
+    value_type: "{{ item.value_type | default('string') }}"
+    state: present
+  loop: "{{ desktop_thunar_settings }}"
+  loop_control:
+    label: "{{ item.property }} - {{ item.value }}"
+  become: true
+  become_user: "{{ desktop_user }}"
+  tags: xubuntu-desktop:thunar
+
 - name: Apply Xfconf settings
   community.general.xfconf:
     channel: "{{ item.channel }}"
@@ -29,6 +43,8 @@
     value_type: "{{ item.value_type | default('string') }}"
     state: present
   loop: "{{ desktop_xfconf_settings }}"
+  loop_control:
+    label: "{{ item.property }} - {{ item.value }}"
   become: true
   become_user: "{{ desktop_user }}"
   tags: xubuntu-desktop:xfconf
