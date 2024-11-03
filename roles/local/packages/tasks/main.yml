@@ -11,6 +11,12 @@
     state: present
   tags: packages:base
 
+- name: Install password management packages
+  ansible.builtin.apt:
+    name: "{{ packages_passwd }}"
+    state: present
+  tags: packages:passwd
+
 - name: Install development packages
   ansible.builtin.apt:
     name: "{{ packages_dev }}"
