@@ -55,6 +55,9 @@ desktop_thunar_settings:
   - property: /last-menubar-visible
     value: "false"
     value_type: bool
+  - property: /last-restore-tabs
+    value: "false"
+    value_type: bool
   - property: /last-sort-column
     value: THUNAR_COLUMN_NAME
     value_type: string
@@ -69,6 +72,9 @@ desktop_thunar_settings:
     value_type: bool
   - property: /misc-change-window-icon
     value: "true"
+    value_type: bool
+  - property: /misc-confirm-close-multiple-tabs
+    value: "false"
     value_type: bool
   - property: /misc-date-style
     value: THUNAR_DATE_STYLE_LONG
