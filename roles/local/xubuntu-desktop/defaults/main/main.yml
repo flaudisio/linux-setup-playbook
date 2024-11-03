@@ -60,7 +60,7 @@ desktop_xfconf_settings:
     value_type: bool
   - channel: thunar
     property: /last-sort-column
-    value: THUNAR_COLUMN_TYPE
+    value: THUNAR_COLUMN_NAME
     value_type: string
   - channel: thunar
     property: /last-sort-order
