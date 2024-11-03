@@ -9,4 +9,4 @@ firefox_apt_repo_line: deb [signed-by={{ firefox_apt_repo_key_file }}] https://p
 
 firefox_apt_repo_file: mozilla
 
-firefox_set_as_default_browser: true
+firefox_set_as_default_browser: false
