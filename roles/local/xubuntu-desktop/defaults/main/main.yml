@@ -132,4 +132,11 @@ desktop_theme_packages: []
 desktop_system_theme: ""
 desktop_cursor_theme: ""
 
+# Default applications
+
+desktop_xfce_default_web_browser: ""
+desktop_xfce_default_file_manager: ""
+desktop_xfce_default_mail_reader: ""
+desktop_xfce_default_terminal_emulator: ""
+
 # Keyboard shortcuts - see 'keyboard-shortcuts.yml'

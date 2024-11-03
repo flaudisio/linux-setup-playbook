@@ -48,3 +48,12 @@
   become: true
   become_user: "{{ desktop_user }}"
   tags: xubuntu-desktop:xfconf
+
+- name: Configure Xfce default applications
+  ansible.builtin.template:
+    src: xfce4/helpers.rc.j2
+    dest: "{{ desktop_config_dir }}/xfce4/helpers.rc"
+    owner: "{{ desktop_user }}"
+    group: "{{ desktop_user }}"
+    lstrip_blocks: true
+  tags: xubuntu-desktop:default-apps

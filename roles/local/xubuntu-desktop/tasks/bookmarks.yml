@@ -12,3 +12,4 @@
     dest: "{{ desktop_bookmarks_file }}"
     owner: "{{ desktop_user }}"
     group: "{{ desktop_user }}"
+    lstrip_blocks: true
