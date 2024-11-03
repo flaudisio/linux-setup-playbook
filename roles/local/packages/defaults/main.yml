@@ -62,7 +62,6 @@ packages_sysadmin:
   - network-manager-openvpn-gnome
   - nmap
   - openssh-client
-  - openssh-server
   - rsync
   - traceroute
   - whois
