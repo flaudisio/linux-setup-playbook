@@ -5,3 +5,15 @@ bat_package_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' 
 
 bat_package_url: >-
   https://github.com/sharkdp/bat/releases/download/v{{ bat_version }}/bat_{{ bat_version }}_{{ bat_package_arch }}.deb
+
+bat_config_file: /etc/bat/config
+bat_config_owner: root
+bat_config_group: root
+bat_config_mode: "0644"
+
+bat_config_content: ""
+# bat_config_content: |
+#   --map-syntax "**/.aws/{config,credentials}*:INI"
+#   --map-syntax "**/.kube/config:YAML"
+#   --map-syntax "*.bats:Bourne Again Shell (bash)"
+#   --map-syntax ".terraformrc:Terraform"
