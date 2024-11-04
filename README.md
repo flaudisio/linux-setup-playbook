@@ -83,4 +83,4 @@ This project is heavily inspired by Jeff Geerling's great [Mac Development Ansib
 
 ## License
 
-[WTFPL](LICENSE)
+[MIT](LICENSE)
