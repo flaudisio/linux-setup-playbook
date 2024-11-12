@@ -3,3 +3,19 @@ ulauncher_version: 5.15.7
 
 ulauncher_package_url: >-
   https://github.com/Ulauncher/Ulauncher/releases/download/{{ ulauncher_version }}/ulauncher_{{ ulauncher_version }}_all.deb
+
+ulauncher_config_dir: ~/.config/ulauncher
+
+ulauncher_default_config:
+  blacklisted-desktop-dirs: /usr/share/locale:/usr/share/app-install:/usr/share/kservices5:/usr/share/fk5:/usr/share/kservicetypes5:/usr/share/applications/screensavers:/usr/share/kde4:/usr/share/mimelnk
+  clear-previous-query: true
+  disable-desktop-filters: false
+  grab-mouse-pointer: false
+  hotkey-show-app: <Primary>space
+  render-on-screen: mouse-pointer-monitor
+  show-indicator-icon: true
+  show-recent-apps: "0"
+  terminal-command: ""
+  theme-name: light
+
+ulauncher_config: {}
