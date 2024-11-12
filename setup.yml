@@ -4,7 +4,7 @@
 
   module_defaults:
     ansible.builtin.setup:
-      # Ohai is pretty slow, so avoid using it if available
+      # Ohai is slow, so avoid using it
       gather_subset: "all,!ohai"
 
   vars_files:
@@ -22,6 +22,8 @@
       when: configure_xubuntu_desktop
     - role: ulauncher
       tags: [base, ulauncher]
+    - role: dotfiles
+      tags: [base, dotfiles]
 
     # Backup
     - role: megasync
