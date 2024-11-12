@@ -13,16 +13,14 @@
 
 - name: Disable autostart
   ansible.builtin.command: keybase ctl autostart --disable
-  become: true
-  become_user: "{{ keybase_user }}"
+  become: false
   changed_when: false
   when: keybase_disable_autostart | bool
 
 - name: Ensure autostart keeps disabled
   ansible.builtin.copy:
     content: ""
-    dest: "{{ keybase_home }}/.config/keybase/autostart_created"
+    dest: "{{ keybase_config_dir }}/autostart_created"
     force: false
-  become: true
-  become_user: "{{ keybase_user }}"
+  become: false
   when: keybase_disable_autostart | bool
