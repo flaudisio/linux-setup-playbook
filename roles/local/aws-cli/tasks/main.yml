@@ -1,4 +1,16 @@
 ---
+- name: Fetch AWS CLI tags
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/aws/aws-cli/tags
+    return_content: true
+  register: _fetch_tags
+  when: awscli_version == "latest"
+
+- name: Update version variable with the latest version
+  ansible.builtin.set_fact:
+    awscli_version: "{{ _fetch_tags.json[0].name }}"
+  when: awscli_version == "latest"
+
 - name: Check if version {{ awscli_version }} is installed
   ansible.builtin.shell: >
     {{ awscli_bin_dir }}/aws --version || true
@@ -18,7 +30,7 @@
     - name: Download and extract archive to temporary directory
       ansible.builtin.unarchive:
         remote_src: true
-        src: "{{ awscli_dl_url }}"
+        src: https://awscli.amazonaws.com/awscli-exe-linux-{{ ansible_architecture }}-{{ awscli_version }}.zip
         dest: "{{ _temp_dir.path }}"
 
     - name: Run installer
