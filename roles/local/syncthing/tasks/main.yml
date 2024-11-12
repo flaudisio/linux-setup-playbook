@@ -34,7 +34,9 @@
     state: started
     enabled: true
     scope: user
-  become: "{{ ansible_env.SUDO_USER is defined }}"
-  become_user: "{{ ansible_env.SUDO_USER | default(omit) }}"
-  when: ansible_service_mgr == "systemd"
+  become: false
+  when:
+    - syncthing_enable_user_service | bool
+    - ansible_user_id != "root"
+    - ansible_service_mgr == "systemd"
   tags: syncthing:service
