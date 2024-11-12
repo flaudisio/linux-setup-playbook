@@ -1,0 +1,4 @@
+---
+steam_package_url: https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb
+
+steam_apt_install_recommends: false

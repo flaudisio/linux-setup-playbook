@@ -6,7 +6,7 @@
 
 - name: Install package
   ansible.builtin.apt:
-    deb: https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb
+    deb: "{{ steam_package_url }}"
     state: present
-    install_recommends: false
+    install_recommends: "{{ steam_apt_install_recommends }}"
   when: "'no packages found matching' in _dpkg_query.stderr"
