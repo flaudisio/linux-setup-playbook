@@ -1,6 +1,7 @@
 ---
 - name: Check if version {{ awscli_version }} is installed
-  ansible.builtin.shell: aws --version || true
+  ansible.builtin.shell: >
+    {{ awscli_bin_dir }}/aws --version || true
   register: _check_version
   changed_when: false
 
