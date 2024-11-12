@@ -2,7 +2,7 @@
 # Shortcuts
 # NOTE: <Primary> is the same of <Ctrl>.
 
-desktop_remove_command_shortcuts:
+xubuntu_remove_command_shortcuts:
   - <Alt>F1
   - <Alt>F3
   - <Alt>Print
@@ -12,7 +12,7 @@ desktop_remove_command_shortcuts:
   - <Super>f
   - XF86Messenger
 
-desktop_command_shortcuts:
+xubuntu_command_shortcuts:
   # Audio
   - shortcut: <Super>1
     cmd: manage-audio.sh use-speakers
@@ -79,13 +79,13 @@ desktop_command_shortcuts:
   - shortcut: <Super>k
     cmd: keepassxc
   - shortcut: <Super>n
-    cmd: code {{ desktop_home_dir }}/notes
+    cmd: code {{ xubuntu_home_dir }}/notes
   - shortcut: <Super>t
     cmd: exo-open --launch TerminalEmulator
   - shortcut: <Super>w
     cmd: sensible-browser https://keep.google.com
 
-desktop_remove_window_manager_shortcuts:
+xubuntu_remove_window_manager_shortcuts:
   - <Alt>F7
   - <Alt>F9
   - <Primary>F1
@@ -105,7 +105,7 @@ desktop_remove_window_manager_shortcuts:
   - <Primary><Alt>Left
   - <Primary><Alt>Right
 
-desktop_window_manager_shortcuts:
+xubuntu_window_manager_shortcuts:
   - shortcut: <Super>s
     cmd: hide_window_key
   - shortcut: <Super>Up

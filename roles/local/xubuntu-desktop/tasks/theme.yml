@@ -1,14 +1,14 @@
 ---
 - name: Install theme packages
   ansible.builtin.apt:
-    name: "{{ desktop_theme_packages }}"
+    name: "{{ xubuntu_theme_packages }}"
     state: present
 
 - name: Configure system theme
   community.general.xfconf:
     channel: "{{ item.channel }}"
     property: "{{ item.property }}"
-    value: "{{ desktop_system_theme }}"
+    value: "{{ xubuntu_system_theme }}"
     value_type: string
     state: present
   loop:
@@ -16,21 +16,21 @@
       property: /Net/ThemeName
     - channel: xfwm4
       property: /general/theme
-  when: desktop_system_theme != ""
+  when: xubuntu_system_theme != ""
   become: false
 
 - name: Configure cursor theme (alternatives)
   community.general.alternatives:
     name: x-cursor-theme
-    path: /etc/X11/cursors/{{ desktop_cursor_theme }}.theme
-  when: desktop_cursor_theme != ""
+    path: /etc/X11/cursors/{{ xubuntu_cursor_theme }}.theme
+  when: xubuntu_cursor_theme != ""
 
 - name: Configure cursor theme (xfconf/xsettings)
   community.general.xfconf:
     channel: xsettings
     property: /Gtk/CursorThemeName
-    value: "{{ desktop_cursor_theme }}"
+    value: "{{ xubuntu_cursor_theme }}"
     value_type: string
     state: present
-  when: desktop_cursor_theme != ""
+  when: xubuntu_cursor_theme != ""
   become: false

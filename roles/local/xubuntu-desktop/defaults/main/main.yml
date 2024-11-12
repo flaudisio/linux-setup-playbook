@@ -1,22 +1,22 @@
 ---
 # Global
 
-desktop_home_dir: "{{ '~' | expanduser }}"
-desktop_config_dir: "{{ desktop_home_dir }}/.config"
+xubuntu_home_dir: "{{ '~' | expanduser }}"
+xubuntu_config_dir: "{{ xubuntu_home_dir }}/.config"
 
 # Autostart
 
-desktop_autostart_dir: "{{ desktop_config_dir }}/autostart"
+xubuntu_autostart_dir: "{{ xubuntu_config_dir }}/autostart"
 
-desktop_autostart_disable_apps:
+xubuntu_autostart_disable_apps:
   - blueman
   - update-notifier
 
 # User dirs
 
-desktop_user_dirs_base_dir: "{{ desktop_home_dir }}"
+xubuntu_user_dirs_base_dir: "{{ xubuntu_home_dir }}"
 
-desktop_user_dirs:
+xubuntu_user_dirs:
   - name: DESKTOP
     path: Desktop
   - name: DOWNLOAD
@@ -34,20 +34,20 @@ desktop_user_dirs:
   - name: VIDEOS
     path: library/Videos
 
-desktop_remove_default_user_dirs: false
+xubuntu_remove_default_user_dirs: false
 
 # Bookmarks
 
-desktop_bookmarks_file: "{{ desktop_config_dir }}/gtk-3.0/bookmarks"
+xubuntu_bookmarks_file: "{{ xubuntu_config_dir }}/gtk-3.0/bookmarks"
 
-desktop_bookmarks:
+xubuntu_bookmarks:
   - /arquivos
-  - "{{ desktop_home_dir }}/cache"
-  - "{{ desktop_home_dir }}/projects"
+  - "{{ xubuntu_home_dir }}/cache"
+  - "{{ xubuntu_home_dir }}/projects"
 
 # Thunar
 
-desktop_thunar_settings:
+xubuntu_thunar_settings:
   - property: /last-location-bar
     value: ThunarLocationButtons
     value_type: string
@@ -99,7 +99,7 @@ desktop_thunar_settings:
 
 # Xfconf (misc)
 
-desktop_xfconf_settings:
+xubuntu_xfconf_settings:
   # Desktop
   - channel: xfce4-desktop
     property: /desktop-icons/style
@@ -126,16 +126,16 @@ desktop_xfconf_settings:
 
 # System and cursor theme
 
-desktop_theme_packages: []
+xubuntu_theme_packages: []
 
-desktop_system_theme: ""
-desktop_cursor_theme: ""
+xubuntu_system_theme: ""
+xubuntu_cursor_theme: ""
 
 # Default applications
 
-desktop_xfce_default_web_browser: ""
-desktop_xfce_default_file_manager: ""
-desktop_xfce_default_mail_reader: ""
-desktop_xfce_default_terminal_emulator: ""
+xubuntu_default_web_browser: ""
+xubuntu_default_file_manager: ""
+xubuntu_default_mail_reader: ""
+xubuntu_default_terminal_emulator: ""
 
 # Keyboard shortcuts - see 'keyboard-shortcuts.yml'

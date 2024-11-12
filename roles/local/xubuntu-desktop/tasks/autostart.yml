@@ -1,7 +1,7 @@
 ---
 - name: Create autostart directory
   ansible.builtin.file:
-    path: "{{ desktop_autostart_dir }}"
+    path: "{{ xubuntu_autostart_dir }}"
     state: directory
 
 - name: Disable autostart of selected applications
@@ -9,5 +9,5 @@
     content: |
       [Desktop Entry]
       Hidden=true
-    dest: "{{ desktop_autostart_dir }}/{{ item }}.desktop"
-  loop: "{{ desktop_autostart_disable_apps }}"
+    dest: "{{ xubuntu_autostart_dir }}/{{ item }}.desktop"
+  loop: "{{ xubuntu_autostart_disable_apps }}"
