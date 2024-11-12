@@ -1,6 +1,7 @@
 ---
 - name: Check if version {{ restic_version }} is installed
-  ansible.builtin.shell: restic version || true
+  ansible.builtin.shell: >
+    {{ restic_bin_path }} version || true
   register: _check_version
   changed_when: false
 
