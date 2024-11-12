@@ -1,7 +1,7 @@
 ---
 - name: Check if version {{ resticprofile_version }} is installed
   ansible.builtin.shell: resticprofile version || true
-  register: resticprofile_check
+  register: _check_version
   changed_when: false
 
 - name: Install binary
@@ -14,9 +14,8 @@
     owner: root
     group: root
     mode: "0755"
-  when: >
-    resticprofile_check.stdout_lines | length == 0
-    or ("version " + resticprofile_version + " commit") not in resticprofile_check.stdout_lines[0]
+  when:
+    - ("version " + resticprofile_version + " commit") not in _check_version.stdout
 
 - name: Configure command symlink
   ansible.builtin.file:

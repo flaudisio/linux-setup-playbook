@@ -1,14 +1,13 @@
 ---
 - name: Check if version {{ restic_version }} is installed
   ansible.builtin.shell: restic version || true
-  register: restic_check
+  register: _check_version
   changed_when: false
   tags: restic:install
 
 - name: Run installation tasks
-  when: >
-    restic_check.stdout_lines | length == 0
-    or ("restic " + restic_version + " compiled") not in restic_check.stdout_lines[0]
+  when:
+    - '("restic " + restic_version + " compiled") not in _check_version.stdout'
   block:
     - name: Download files
       ansible.builtin.get_url:

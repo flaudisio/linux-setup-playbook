@@ -1,15 +1,13 @@
 ---
 - name: Check if version {{ cinc_workstation_version }} is installed
   ansible.builtin.shell: cinc --version || true
-  register: _cinc_version
+  register: _check_version
   changed_when: false
 
 - name: Run installation tasks
   when:
     - not ansible_check_mode
-    - >
-      _cinc_version.stdout_lines | length == 0
-      or ("Cinc Workstation version: " + cinc_workstation_version) not in _cinc_version.stdout_lines[0]
+    - '("Cinc Workstation version: " + cinc_workstation_version) not in _check_version.stdout'
   block:
     - name: Fetch package metadata
       ansible.builtin.uri:

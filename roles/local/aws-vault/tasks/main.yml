@@ -1,7 +1,7 @@
 ---
 - name: Check if version {{ awsvault_version }} is installed
   ansible.builtin.shell: aws-vault --version || true
-  register: awsvault_check
+  register: _check_version
   changed_when: false
 
 - name: Install binary
@@ -12,9 +12,7 @@
     owner: root
     group: root
     mode: "0755"
-  when: >
-    awsvault_check.stderr_lines | length == 0
-    or ("v" + awsvault_version) not in awsvault_check.stderr_lines[0]
+  when: '("v" + awsvault_version) not in _check_version.stderr'
 
 - name: Configure Bash completion
   ansible.builtin.get_url:
@@ -24,7 +22,4 @@
     owner: root
     group: root
     mode: "0644"
-  when: >
-    awsvault_check.stderr_lines | length == 0
-    or ("v" + awsvault_version) not in awsvault_check.stderr_lines[0]
-  tags: awsvault:completion
+  when: '("v" + awsvault_version) not in _check_version.stderr'

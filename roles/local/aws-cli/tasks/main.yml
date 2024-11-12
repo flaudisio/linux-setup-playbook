@@ -1,13 +1,12 @@
 ---
 - name: Check if version {{ awscli_version }} is installed
   ansible.builtin.shell: aws --version || true
-  register: awscli_check
+  register: _check_version
   changed_when: false
 
 - name: Download and install
-  when: >
-    awscli_check.stdout_lines | length == 0
-    or awscli_version not in awscli_check.stdout_lines[0]
+  when:
+    - ("aws-cli/" + awscli_version + " ") not in _check_version.stdout
   block:
     - name: Create temporary folder
       ansible.builtin.file:
