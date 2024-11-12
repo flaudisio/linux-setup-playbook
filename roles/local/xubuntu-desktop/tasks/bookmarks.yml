@@ -3,13 +3,9 @@
   ansible.builtin.file:
     path: "{{ desktop_bookmarks_file | dirname }}"
     state: directory
-    owner: "{{ desktop_user }}"
-    group: "{{ desktop_user }}"
 
 - name: Configure bookmarks
   ansible.builtin.template:
     src: gtk-3.0-bookmarks.j2
     dest: "{{ desktop_bookmarks_file }}"
-    owner: "{{ desktop_user }}"
-    group: "{{ desktop_user }}"
     lstrip_blocks: true

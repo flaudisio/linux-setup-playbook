@@ -3,8 +3,6 @@
   ansible.builtin.file:
     path: "{{ desktop_autostart_dir }}"
     state: directory
-    owner: "{{ desktop_user }}"
-    group: "{{ desktop_user }}"
 
 - name: Disable autostart of selected applications
   ansible.builtin.copy:
@@ -12,8 +10,4 @@
       [Desktop Entry]
       Hidden=true
     dest: "{{ desktop_autostart_dir }}/{{ item }}.desktop"
-    owner: "{{ desktop_user }}"
-    group: "{{ desktop_user }}"
   loop: "{{ desktop_autostart_disable_apps }}"
-  become: true
-  become_user: "{{ desktop_user }}"

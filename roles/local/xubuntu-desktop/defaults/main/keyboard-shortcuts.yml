@@ -9,10 +9,6 @@ desktop_remove_command_shortcuts:
   - <Primary>Escape
   - <Primary><Alt>t
   - <Primary><Alt>Escape
-  # - <Super>1
-  # - <Super>2
-  # - <Super>3
-  # - <Super>4
   - <Super>f
   - XF86Messenger
 

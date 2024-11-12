@@ -3,16 +3,12 @@
   ansible.builtin.file:
     path: "{{ desktop_user_dirs_base_dir }}/{{ item.path }}"
     state: directory
-    owner: "{{ desktop_user }}"
-    group: "{{ desktop_user }}"
   loop: "{{ desktop_user_dirs }}"
 
 - name: Configure user dirs
   ansible.builtin.command: >
     xdg-user-dirs-update --set '{{ item.name }}' '{{ desktop_user_dirs_base_dir }}/{{ item.path }}'
   loop: "{{ desktop_user_dirs }}"
-  become: true
-  become_user: "{{ desktop_user }}"
   changed_when: false
 
 - name: Remove default dirs
