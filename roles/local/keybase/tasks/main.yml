@@ -1,7 +1,7 @@
 ---
 - name: Check if Keybase is installed
   ansible.builtin.shell: dpkg-query --showformat='${Version}' --show keybase || true
-  register: keybase_check
+  register: _dpkg_query
   changed_when: false
 
 - name: Install package
@@ -9,7 +9,7 @@
     deb: "{{ keybase_package_url }}"
     state: present
     install_recommends: false
-  when: "'no packages found matching' in keybase_check.stderr"
+  when: "'no packages found matching' in _dpkg_query.stderr"
 
 - name: Disable autostart
   ansible.builtin.command: keybase ctl autostart --disable

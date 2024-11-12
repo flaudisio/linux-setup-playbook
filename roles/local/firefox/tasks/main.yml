@@ -1,7 +1,7 @@
 ---
 - name: Check if snap command exists
   ansible.builtin.shell: snap --version || true
-  register: _firefox_check_snap
+  register: _snap_version
   changed_when: false
   tags: firefox:snap
 
@@ -9,7 +9,7 @@
   community.general.snap:
     name: firefox
     state: absent
-  when: _firefox_check_snap.stdout != ""
+  when: _snap_version.stdout != ""
   tags: firefox:snap
 
 - name: Download repository key

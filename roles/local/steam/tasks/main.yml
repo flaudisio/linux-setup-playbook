@@ -1,7 +1,7 @@
 ---
 - name: Check if Steam is installed
   ansible.builtin.shell: dpkg-query --show steam-launcher || true
-  register: steam_check
+  register: _dpkg_query
   changed_when: false
 
 - name: Install package
@@ -9,4 +9,4 @@
     deb: https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb
     state: present
     install_recommends: false
-  when: "'no packages found matching' in steam_check.stderr"
+  when: "'no packages found matching' in _dpkg_query.stderr"
