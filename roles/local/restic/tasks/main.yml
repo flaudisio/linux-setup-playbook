@@ -3,50 +3,62 @@
   ansible.builtin.shell: restic version || true
   register: _check_version
   changed_when: false
-  tags: restic:install
 
 - name: Run installation tasks
   when:
     - '("restic " + restic_version + " compiled") not in _check_version.stdout'
   block:
+    - name: Set helper variables
+      ansible.builtin.set_fact:
+        _restic_archive_filename: "{{ restic_archive_url | basename }}"
+        _restic_sha256sums_filename: "{{ restic_sha256sums_url | basename }}"
+
+    - name: Create temporary directory
+      ansible.builtin.tempfile:
+        state: directory
+        prefix: ansible-restic-
+      register: _temp_dir
+
     - name: Download files
       ansible.builtin.get_url:
         url: "{{ item.url }}"
-        dest: "{{ item.dest }}"
+        dest: "{{ _temp_dir.path }}/{{ item.dest }}"
         force: true
         owner: root
         group: root
         mode: "0644"
       loop:
         - url: "{{ restic_archive_url }}"
-          dest: "{{ restic_archive_file }}"
+          dest: "{{ _restic_archive_filename }}"
         - url: "{{ restic_sha256sums_url }}"
-          dest: "{{ restic_sha256sums_file }}"
-      tags: restic:install
+          dest: "{{ _restic_sha256sums_filename }}"
 
     - name: Check integrity of the downloaded archive
       ansible.builtin.shell: >
-        cat '{{ restic_sha256sums_file }}' | sha256sum --check --ignore-missing
+        grep '{{ _restic_archive_filename }}' '{{ _restic_sha256sums_filename }}' | sha256sum --check
       args:
-        chdir: "{{ restic_archive_file | dirname }}"
-      tags: restic:install
+        chdir: "{{ _temp_dir.path }}"
 
     - name: Extract binary from the archive
       ansible.builtin.shell: >
-        bzip2 --decompress --stdout {{ restic_archive_file }} > {{ restic_bin_path }}
-      tags: restic:install
+        bzip2 --decompress --stdout {{ _restic_archive_filename }} > {{ restic_bin_path }}
+      args:
+        chdir: "{{ _temp_dir.path }}"
 
-    - name: Ensure binary has the right permissions
+    - name: Ensure binary has the correct permissions
       ansible.builtin.file:
         path: "{{ restic_bin_path }}"
         state: file
         owner: root
         group: root
         mode: "0755"
-      tags: restic:install
 
     - name: Configure Bash completion
       ansible.builtin.command: >
-        restic generate --bash-completion /etc/bash_completion.d/restic
-      when: restic_configure_completion
-      tags: restic:config
+        {{ restic_bin_path }} generate --bash-completion /etc/bash_completion.d/restic
+      when: restic_configure_completion | bool
+
+    - name: Remove temporary directory
+      ansible.builtin.file:
+        path: "{{ _temp_dir.path }}"
+        state: absent
