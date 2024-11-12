@@ -29,3 +29,8 @@
         deb: /tmp/cinc-workstation.deb
         state: present
         install_recommends: false
+
+    - name: Cleanup downloaded package file
+      ansible.builtin.file:
+        path: /tmp/cinc-workstation.deb
+        state: absent
