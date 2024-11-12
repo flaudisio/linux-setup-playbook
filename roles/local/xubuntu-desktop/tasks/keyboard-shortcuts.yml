@@ -4,16 +4,16 @@
     channel: xfce4-keyboard-shortcuts
     property: /commands/custom/{{ item }}
     state: absent
-  loop: "{{ desktop_remove_command_shortcuts }}"
-  tags: xubuntu-desktop:keyboard-shortcuts:commands
+  loop: "{{ xubuntu_remove_command_shortcuts }}"
+  tags: xubuntu:keyboard-shortcuts:commands
 
 - name: Remove keyboard shortcuts (xfwm4)
   community.general.xfconf:
     channel: xfce4-keyboard-shortcuts
     property: /xfwm4/custom/{{ item }}
     state: absent
-  loop: "{{ desktop_remove_window_manager_shortcuts }}"
-  tags: xubuntu-desktop:keyboard-shortcuts:xfwm4
+  loop: "{{ xubuntu_remove_window_manager_shortcuts }}"
+  tags: xubuntu:keyboard-shortcuts:xfwm4
 
 - name: Configure keyboard shortcuts (commands)
   community.general.xfconf:
@@ -22,11 +22,11 @@
     value: "{{ item.cmd }}"
     value_type: string
     state: present
-  loop: "{{ desktop_command_shortcuts }}"
+  loop: "{{ xubuntu_command_shortcuts }}"
   loop_control:
     label: "{{ item.shortcut }} - {{ item.cmd }}"
-  when: item.shortcut not in desktop_remove_command_shortcuts
-  tags: xubuntu-desktop:keyboard-shortcuts:commands
+  when: item.shortcut not in xubuntu_remove_command_shortcuts
+  tags: xubuntu:keyboard-shortcuts:commands
 
 - name: Configure keyboard shortcuts (xfwm4)
   community.general.xfconf:
@@ -35,8 +35,8 @@
     value: "{{ item.cmd }}"
     value_type: string
     state: present
-  loop: "{{ desktop_window_manager_shortcuts }}"
+  loop: "{{ xubuntu_window_manager_shortcuts }}"
   loop_control:
     label: "{{ item.shortcut }} - {{ item.cmd }}"
-  when: item.shortcut not in desktop_remove_window_manager_shortcuts
-  tags: xubuntu-desktop:keyboard-shortcuts:xfwm4
+  when: item.shortcut not in xubuntu_remove_window_manager_shortcuts
+  tags: xubuntu:keyboard-shortcuts:xfwm4

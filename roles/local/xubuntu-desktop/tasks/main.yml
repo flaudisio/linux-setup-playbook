@@ -2,26 +2,26 @@
 - name: Include autostart tasks
   ansible.builtin.import_tasks: autostart.yml
   become: false
-  tags: xubuntu-desktop:autostart
+  tags: xubuntu:autostart
 
 - name: Include user dir tasks
   ansible.builtin.import_tasks: user-dirs.yml
   become: false
-  tags: xubuntu-desktop:user-dirs
+  tags: xubuntu:user-dirs
 
 - name: Include bookmark tasks
   ansible.builtin.import_tasks: bookmarks.yml
   become: false
-  tags: xubuntu-desktop:bookmarks
+  tags: xubuntu:bookmarks
 
 - name: Include keyboard shortcuts tasks
   ansible.builtin.import_tasks: keyboard-shortcuts.yml
   become: false
-  tags: xubuntu-desktop:keyboard-shortcuts
+  tags: xubuntu:keyboard-shortcuts
 
 - name: Include theme tasks
   ansible.builtin.import_tasks: theme.yml
-  tags: xubuntu-desktop:theme
+  tags: xubuntu:theme
 
 - name: Apply Thunar settings
   community.general.xfconf:
@@ -30,11 +30,11 @@
     value: "{{ item.value }}"
     value_type: "{{ item.value_type }}"
     state: present
-  loop: "{{ desktop_thunar_settings }}"
+  loop: "{{ xubuntu_thunar_settings }}"
   loop_control:
     label: "{{ item.property }} - {{ item.value }}"
   become: false
-  tags: xubuntu-desktop:thunar
+  tags: xubuntu:thunar
 
 - name: Apply Xfconf settings
   community.general.xfconf:
@@ -43,16 +43,16 @@
     value: "{{ item.value }}"
     value_type: "{{ item.value_type }}"
     state: present
-  loop: "{{ desktop_xfconf_settings }}"
+  loop: "{{ xubuntu_xfconf_settings }}"
   loop_control:
     label: "{{ item.property }} - {{ item.value }}"
   become: false
-  tags: xubuntu-desktop:xfconf
+  tags: xubuntu:xfconf
 
 - name: Configure Xfce default applications
   ansible.builtin.template:
     src: xfce4/helpers.rc.j2
-    dest: "{{ desktop_config_dir }}/xfce4/helpers.rc"
+    dest: "{{ xubuntu_config_dir }}/xfce4/helpers.rc"
     lstrip_blocks: true
   become: false
-  tags: xubuntu-desktop:default-apps
+  tags: xubuntu:default-apps

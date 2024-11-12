@@ -1,14 +1,14 @@
 ---
 - name: Ensure user dirs exist
   ansible.builtin.file:
-    path: "{{ desktop_user_dirs_base_dir }}/{{ item.path }}"
+    path: "{{ xubuntu_user_dirs_base_dir }}/{{ item.path }}"
     state: directory
-  loop: "{{ desktop_user_dirs }}"
+  loop: "{{ xubuntu_user_dirs }}"
 
 - name: Configure user dirs
   ansible.builtin.command: >
-    xdg-user-dirs-update --set '{{ item.name }}' '{{ desktop_user_dirs_base_dir }}/{{ item.path }}'
-  loop: "{{ desktop_user_dirs }}"
+    xdg-user-dirs-update --set '{{ item.name }}' '{{ xubuntu_user_dirs_base_dir }}/{{ item.path }}'
+  loop: "{{ xubuntu_user_dirs }}"
   changed_when: false
 
 - name: Remove default dirs
@@ -16,11 +16,11 @@
     path: "{{ item }}"
     state: absent
   loop:
-    - "{{ desktop_home_dir }}/Documents"
-    - "{{ desktop_home_dir }}/Downloads"
-    - "{{ desktop_home_dir }}/Music"
-    - "{{ desktop_home_dir }}/Pictures"
-    - "{{ desktop_home_dir }}/Public"
-    - "{{ desktop_home_dir }}/Templates"
-    - "{{ desktop_home_dir }}/Videos"
-  when: desktop_remove_default_user_dirs | bool
+    - "{{ xubuntu_home_dir }}/Documents"
+    - "{{ xubuntu_home_dir }}/Downloads"
+    - "{{ xubuntu_home_dir }}/Music"
+    - "{{ xubuntu_home_dir }}/Pictures"
+    - "{{ xubuntu_home_dir }}/Public"
+    - "{{ xubuntu_home_dir }}/Templates"
+    - "{{ xubuntu_home_dir }}/Videos"
+  when: xubuntu_remove_default_user_dirs | bool

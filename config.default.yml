@@ -24,14 +24,14 @@ install_zoom: false
 base_remove_snapd: true
 
 # xubuntu-desktop
-desktop_theme_packages:
+xubuntu_theme_packages:
   - greybird-gtk-theme
   - oxygen-cursor-theme
 
-desktop_system_theme: Greybird-dark
-desktop_cursor_theme: oxy-zion
+xubuntu_system_theme: Greybird-dark
+xubuntu_cursor_theme: oxy-zion
 
-desktop_xfce_default_web_browser: firefox
+xubuntu_default_web_browser: firefox
 
 # ulauncher
 ulauncher_config:
