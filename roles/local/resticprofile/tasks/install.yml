@@ -18,11 +18,11 @@
   when:
     - ("version " + resticprofile_version + " commit") not in _check_version.stdout
 
-- name: Configure command symlink
+- name: Create symlink to binary
   ansible.builtin.file:
     src: "{{ resticprofile_bin_path }}"
     dest: "{{ resticprofile_bin_path | dirname }}/{{ resticprofile_symlink_name }}"
     owner: root
     group: root
     state: link
-  when: resticprofile_create_symlink | bool
+  when: resticprofile_symlink_name != ""
