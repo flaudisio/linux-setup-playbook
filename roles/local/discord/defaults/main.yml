@@ -1,4 +1,4 @@
 ---
-discord_version: 0.0.72
+discord_version: 0.0.73
 
 discord_package_url: https://dl.discordapp.net/apps/linux/{{ discord_version }}/discord-{{ discord_version }}.deb
