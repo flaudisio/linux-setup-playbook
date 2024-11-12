@@ -1,8 +1,7 @@
 ---
 # Global
 
-desktop_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
-desktop_home_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+desktop_home_dir: "{{ '~' | expanduser }}"
 desktop_config_dir: "{{ desktop_home_dir }}/.config"
 
 # Autostart

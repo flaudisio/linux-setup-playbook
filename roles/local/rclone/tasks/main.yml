@@ -1,7 +1,7 @@
 ---
 - name: Check if version {{ rclone_version }} is installed
   ansible.builtin.shell: dpkg-query --showformat='${Version}' --show rclone || true
-  register: rclone_check
+  register: _dpkg_query
   changed_when: false
 
 - name: Install package
@@ -9,11 +9,11 @@
     deb: "{{ rclone_package_url }}"
     state: present
     install_recommends: false
-  when: rclone_check.stdout != rclone_version
+  when: _dpkg_query.stdout != rclone_version
 
 - name: Configure Bash completion
   ansible.builtin.command: >
     rclone completion bash /etc/bash_completion.d/rclone
   when:
-    - rclone_check.stdout != rclone_version
+    - _dpkg_query.stdout != rclone_version
     - rclone_enable_bash_completion | bool

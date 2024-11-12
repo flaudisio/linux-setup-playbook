@@ -17,8 +17,7 @@
     - channel: xfwm4
       property: /general/theme
   when: desktop_system_theme != ""
-  become: true
-  become_user: "{{ desktop_user }}"
+  become: false
 
 - name: Configure cursor theme (alternatives)
   community.general.alternatives:
@@ -34,5 +33,4 @@
     value_type: string
     state: present
   when: desktop_cursor_theme != ""
-  become: true
-  become_user: "{{ desktop_user }}"
+  become: false

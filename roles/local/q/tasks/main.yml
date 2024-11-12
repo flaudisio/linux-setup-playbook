@@ -1,7 +1,7 @@
 ---
 - name: Check if version {{ q_version }} is installed
   ansible.builtin.shell: dpkg-query --showformat='${Version}' --show q-text-as-data || true
-  register: q_check
+  register: _dpkg_query
   changed_when: false
 
 - name: Install package
@@ -9,4 +9,4 @@
     deb: "{{ q_package_url }}"
     state: present
     install_recommends: false
-  when: q_check.stdout != q_version
+  when: _dpkg_query.stdout != q_version

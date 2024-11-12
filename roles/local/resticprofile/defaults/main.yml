@@ -8,9 +8,7 @@ resticprofile_dl_url: >-
 
 resticprofile_bin_path: /usr/local/bin/resticprofile
 
-resticprofile_create_symlink: true
-
-resticprofile_symlink_name: rp
+resticprofile_symlink_name: ""
 
 resticprofile_config_dir: /etc/resticprofile
 

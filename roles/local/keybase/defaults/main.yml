@@ -1,7 +1,6 @@
 ---
 keybase_package_url: https://prerelease.keybase.io/keybase_amd64.deb
 
-keybase_home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
-keybase_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+keybase_config_dir: "{{ '~' | expanduser }}/.config/keybase"
 
-keybase_disable_autostart: true
+keybase_disable_autostart: false

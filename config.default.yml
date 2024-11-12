@@ -33,6 +33,9 @@ desktop_cursor_theme: oxy-zion
 
 desktop_xfce_default_web_browser: firefox
 
+# resticprofile
+resticprofile_symlink_name: rp
+
 # firefox
 firefox_set_as_default_browser: true
 

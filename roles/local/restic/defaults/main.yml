@@ -1,15 +1,12 @@
 ---
-restic_version: 0.17.1
+restic_version: 0.17.3
 
 restic_dl_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
 
 restic_dl_base_url: https://github.com/restic/restic/releases
 
 restic_archive_url: "{{ restic_dl_base_url }}/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_{{ restic_dl_arch }}.bz2"
-restic_archive_file: /tmp/{{ restic_archive_url | basename }}
-
 restic_sha256sums_url: "{{ restic_dl_base_url }}/download/v{{ restic_version }}/SHA256SUMS"
-restic_sha256sums_file: /tmp/restic-sha256sums
 
 restic_bin_path: /usr/local/bin/restic
 
