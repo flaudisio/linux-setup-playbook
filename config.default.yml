@@ -33,6 +33,12 @@ desktop_cursor_theme: oxy-zion
 
 desktop_xfce_default_web_browser: firefox
 
+# ulauncher
+ulauncher_config:
+  hotkey-show-app: <Alt>F1
+  show-indicator-icon: false
+  theme-name: dark
+
 # resticprofile
 resticprofile_symlink_name: rp
 
