@@ -9,25 +9,23 @@
   when:
     - ("aws-cli/" + awscli_version + " ") not in _check_version.stdout
   block:
-    - name: Create temporary folder
-      ansible.builtin.file:
-        path: "{{ awscli_tmp_dir }}"
+    - name: Create temporary directory
+      ansible.builtin.tempfile:
         state: directory
-      changed_when: false
+        prefix: ansible-aws-cli-
+      register: _temp_dir
 
-    - name: Download and extract archive to temporary folder
+    - name: Download and extract archive to temporary directory
       ansible.builtin.unarchive:
         remote_src: true
         src: "{{ awscli_dl_url }}"
-        dest: "{{ awscli_tmp_dir }}"
-      changed_when: false
+        dest: "{{ _temp_dir.path }}"
 
     - name: Run installer
       ansible.builtin.command: >
-        {{ awscli_tmp_dir }}/aws/install --bin-dir {{ awscli_bin_dir }} --install-dir {{ awscli_install_dir }} --update
+        {{ _temp_dir.path }}/aws/install --bin-dir {{ awscli_bin_dir }} --install-dir {{ awscli_install_dir }} --update
 
-    - name: Remove temporary folder
+    - name: Remove temporary directory
       ansible.builtin.file:
-        path: "{{ awscli_tmp_dir }}"
+        path: "{{ _temp_dir.path }}"
         state: absent
-      changed_when: false

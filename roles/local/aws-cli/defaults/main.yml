@@ -7,5 +7,3 @@ awscli_dl_url: https://awscli.amazonaws.com/awscli-exe-linux-{{ ansible_architec
 awscli_bin_dir: /usr/local/bin
 
 awscli_install_dir: /opt/aws-cli
-
-awscli_tmp_dir: /tmp/aws-cli-ansible
