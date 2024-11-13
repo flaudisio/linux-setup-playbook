@@ -13,3 +13,5 @@ awsvault_bin_path: /usr/local/bin/aws-vault
 
 awsvault_completion_url: >-
   https://raw.githubusercontent.com/99designs/aws-vault/v{{ awsvault_version }}/contrib/completions/bash/aws-vault.bash
+
+awsvault_configure_bash_completion: true

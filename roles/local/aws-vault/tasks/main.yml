@@ -14,7 +14,7 @@
     mode: "0755"
   when: '("v" + awsvault_version) not in _check_version.stderr'
 
-- name: Configure Bash completion
+- name: Download and install Bash completion file
   ansible.builtin.get_url:
     url: "{{ awsvault_completion_url }}"
     dest: /etc/bash_completion.d/aws-vault
@@ -22,4 +22,4 @@
     owner: root
     group: root
     mode: "0644"
-  when: '("v" + awsvault_version) not in _check_version.stderr'
+  when: awsvault_configure_bash_completion | bool
