@@ -39,12 +39,13 @@
         group: root
         mode: "0755"
 
-    - name: Configure Bash completion
-      ansible.builtin.command: >
-        {{ restic_bin_path }} generate --bash-completion /etc/bash_completion.d/restic
-      when: restic_configure_bash_completion | bool
-
     - name: Remove temporary directory
       ansible.builtin.file:
         path: "{{ _temp_dir.path }}"
         state: absent
+
+- name: Configure Bash completion
+  ansible.builtin.command: >
+    {{ restic_bin_path }} generate --bash-completion /etc/bash_completion.d/restic
+  changed_when: false
+  when: restic_configure_bash_completion | bool
