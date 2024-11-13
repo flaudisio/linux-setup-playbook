@@ -4,11 +4,11 @@
   register: _check_version
   changed_when: false
 
-- name: Install binary
+- name: Download and install binary
   ansible.builtin.get_url:
-    url: "{{ awsvault_dl_url }}"
-    dest: "{{ awsvault_path }}"
-    force: true
+    url: "{{ awsvault_archive_url }}"
+    dest: "{{ awsvault_bin_path }}"
+    checksum: sha256:{{ awsvault_sha256sums_url }}
     owner: root
     group: root
     mode: "0755"
