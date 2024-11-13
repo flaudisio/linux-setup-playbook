@@ -9,44 +9,29 @@
   when:
     - '("restic " + restic_version + " compiled") not in _check_version.stdout'
   block:
-    - name: Set helper variables
-      ansible.builtin.set_fact:
-        _restic_archive_filename: "{{ restic_archive_url | basename }}"
-        _restic_sha256sums_filename: "{{ restic_sha256sums_url | basename }}"
-
     - name: Create temporary directory
       ansible.builtin.tempfile:
         state: directory
         prefix: ansible-restic-
       register: _temp_dir
 
-    - name: Download files
+    - name: Set helper variables
+      ansible.builtin.set_fact:
+        _archive_local_file: "{{ _temp_dir.path }}/{{ restic_archive_url | basename }}"
+
+    - name: Download archive
       ansible.builtin.get_url:
-        url: "{{ item.url }}"
-        dest: "{{ _temp_dir.path }}/{{ item.dest }}"
-        force: true
-        owner: root
-        group: root
-        mode: "0644"
-      loop:
-        - url: "{{ restic_archive_url }}"
-          dest: "{{ _restic_archive_filename }}"
-        - url: "{{ restic_sha256sums_url }}"
-          dest: "{{ _restic_sha256sums_filename }}"
+        url: "{{ restic_archive_url }}"
+        dest: "{{ _archive_local_file }}"
+        checksum: sha256:{{ restic_sha256sums_url }}
 
-    - name: Check integrity of the downloaded archive
-      ansible.builtin.shell: >
-        grep '{{ _restic_archive_filename }}' '{{ _restic_sha256sums_filename }}' | sha256sum --check
-      args:
-        chdir: "{{ _temp_dir.path }}"
-
+    # The 'unarchive' module does not handle .bz2 files that do not contain a .tar archive
+    # Ref: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unarchive_module.html#notes
     - name: Extract binary from the archive
       ansible.builtin.shell: >
-        bzip2 --decompress --stdout {{ _restic_archive_filename }} > {{ restic_bin_path }}
-      args:
-        chdir: "{{ _temp_dir.path }}"
+        bzip2 --decompress --stdout '{{ _archive_local_file }}' > '{{ restic_bin_path }}'
 
-    - name: Ensure binary has the correct permissions
+    - name: Ensure binary file has the correct permissions
       ansible.builtin.file:
         path: "{{ restic_bin_path }}"
         state: file
