@@ -9,28 +9,39 @@
     - not ansible_check_mode
     - '("Cinc Workstation version: " + cinc_workstation_version) not in _check_version.stdout'
   block:
-    - name: Fetch package metadata
+    - name: Create temporary directory
+      ansible.builtin.tempfile:
+        state: directory
+        prefix: ansible-cinc-
+      register: _temp_dir
+
+    - name: Fetch package information
       ansible.builtin.uri:
         url: https://omnitruck.cinc.sh/stable/cinc-workstation/packages?v={{ cinc_workstation_version }}
         return_content: true
       register: _cinc_uri
 
-    - name: Download package
-      ansible.builtin.get_url:
-        url: "{{ _package_info['url'] }}"
-        dest: /tmp/cinc-workstation.deb
-        checksum: sha256:{{ _package_info['sha256'] }}
-        mode: "0600"
+    - name: Set helper variables
+      ansible.builtin.set_fact:
+        _package_url: "{{ _package_info['url'] }}"
+        _package_sha256: "{{ _package_info['sha256'] }}"
+        _package_version: "{{ _package_info['version'] }}"
+        _package_local_file: "{{ _temp_dir.path }}/{{ _package_info['url'] | basename }}"
       vars:
         _package_info: "{{ _cinc_uri.json[ansible_distribution | lower][ansible_distribution_version][ansible_architecture] }}"
 
-    - name: Install package
-      ansible.builtin.apt:
-        deb: /tmp/cinc-workstation.deb
-        state: present
-        install_recommends: false
+    - name: Download package
+      ansible.builtin.get_url:
+        url: "{{ _package_url }}"
+        dest: "{{ _package_local_file }}"
+        checksum: sha256:{{ _package_sha256 }}
 
-    - name: Cleanup downloaded package file
+    - name: Install package
+      ansible.builtin.package:
+        name: "{{ _package_local_file }}"
+        state: present
+
+    - name: Remove temporary directory
       ansible.builtin.file:
-        path: /tmp/cinc-workstation.deb
+        path: "{{ _temp_dir.path }}"
         state: absent
