@@ -42,7 +42,7 @@
     - name: Configure Bash completion
       ansible.builtin.command: >
         {{ restic_bin_path }} generate --bash-completion /etc/bash_completion.d/restic
-      when: restic_configure_completion | bool
+      when: restic_configure_bash_completion | bool
 
     - name: Remove temporary directory
       ansible.builtin.file:

@@ -11,4 +11,4 @@ restic_sha256sums_url: >-
 
 restic_bin_path: /usr/local/bin/restic
 
-restic_configure_completion: true
+restic_configure_bash_completion: true
