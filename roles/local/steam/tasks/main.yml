@@ -8,5 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ steam_package_url }}"
     state: present
-    install_recommends: "{{ steam_apt_install_recommends }}"
   when: "'no packages found matching' in _dpkg_query.stderr"

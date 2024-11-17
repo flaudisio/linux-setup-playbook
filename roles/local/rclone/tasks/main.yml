@@ -8,7 +8,6 @@
   ansible.builtin.apt:
     deb: "{{ rclone_package_url }}"
     state: present
-    install_recommends: false
   when: _dpkg_query.stdout != rclone_version
 
 - name: Configure Bash completion

@@ -38,5 +38,4 @@
   ansible.builtin.apt:
     name: slack-desktop
     state: present
-    install_recommends: false
   tags: slack:install

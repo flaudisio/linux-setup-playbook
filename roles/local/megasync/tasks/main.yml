@@ -8,5 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ megasync_package_url }}"
     state: present
-    install_recommends: false
   when: "'no packages found matching' in _dpkg_query.stderr"

@@ -9,7 +9,6 @@
   ansible.builtin.apt:
     deb: "{{ ulauncher_package_url }}"
     state: present
-    install_recommends: false
   when: _dpkg_query.stdout != ulauncher_version
 
 - name: Ensure configuration directory exists

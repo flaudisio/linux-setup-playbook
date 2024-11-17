@@ -30,7 +30,6 @@
       - gir1.2-spiceclientgtk-3.0
       - ssh-askpass-gnome
     state: present
-    install_recommends: false
   when: kvm_install_virt_manager | bool
   tags: kvm:install
 

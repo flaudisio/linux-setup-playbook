@@ -3,4 +3,3 @@
   ansible.builtin.apt:
     deb: "{{ session_manager_plugin_package_url }}"
     state: present
-    install_recommends: false

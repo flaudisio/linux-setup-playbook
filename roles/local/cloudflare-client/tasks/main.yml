@@ -25,5 +25,4 @@
   ansible.builtin.apt:
     name: cloudflare-warp
     state: present
-    install_recommends: false
   tags: cloudflare-client:install

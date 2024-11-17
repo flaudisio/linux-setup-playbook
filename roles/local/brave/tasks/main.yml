@@ -25,5 +25,4 @@
   ansible.builtin.apt:
     name: brave-browser
     state: present
-    install_recommends: false
   tags: brave:install

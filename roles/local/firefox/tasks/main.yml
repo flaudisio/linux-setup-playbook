@@ -52,7 +52,6 @@
   ansible.builtin.apt:
     name: firefox
     state: present
-    install_recommends: false
   tags: firefox:install
 
 - name: Set Firefox as default browser in Alternatives

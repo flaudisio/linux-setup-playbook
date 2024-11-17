@@ -8,5 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ q_package_url }}"
     state: present
-    install_recommends: false
   when: _dpkg_query.stdout != q_version

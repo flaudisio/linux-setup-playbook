@@ -27,5 +27,4 @@
       - spotify-client
       - libavcodec-extra
     state: present
-    install_recommends: false
   tags: spotify:install

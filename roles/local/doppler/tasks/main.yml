@@ -25,5 +25,4 @@
   ansible.builtin.apt:
     name: doppler
     state: present
-    install_recommends: false
   tags: doppler:install

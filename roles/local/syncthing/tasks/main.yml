@@ -25,7 +25,6 @@
   ansible.builtin.apt:
     name: syncthing
     state: present
-    install_recommends: false
   tags: syncthing:install
 
 - name: Enable and run systemd service (user level)

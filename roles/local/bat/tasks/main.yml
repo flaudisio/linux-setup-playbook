@@ -9,7 +9,6 @@
   ansible.builtin.apt:
     deb: "{{ bat_package_url }}"
     state: present
-    install_recommends: false
   when: _dpkg_query.stdout != bat_version
   tags: bat:install
 
