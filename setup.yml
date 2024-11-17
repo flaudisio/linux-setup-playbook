@@ -80,9 +80,8 @@
     # Cloud tools
     - role: aws-cli
       tags: [cloud-tools, aws-cli]
-    # NOTE: replace with granted? - https://github.com/common-fate/granted
-    - role: aws-vault
-      tags: [cloud-tools, aws-vault]
+    - role: granted
+      tags: [cloud-tools, granted]
     - role: cloudflare-client
       tags: [cloud-tools, cloudflare-client]
       when: install_cloudflare_client

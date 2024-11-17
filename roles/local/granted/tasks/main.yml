@@ -1,0 +1,11 @@
+---
+- name: Check if version {{ granted_version }} is installed
+  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show granted || true
+  register: _dpkg_query
+  changed_when: false
+
+- name: Install package
+  ansible.builtin.apt:
+    deb: "{{ granted_package_url }}"
+    state: present
+  when: _dpkg_query.stdout != granted_version
