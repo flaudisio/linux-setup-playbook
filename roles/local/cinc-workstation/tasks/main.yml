@@ -36,10 +36,17 @@
         dest: "{{ _package_local_file }}"
         checksum: sha256:{{ _package_sha256 }}
 
-    - name: Install package
+    - name: Install package (APT)
+      ansible.builtin.apt:
+        deb: "{{ _package_local_file }}"
+        state: present
+      when: '".deb" in _package_local_file'
+
+    - name: Install package (RPM)
       ansible.builtin.package:
         name: "{{ _package_local_file }}"
         state: present
+      when: '".rpm" in _package_local_file'
 
     - name: Remove temporary directory
       ansible.builtin.file:
