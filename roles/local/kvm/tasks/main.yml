@@ -20,7 +20,7 @@
       - libvirt-daemon-system
       - qemu-kvm
     state: present
-  when: kvm_server_mode | bool
+  when: kvm_install_server_packages | bool
   tags: kvm:install
 
 - name: Install Virtual Machine Manager (virt-manager)

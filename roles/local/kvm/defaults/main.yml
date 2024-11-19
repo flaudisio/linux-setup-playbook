@@ -1,7 +1,8 @@
 ---
-kvm_server_mode: true
+kvm_install_server_packages: true
 
 kvm_install_virt_manager: false
+
 kvm_install_client_utilities: false
 
 kvm_users: []
