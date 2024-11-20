@@ -1,0 +1,25 @@
+---
+- name: Install font packages
+  ansible.builtin.apt:
+    name: "{{ xubuntu_font_packages }}"
+    state: present
+
+- name: Configure system fonts
+  community.general.xfconf:
+    channel: "{{ item.channel }}"
+    property: "{{ item.property }}"
+    value: "{{ item.value }}"
+    value_type: string
+    state: present
+  loop:
+    - channel: xsettings
+      property: /Gtk/FontName
+      value: "{{ xubuntu_system_default_font }}"
+    - channel: xsettings
+      property: /Gtk/MonospaceFontName
+      value: "{{ xubuntu_system_monospace_font }}"
+    - channel: xfwm4
+      property: /general/title_font
+      value: "{{ xubuntu_window_title_font }}"
+  when: item.value != ""
+  become: false

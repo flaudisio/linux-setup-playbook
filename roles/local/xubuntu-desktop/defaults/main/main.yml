@@ -1,4 +1,6 @@
 ---
+# For keyboard shortcuts, see 'keyboard-shortcuts.yml'
+
 # Global
 
 xubuntu_home_dir: "{{ '~' | expanduser }}"
@@ -121,7 +123,7 @@ xubuntu_xfconf_settings:
   # Window Manager
   - channel: xfwm4
     property: /general/button_layout
-    value: "CMH|O"
+    value: CMH|O
     value_type: string
 
 # System and cursor theme
@@ -131,11 +133,17 @@ xubuntu_theme_packages: []
 xubuntu_system_theme: ""
 xubuntu_cursor_theme: ""
 
+# System fonts
+
+xubuntu_font_packages: []
+
+xubuntu_system_default_font: ""
+xubuntu_system_monospace_font: ""
+xubuntu_window_title_font: ""
+
 # Default applications
 
 xubuntu_default_web_browser: ""
 xubuntu_default_file_manager: ""
 xubuntu_default_mail_reader: ""
 xubuntu_default_terminal_emulator: ""
-
-# Keyboard shortcuts - see 'keyboard-shortcuts.yml'

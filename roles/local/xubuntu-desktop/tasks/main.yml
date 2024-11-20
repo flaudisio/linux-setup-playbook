@@ -23,6 +23,10 @@
   ansible.builtin.import_tasks: theme.yml
   tags: xubuntu:theme
 
+- name: Include fonts tasks
+  ansible.builtin.import_tasks: fonts.yml
+  tags: xubuntu:fonts
+
 - name: Apply Thunar settings
   community.general.xfconf:
     channel: thunar
