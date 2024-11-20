@@ -1,9 +1,52 @@
 ---
-- name: Include installation tasks
-  ansible.builtin.import_tasks: install.yml
+- name: Check if version {{ resticprofile_version }} is installed
+  ansible.builtin.shell: >
+    {{ resticprofile_bin_path }} version || true
+  register: _check_version
+  changed_when: false
   tags: resticprofile:install
 
-- name: Include configuration tasks
-  ansible.builtin.import_tasks: configuration.yml
+- name: Install binary
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ resticprofile_dl_url }}"
+    dest: "{{ resticprofile_bin_path | dirname }}"
+    include:
+      - resticprofile  # Extract only the binary
+    owner: root
+    group: root
+    mode: "0755"
+  when:
+    - ("version " + resticprofile_version + " commit") not in _check_version.stdout
+  tags: resticprofile:install
+
+- name: Create symlink to binary
+  ansible.builtin.file:
+    src: "{{ resticprofile_bin_path }}"
+    dest: "{{ resticprofile_bin_path | dirname }}/{{ resticprofile_symlink_name }}"
+    owner: root
+    group: root
+    state: link
+  when: resticprofile_symlink_name != ""
+  tags: resticprofile:install
+
+- name: Ensure config directory exists
+  ansible.builtin.file:
+    path: "{{ resticprofile_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  when: resticprofile_config_content != ""
+  tags: resticprofile:config
+
+- name: Create config file
+  ansible.builtin.template:
+    src: profiles.yaml.j2
+    dest: "{{ resticprofile_config_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+    lstrip_blocks: true
   when: resticprofile_config_content != ""
   tags: resticprofile:config
