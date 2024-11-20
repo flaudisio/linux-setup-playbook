@@ -64,7 +64,7 @@
       when: install_zoom
 
     # Infrastructure
-    - role: docker
+    - role: geerlingguy.docker
       tags: [infra, docker]
     - role: dive
       tags: [infra, dive]
