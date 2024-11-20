@@ -14,32 +14,21 @@
 
 - name: Install server packages
   ansible.builtin.apt:
-    name:
-      - bridge-utils
-      - libvirt-clients
-      - libvirt-daemon-system
-      - qemu-kvm
+    name: "{{ kvm_server_packages }}"
     state: present
-  when: kvm_server_mode | bool
+  when: kvm_install_server_packages | bool
   tags: kvm:install
 
 - name: Install Virtual Machine Manager (virt-manager)
   ansible.builtin.apt:
-    name:
-      - virt-manager
-      - gir1.2-spiceclientgtk-3.0
-      - ssh-askpass-gnome
+    name: "{{ kvm_virt_manager_packages }}"
     state: present
   when: kvm_install_virt_manager | bool
   tags: kvm:install
 
 - name: Install client utilities
   ansible.builtin.apt:
-    name:
-      - cloud-image-utils
-      # 'mkisofs' is required by 'libvirt_cloudinit_disk' Terraform resource
-      # Ref: https://registry.terraform.io/providers/dmacvicar/libvirt/latest/docs/resources/cloudinit
-      - genisoimage
+    name: "{{ kvm_client_utilities_packages }}"
     state: present
   when: kvm_install_client_utilities | bool
   tags: kvm:install
@@ -47,9 +36,7 @@
 - name: Add users to KVM system groups
   ansible.builtin.user:
     name: "{{ item }}"
-    groups:
-      - kvm
-      - libvirt
+    groups: "{{ kvm_system_groups }}"
     append: true
   loop: "{{ kvm_users }}"
   tags: kvm:config
@@ -62,6 +49,7 @@
     regexp: "^(# *)?security_driver .*"
     line: security_driver = "none"
   notify: Restart libvirtd
+  when: kvm_disable_libvirt_qemu_security_driver | bool
   tags: kvm:config
 
 - name: Install kvm-import-volume script
