@@ -1,7 +1,7 @@
 ---
 - name: Install font packages
   ansible.builtin.apt:
-    name: "{{ xubuntu_font_packages }}"
+    name: "{{ xubuntu_fonts_packages }}"
     state: present
 
 - name: Configure system fonts

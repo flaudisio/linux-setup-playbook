@@ -135,7 +135,7 @@ xubuntu_cursor_theme: ""
 
 # System fonts
 
-xubuntu_font_packages: []
+xubuntu_fonts_packages: []
 
 xubuntu_system_default_font: ""
 xubuntu_system_monospace_font: ""
