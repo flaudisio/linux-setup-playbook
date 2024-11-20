@@ -32,3 +32,5 @@ kvm_system_groups:
   - libvirt
 
 kvm_users: []
+
+kvm_disable_libvirt_qemu_security_driver: false
