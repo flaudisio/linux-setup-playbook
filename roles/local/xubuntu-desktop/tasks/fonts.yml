@@ -4,6 +4,27 @@
     name: "{{ xubuntu_fonts_packages }}"
     state: present
 
+- name: Ensure local font folders exist
+  ansible.builtin.file:
+    path: "{{ xubuntu_local_fonts_dir }}/{{ item.name }}"
+    state: directory
+  loop: "{{ xubuntu_extra_fonts }}"
+  become: false
+
+- name: Download and extract font archives
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ item.archive_url }}"
+    dest: "{{ xubuntu_local_fonts_dir }}/{{ item.name }}"
+    include: "{{ item.archive_files | default(omit) }}"
+  loop: "{{ xubuntu_extra_fonts }}"
+  notify: Rebuild fonts cache
+  when: not ansible_check_mode
+  become: false
+
+- name: Ensure the fonts cache is updated
+  ansible.builtin.meta: flush_handlers
+
 - name: Configure system fonts
   community.general.xfconf:
     channel: "{{ item.channel }}"

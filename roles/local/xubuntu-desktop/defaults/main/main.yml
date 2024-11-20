@@ -5,6 +5,7 @@
 
 xubuntu_home_dir: "{{ '~' | expanduser }}"
 xubuntu_config_dir: "{{ xubuntu_home_dir }}/.config"
+xubuntu_local_fonts_dir: "{{ xubuntu_home_dir }}/.local/share/fonts"
 
 # Autostart
 
@@ -136,6 +137,8 @@ xubuntu_cursor_theme: ""
 # System fonts
 
 xubuntu_fonts_packages: []
+
+xubuntu_extra_fonts: []
 
 xubuntu_system_default_font: ""
 xubuntu_system_monospace_font: ""
