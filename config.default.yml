@@ -59,9 +59,11 @@ docker_daemon_options:
       size: 27
 
 # kvm
-kvm_server_mode: true
+kvm_install_server_packages: true
 kvm_install_virt_manager: true
 kvm_install_client_utilities: true
 
 kvm_users:
   - "{{ __current_user }}"
+
+kvm_disable_libvirt_qemu_security_driver: true
