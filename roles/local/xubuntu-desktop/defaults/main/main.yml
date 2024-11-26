@@ -15,29 +15,20 @@ xubuntu_autostart_disable_apps:
   - blueman
   - update-notifier
 
-# User dirs
+# XDG user dirs
 
-xubuntu_user_dirs_base_dir: "{{ xubuntu_home_dir }}"
+# Ref: 'man xdg-user-dir', 'man xdg-user-dirs-update'
+xubuntu_xdg_desktop_dir: ""
+xubuntu_xdg_documents_dir: ""
+xubuntu_xdg_download_dir: ""
+xubuntu_xdg_music_dir: ""
+xubuntu_xdg_pictures_dir: ""
+xubuntu_xdg_publicshare_dir: ""
+xubuntu_xdg_templates_dir: ""
+xubuntu_xdg_videos_dir: ""
 
-xubuntu_user_dirs:
-  - name: DESKTOP
-    path: Desktop
-  - name: DOWNLOAD
-    path: cache
-  - name: TEMPLATES
-    path: library/Templates
-  - name: PUBLICSHARE
-    path: library/Public
-  - name: DOCUMENTS
-    path: library/Documents
-  - name: MUSIC
-    path: library/Music
-  - name: PICTURES
-    path: library/Pictures
-  - name: VIDEOS
-    path: library/Videos
-
-xubuntu_remove_default_user_dirs: false
+# NOTE: you should logout and re-login *before* removing the folders
+xubuntu_remove_default_xdg_user_dirs: false
 
 # Bookmarks
 

@@ -1,26 +1,28 @@
 ---
-- name: Ensure user dirs exist
+- name: Include user dirs variables
+  ansible.builtin.include_vars: user-dirs.yml
+
+- name: Ensure custom user dirs exist
   ansible.builtin.file:
-    path: "{{ xubuntu_user_dirs_base_dir }}/{{ item.path }}"
+    path: "{{ xubuntu_home_dir }}/{{ item.path }}"
     state: directory
-  loop: "{{ xubuntu_user_dirs }}"
+  loop: "{{ _xubuntu_xdg_custom_user_dirs }}"
+  when: item.path != ""
 
-- name: Configure user dirs
+- name: Configure custom user dirs
   ansible.builtin.command: >
-    xdg-user-dirs-update --set '{{ item.name }}' '{{ xubuntu_user_dirs_base_dir }}/{{ item.path }}'
-  loop: "{{ xubuntu_user_dirs }}"
+    xdg-user-dirs-update --set '{{ item.name }}' '{{ xubuntu_home_dir }}/{{ item.path }}'
+  loop: "{{ _xubuntu_xdg_custom_user_dirs }}"
   changed_when: false
+  when: item.path != ""
 
-- name: Remove default dirs
+- name: Remove default user dirs
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ xubuntu_home_dir }}/{{ item.path }}"
     state: absent
-  loop:
-    - "{{ xubuntu_home_dir }}/Documents"
-    - "{{ xubuntu_home_dir }}/Downloads"
-    - "{{ xubuntu_home_dir }}/Music"
-    - "{{ xubuntu_home_dir }}/Pictures"
-    - "{{ xubuntu_home_dir }}/Public"
-    - "{{ xubuntu_home_dir }}/Templates"
-    - "{{ xubuntu_home_dir }}/Videos"
-  when: xubuntu_remove_default_user_dirs | bool
+  loop: "{{ _xubuntu_xdg_default_user_dirs }}"
+  when:
+    - xubuntu_remove_default_xdg_user_dirs | bool
+    - item.path not in _custom_paths
+  vars:
+    _custom_paths: "{{ _xubuntu_xdg_custom_user_dirs | map(attribute='path') }}"

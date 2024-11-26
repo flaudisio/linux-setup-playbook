@@ -1,0 +1,36 @@
+---
+_xubuntu_xdg_default_user_dirs:
+  - name: DESKTOP
+    path: Desktop
+  - name: DOCUMENTS
+    path: Documents
+  - name: DOWNLOAD
+    path: Downloads
+  - name: MUSIC
+    path: Music
+  - name: PICTURES
+    path: Pictures
+  - name: PUBLICSHARE
+    path: Public
+  - name: TEMPLATES
+    path: Templates
+  - name: VIDEOS
+    path: Videos
+
+_xubuntu_xdg_custom_user_dirs:
+  - name: DESKTOP
+    path: "{{ xubuntu_xdg_desktop_dir }}"
+  - name: DOCUMENTS
+    path: "{{ xubuntu_xdg_documents_dir }}"
+  - name: DOWNLOAD
+    path: "{{ xubuntu_xdg_download_dir }}"
+  - name: MUSIC
+    path: "{{ xubuntu_xdg_music_dir }}"
+  - name: PICTURES
+    path: "{{ xubuntu_xdg_pictures_dir }}"
+  - name: PUBLICSHARE
+    path: "{{ xubuntu_xdg_publicshare_dir }}"
+  - name: TEMPLATES
+    path: "{{ xubuntu_xdg_templates_dir }}"
+  - name: VIDEOS
+    path: "{{ xubuntu_xdg_videos_dir }}"
