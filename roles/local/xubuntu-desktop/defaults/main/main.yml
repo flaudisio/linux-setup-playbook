@@ -18,7 +18,6 @@ xubuntu_autostart_disable_apps:
 # XDG user dirs
 
 # Ref: 'man xdg-user-dir', 'man xdg-user-dirs-update'
-xubuntu_xdg_desktop_dir: ""
 xubuntu_xdg_documents_dir: ""
 xubuntu_xdg_download_dir: ""
 xubuntu_xdg_music_dir: ""
