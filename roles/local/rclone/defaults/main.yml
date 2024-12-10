@@ -1,5 +1,5 @@
 ---
-rclone_version: 1.68.1
+rclone_version: 1.68.2
 
 rclone_package_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
