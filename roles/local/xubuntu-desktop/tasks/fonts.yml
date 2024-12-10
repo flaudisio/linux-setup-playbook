@@ -4,11 +4,15 @@
     name: "{{ xubuntu_fonts_apt_packages }}"
     state: present
 
-- name: Ensure local font folders exist
+- name: Ensure local font directories exist
   ansible.builtin.file:
-    path: "{{ xubuntu_local_fonts_dir }}/{{ item.name }}"
+    path: "{{ _font_dir }}"
     state: directory
   loop: "{{ xubuntu_fonts_archives }}"
+  loop_control:
+    label: "{{ _font_dir }}"
+  vars:
+    _font_dir: "{{ xubuntu_local_fonts_dir }}/{{ item.name }}"
   become: false
 
 - name: Download and extract font archives
