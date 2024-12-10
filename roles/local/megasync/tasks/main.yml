@@ -1,6 +1,6 @@
 ---
 - name: Check if MEGASync is installed
-  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show megasync || true
+  ansible.builtin.shell: dpkg-query --show megasync || true
   register: _dpkg_query
   changed_when: false
 
@@ -8,4 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ megasync_package_url }}"
     state: present
-  when: "'no packages found matching' in _dpkg_query.stderr"
+  when: "'no packages found' in _dpkg_query.stderr"

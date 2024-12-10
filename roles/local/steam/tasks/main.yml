@@ -8,4 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ steam_package_url }}"
     state: present
-  when: "'no packages found matching' in _dpkg_query.stderr"
+  when: "'no packages found' in _dpkg_query.stderr"

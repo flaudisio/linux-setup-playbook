@@ -1,6 +1,6 @@
 ---
 - name: Check if Chrome is installed
-  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show google-chrome-stable || true
+  ansible.builtin.shell: dpkg-query --show google-chrome-stable || true
   register: _dpkg_query
   changed_when: false
 
@@ -8,4 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ chrome_package_url }}"
     state: present
-  when: "'no packages found matching' in _dpkg_query.stderr"
+  when: "'no packages found' in _dpkg_query.stderr"
