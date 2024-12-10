@@ -11,9 +11,7 @@ xubuntu_local_fonts_dir: "{{ xubuntu_home_dir }}/.local/share/fonts"
 
 xubuntu_autostart_dir: "{{ xubuntu_config_dir }}/autostart"
 
-xubuntu_autostart_disable_apps:
-  - blueman
-  - update-notifier
+xubuntu_autostart_disable_apps: []
 
 # XDG user dirs
 
@@ -33,10 +31,7 @@ xubuntu_remove_default_xdg_user_dirs: false
 
 xubuntu_bookmarks_file: "{{ xubuntu_config_dir }}/gtk-3.0/bookmarks"
 
-xubuntu_bookmarks:
-  - /arquivos
-  - "{{ xubuntu_home_dir }}/cache"
-  - "{{ xubuntu_home_dir }}/projects"
+xubuntu_bookmarks: []
 
 # Thunar
 
