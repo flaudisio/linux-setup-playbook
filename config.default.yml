@@ -39,7 +39,7 @@ xubuntu_xdg_videos_dir: library/Videos
 
 xubuntu_bookmarks:
   - /arquivos
-  - ~/cache
+  - ~/{{ xubuntu_xdg_download_dir }}
   - ~/projects
 
 xubuntu_theme_packages:
