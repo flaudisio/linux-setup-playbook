@@ -49,7 +49,7 @@ packages_extra:
 docker_daemon_options: {}
 ```
 
-For all available options, see the roles' variable files in the [roles](roles) folder.
+For all available options, see the roles' variable files in the [local roles](roles/local) folder.
 
 ## Running the playbook
 
