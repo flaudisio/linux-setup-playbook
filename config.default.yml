@@ -24,6 +24,15 @@ install_zoom: false
 base_remove_snapd: true
 
 # xubuntu-desktop
+xubuntu_autostart_disable_apps:
+  - blueman
+  - update-notifier
+
+xubuntu_bookmarks:
+  - /arquivos
+  - ~/cache
+  - ~/projects
+
 xubuntu_theme_packages:
   - greybird-gtk-theme
   - oxygen-cursor-theme
