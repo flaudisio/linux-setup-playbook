@@ -14,15 +14,18 @@ xubuntu_autostart_dir: "{{ xubuntu_config_dir }}/autostart"
 xubuntu_autostart_disable_apps: []
 
 # XDG user dirs
+# Refs: 'man user-dirs.dirs', 'man xdg-user-dir', 'man xdg-user-dirs-update'
 
-# Ref: 'man xdg-user-dir', 'man xdg-user-dirs-update'
-xubuntu_xdg_documents_dir: ""
-xubuntu_xdg_download_dir: ""
-xubuntu_xdg_music_dir: ""
-xubuntu_xdg_pictures_dir: ""
-xubuntu_xdg_publicshare_dir: ""
-xubuntu_xdg_templates_dir: ""
-xubuntu_xdg_videos_dir: ""
+xubuntu_xdg_user_dirs_file: "{{ xubuntu_config_dir }}/user-dirs.dirs"
+
+# Ref: /etc/xdg/user-dirs.defaults
+xubuntu_xdg_documents_dir: Documents
+xubuntu_xdg_download_dir: Downloads
+xubuntu_xdg_music_dir: Music
+xubuntu_xdg_pictures_dir: Pictures
+xubuntu_xdg_publicshare_dir: Public
+xubuntu_xdg_templates_dir: Templates
+xubuntu_xdg_videos_dir: Videos
 
 # NOTE: you should logout and re-login *before* removing the folders
 xubuntu_remove_default_xdg_user_dirs: false

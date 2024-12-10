@@ -1,28 +1,18 @@
 ---
-- name: Include user dirs variables
-  ansible.builtin.include_vars: user-dirs.yml
-
 - name: Ensure custom user dirs exist
   ansible.builtin.file:
-    path: "{{ xubuntu_home_dir }}/{{ item.path }}"
+    path: "{{ xubuntu_home_dir }}/{{ item }}"
     state: directory
-  loop: "{{ _xubuntu_xdg_custom_user_dirs }}"
-  when: item.path != ""
+  loop:
+    - "{{ xubuntu_xdg_documents_dir }}"
+    - "{{ xubuntu_xdg_download_dir }}"
+    - "{{ xubuntu_xdg_music_dir }}"
+    - "{{ xubuntu_xdg_pictures_dir }}"
+    - "{{ xubuntu_xdg_publicshare_dir }}"
+    - "{{ xubuntu_xdg_templates_dir }}"
+    - "{{ xubuntu_xdg_videos_dir }}"
 
-- name: Configure custom user dirs
-  ansible.builtin.command: >
-    xdg-user-dirs-update --set '{{ item.name }}' '{{ xubuntu_home_dir }}/{{ item.path }}'
-  loop: "{{ _xubuntu_xdg_custom_user_dirs }}"
-  changed_when: false
-  when: item.path != ""
-
-- name: Remove default user dirs
-  ansible.builtin.file:
-    path: "{{ xubuntu_home_dir }}/{{ item.path }}"
-    state: absent
-  loop: "{{ _xubuntu_xdg_default_user_dirs }}"
-  when:
-    - xubuntu_remove_default_xdg_user_dirs | bool
-    - item.path not in _custom_paths
-  vars:
-    _custom_paths: "{{ _xubuntu_xdg_custom_user_dirs | map(attribute='path') }}"
+- name: Create user-dirs file
+  ansible.builtin.template:
+    src: user-dirs.dirs.j2
+    dest: "{{ xubuntu_xdg_user_dirs_file }}"

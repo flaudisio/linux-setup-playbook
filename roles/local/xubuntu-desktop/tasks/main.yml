@@ -4,7 +4,7 @@
   become: false
   tags: xubuntu:autostart
 
-- name: Include user dir tasks
+- name: Include user dirs tasks
   ansible.builtin.import_tasks: user-dirs.yml
   become: false
   tags: xubuntu:user-dirs
