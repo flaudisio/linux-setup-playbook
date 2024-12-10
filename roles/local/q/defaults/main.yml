@@ -2,4 +2,4 @@
 q_version: 3.1.6
 
 q_package_url: >-
-  https://github.com/harelba/q/releases/download/v{{ q_version }}/q-text-as-data-{{ q_version }}-1.{{ ansible_architecture }}.deb
+  https://github.com/harelba/q/releases/download/v{{ q_version }}/q-text-as-data-{{ q_version }}-1.{{ ansible_facts.architecture }}.deb

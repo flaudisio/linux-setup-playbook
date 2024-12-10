@@ -1,7 +1,7 @@
 ---
 rclone_version: 1.68.1
 
-rclone_package_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+rclone_package_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
 rclone_package_url: >-
   https://github.com/rclone/rclone/releases/download/v{{ rclone_version }}/rclone-v{{ rclone_version }}-linux-{{ rclone_package_arch }}.deb

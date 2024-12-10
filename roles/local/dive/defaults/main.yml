@@ -1,7 +1,7 @@
 ---
 dive_version: 0.12.0
 
-dive_package_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+dive_package_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
 dive_package_url: >-
   https://github.com/wagoodman/dive/releases/download/v{{ dive_version }}/dive_{{ dive_version }}_linux_{{ dive_package_arch }}.deb

@@ -36,6 +36,6 @@
   become: false
   when:
     - syncthing_enable_user_service | bool
-    - ansible_user_id != "root"
-    - ansible_service_mgr == "systemd"
+    - ansible_facts.service_mgr == "systemd"
+    - ansible_facts.user_id != "root"
   tags: syncthing:service

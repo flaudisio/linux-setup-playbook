@@ -1,7 +1,7 @@
 ---
 granted_version: 0.36.3
 
-granted_package_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+granted_package_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
 granted_package_url: >-
   https://github.com/common-fate/granted/releases/download/v{{ granted_version }}/granted_{{ granted_version }}_linux_amd64.deb

@@ -30,7 +30,7 @@
     - name: Download and extract archive to temporary directory
       ansible.builtin.unarchive:
         remote_src: true
-        src: https://awscli.amazonaws.com/awscli-exe-linux-{{ ansible_architecture }}-{{ awscli_version }}.zip
+        src: https://awscli.amazonaws.com/awscli-exe-linux-{{ ansible_facts.architecture }}-{{ awscli_version }}.zip
         dest: "{{ _temp_dir.path }}"
 
     - name: Run installer

@@ -1,7 +1,7 @@
 ---
 restic_version: 0.17.3
 
-restic_dl_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+restic_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
 restic_archive_url: >-
   https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_{{ restic_dl_arch }}.bz2

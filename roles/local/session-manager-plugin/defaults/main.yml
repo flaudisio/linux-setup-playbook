@@ -1,7 +1,7 @@
 ---
 session_manager_plugin_version: latest
 
-session_manager_plugin_dl_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else '64bit' }}"
+session_manager_plugin_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else '64bit' }}"
 
 session_manager_plugin_package_url: >-
   https://s3.amazonaws.com/session-manager-downloads/plugin/{{ session_manager_plugin_version }}/ubuntu_{{ session_manager_plugin_dl_arch }}/session-manager-plugin.deb
