@@ -51,20 +51,20 @@ xubuntu_cursor_theme: oxy-zion
 
 xubuntu_default_web_browser: firefox
 
-xubuntu_fonts_packages:
+xubuntu_fonts_apt_packages:
   - fonts-dejavu-core
   - fonts-noto-core
   - fonts-noto-mono
 
+xubuntu_fonts_archives:
+  - name: JetBrainsMono
+    url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip
+    include_files:
+      - fonts/*
+
 xubuntu_system_default_font: Noto Sans 9
 xubuntu_system_monospace_font: DejaVu Sans Mono 10
 xubuntu_window_title_font: Noto Sans Bold 9
-
-xubuntu_extra_fonts:
-  - name: JetBrainsMono
-    archive_url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip
-    archive_files:
-      - fonts/*
 
 # ulauncher
 ulauncher_config:
