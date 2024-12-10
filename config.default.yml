@@ -28,6 +28,15 @@ xubuntu_autostart_disable_apps:
   - blueman
   - update-notifier
 
+# XDG user dirs
+xubuntu_xdg_documents_dir: library/Documents
+xubuntu_xdg_download_dir: cache
+xubuntu_xdg_music_dir: library/Music
+xubuntu_xdg_pictures_dir: library/Pictures
+xubuntu_xdg_publicshare_dir: library/Public
+xubuntu_xdg_templates_dir: library/Templates
+xubuntu_xdg_videos_dir: library/Videos
+
 xubuntu_bookmarks:
   - /arquivos
   - ~/cache
