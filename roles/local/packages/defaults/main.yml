@@ -11,7 +11,7 @@ packages_apt_autoremove: false
 
 # Snap
 
-packages_snap_disable: false
+packages_snap_disable_snapd: false
 
 packages_snap_install: []
 
