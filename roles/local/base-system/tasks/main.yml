@@ -50,7 +50,3 @@
 - name: Include hosts file tasks
   ansible.builtin.import_tasks: hosts-file.yml
   tags: base-system:hosts
-
-- name: Include Snap tasks
-  ansible.builtin.import_tasks: snap.yml
-  tags: base-system:snap

@@ -9,6 +9,10 @@ packages_apt_purge: true
 
 packages_apt_autoremove: false
 
+# Snap
+
+packages_snap_disable: false
+
 # pipx
 
 packages_pipx_cli_venv: /opt/ansible-pipx
