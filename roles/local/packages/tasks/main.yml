@@ -1,81 +1,14 @@
 ---
-- name: Update APT cache
-  ansible.builtin.apt:
-    update_cache: true
-    cache_valid_time: 3600
-  tags: packages:apt-update
+- name: Include Snap tasks
+  ansible.builtin.import_tasks: snap.yml
+  when: ansible_facts.distribution == "Ubuntu"
+  tags: packages:snap
 
-- name: Install base backages
-  ansible.builtin.apt:
-    name: "{{ packages_base }}"
-    state: present
-  tags: packages:base
+- name: Include APT tasks
+  ansible.builtin.import_tasks: apt.yml
+  when: ansible_facts.pkg_mgr == "apt"
+  tags: packages:apt
 
-- name: Install password management packages
-  ansible.builtin.apt:
-    name: "{{ packages_passwd }}"
-    state: present
-  tags: packages:passwd
-
-- name: Install development packages
-  ansible.builtin.apt:
-    name: "{{ packages_dev }}"
-    state: present
-  tags: packages:dev
-
-- name: Install sysadmin packages
-  ansible.builtin.apt:
-    name: "{{ packages_sysadmin }}"
-    state: present
-  tags: packages:sysadmin
-
-- name: Install graphics and media packages
-  ansible.builtin.apt:
-    name: "{{ packages_media }}"
-    state: present
-  tags: packages:media
-
-- name: Install utilities
-  ansible.builtin.apt:
-    name: "{{ packages_utils }}"
-    state: present
-  tags: packages:utils
-
-- name: Remove selected packages
-  ansible.builtin.apt:
-    name: "{{ packages_purge }}"
-    state: absent
-    purge: true
-  tags: packages:purge
-
-- name: Install extra packages
-  ansible.builtin.apt:
-    name: "{{ packages_extra }}"
-    state: present
-  tags: packages:extra
-
-- name: Install Git-related packages
-  ansible.builtin.apt:
-    name: "{{ packages_git }}"
-    state: present
-  tags:
-    - packages:git
-    - packages:dev
-
-- name: Install git-open
-  ansible.builtin.get_url:
-    url: "{{ packages_git_open_dl_url }}"
-    dest: "{{ packages_git_open_path }}"
-    force: true
-    owner: root
-    group: root
-    mode: "0755"
-  tags:
-    - packages:git
-    - packages:dev
-
-- name: Configure editor in alternatives
-  community.general.alternatives:
-    name: editor
-    path: /usr/bin/vim.basic
-  tags: packages:alternatives
+- name: Include pipx tasks
+  ansible.builtin.import_tasks: pipx.yml
+  tags: packages:pipx

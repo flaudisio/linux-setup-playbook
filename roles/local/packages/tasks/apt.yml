@@ -1,0 +1,26 @@
+---
+- name: Update APT cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  tags: packages:apt:update
+
+- name: Install APT packages
+  ansible.builtin.apt:
+    name: "{{ packages_apt_install }}"
+    state: present
+  tags: packages:apt:install
+
+- name: Remove defined APT packages
+  ansible.builtin.apt:
+    name: "{{ packages_apt_remove }}"
+    state: absent
+    purge: "{{ packages_apt_purge }}"
+  tags: packages:apt:remove
+
+- name: Remove APT automatically installed packages that are no longer needed
+  ansible.builtin.apt:
+    autoremove: true
+    purge: "{{ packages_apt_purge }}"
+  when: packages_apt_autoremove | bool
+  tags: packages:apt:autoremove

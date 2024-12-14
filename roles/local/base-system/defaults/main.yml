@@ -18,5 +18,3 @@ base_hosts_file_remove: []
 #   someuser ALL=(root) NOPASSWD:/usr/bin/rsync * /var/lib/libvirt/images/*
 #   someuser ALL=(root) NOPASSWD:/usr/bin/virsh
 base_sudoers_config: ""
-
-base_remove_snapd: false

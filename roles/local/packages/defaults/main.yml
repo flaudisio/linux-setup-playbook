@@ -1,147 +1,24 @@
 ---
-packages_base:
-  - apt-transport-https
-  - bash-completion
-  - ca-certificates
-  - curl
-  - dkms
-  - exo-utils
-  - tmux
-  - tree
-  - wget
-  - xfce4-terminal
+# APT
 
-packages_passwd:
-  - keepassxc
-  - makepasswd
-  - pwgen
-  - seahorse
+packages_apt_install: []
 
-packages_git:
-  - git
-  - git-doc
-  - git-gui
-  - gitk
-  - qgit
-  - tig
+packages_apt_remove: []
 
-packages_dev:
-  - gedit
-  - gedit-plugins
-  - jq
-  - vim
-  # Python-related
-  - libbz2-dev
-  - libffi-dev
-  - libreadline-dev
-  - libsqlite3-dev
-  - libssl-dev
-  - python3-dev
-  - python3-venv
-  - zlib1g-dev
+packages_apt_purge: true
 
-packages_sysadmin:
-  - arping
-  - cifs-utils
-  - conntrack
-  - ethtool
-  - gdebi-core
-  - gnome-disk-utility
-  - cracklib-runtime
-  - exfat-fuse
-  - exfatprogs
-  - htop
-  - iotop
-  - iptraf-ng
-  - lm-sensors
-  - lshw
-  - lsof
-  - mtr-tiny
-  - netcat-openbsd
-  - network-manager-openvpn
-  - network-manager-openvpn-gnome
-  - nmap
-  - openssh-client
-  - rsync
-  - traceroute
-  - whois
+packages_apt_autoremove: false
 
-packages_media:
-  - flameshot
-  - fonts-dejavu
-  - fonts-dejavu-extra
-  - fonts-firacode
-  - fonts-inconsolata
-  - fonts-liberation
-  - fonts-liberation2
-  - fonts-noto-color-emoji
-  - gimp
-  - gpick
-  - graphviz
-  - peek
-  - ristretto
-  - shotwell
-  - vlc
-  - vlc-plugin-notify
+# Snap
 
-packages_utils:
-  - ack
-  - atool
-  - atril
-  - mate-calc
-  - dconf-editor
-  - dos2unix
-  - engrampa
-  - gvfs-backends
-  - ipcalc-ng
-  - moreutils
-  - multitail
-  - p7zip-full
-  - p7zip-rar
-  - pbzip2
-  - pigz
-  - printer-driver-cups-pdf
-  - rename
-  - sqlite3
-  - transmission-gtk
-  - unar
-  - unrar
-  - unzip
-  - wmctrl
-  - xclip
-  - xdotool
-  - xz-utils
-  - zenity
+packages_snap_disable_snapd: false
 
-packages_purge:
-  # Default Xubuntu packages
-  - gnumeric
-  - mousepad
-  - pidgin
-  - pidgin-data
-  - pidgin-otr
-  # "Command not found"
-  - command-not-found
-  - python3-commandnotfound
-  # Misc
-  - gnome-software
-  - gnome-software-common
-  - gnome-software-plugin-snap
-  - hexchat
-  - motd-news-config
-  - sgt-launcher
-  - sgt-puzzles
-  - thunderbird
-  - unattended-upgrades
-  - xul-ext-ubufox
+packages_snap_install: []
 
-# packages_extra:
-#   - foo
-#   - bar
-packages_extra: []
+# pipx
 
-packages_git_open_version: 3.1.0
+packages_pipx_cli_venv: /opt/ansible-pipx
 
-packages_git_open_dl_url: https://raw.githubusercontent.com/paulirish/git-open/v{{ packages_git_open_version }}/git-open
+packages_pipx_cli_version: ">= 1.7.0"
 
-packages_git_open_path: /usr/local/bin/git-open
+packages_pipx_install: []

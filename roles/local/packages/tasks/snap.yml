@@ -1,0 +1,47 @@
+---
+- name: Disable snapd
+  when: packages_snap_disable_snapd | bool
+  tags: packages:snap:disable
+  block:
+    - name: Remove snapd package
+      ansible.builtin.apt:
+        name: snapd
+        state: absent
+        purge: true
+
+    - name: Configure APT to prevent snapd package installation
+      ansible.builtin.copy:
+        content: |
+          # Managed by Ansible
+          Package: snapd
+          Pin: release *
+          Pin-Priority: -1
+        dest: /etc/apt/preferences.d/snapd-disabled
+        owner: root
+        group: root
+        mode: "0644"
+
+- name: Enable snapd and install snaps
+  when: not (packages_snap_disable_snapd | bool)
+  tags: packages:snap:install
+  block:
+    - name: Remove APT configuration which prevents the snapd package installation
+      ansible.builtin.file:
+        path: /etc/apt/preferences.d/snapd-disabled
+        state: absent
+
+    - name: Install snapd package
+      ansible.builtin.apt:
+        name: snapd
+        allow_change_held_packages: true
+        state: present
+
+    - name: Install snaps
+      community.general.snap:
+        name: "{{ item.name | default(item) }}"
+        channel: "{{ item.channel | default(omit) }}"
+        classic: "{{ item.classic | default(omit) }}"
+        dangerous: "{{ item.dangerous | default(omit) }}"
+        options: "{{ item.options | default(omit) }}"
+        state: "{{ item.state | default('present') }}"
+      loop: "{{ packages_snap_install }}"
