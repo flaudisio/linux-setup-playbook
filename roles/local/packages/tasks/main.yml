@@ -17,21 +17,3 @@
     state: absent
     purge: "{{ packages_purge }}"
   tags: packages:remove
-
-- name: Install git-open
-  ansible.builtin.get_url:
-    url: "{{ packages_git_open_dl_url }}"
-    dest: "{{ packages_git_open_path }}"
-    force: true
-    owner: root
-    group: root
-    mode: "0755"
-  tags:
-    - packages:git
-    - packages:dev
-
-- name: Configure editor in alternatives
-  community.general.alternatives:
-    name: editor
-    path: /usr/bin/vim.basic
-  tags: packages:editor

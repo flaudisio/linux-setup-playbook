@@ -4,9 +4,3 @@ packages_install: []
 packages_remove: []
 
 packages_purge: true
-
-packages_git_open_version: 3.1.0
-
-packages_git_open_dl_url: https://raw.githubusercontent.com/paulirish/git-open/v{{ packages_git_open_version }}/git-open
-
-packages_git_open_path: /usr/local/bin/git-open
