@@ -1,19 +1,5 @@
 ---
-- name: Update APT cache
-  ansible.builtin.apt:
-    update_cache: true
-    cache_valid_time: 3600
-  tags: packages:apt-update
-
-- name: Install defined backages
-  ansible.builtin.apt:
-    name: "{{ packages_install }}"
-    state: present
-  tags: packages:install
-
-- name: Remove defined packages
-  ansible.builtin.apt:
-    name: "{{ packages_remove }}"
-    state: absent
-    purge: "{{ packages_purge }}"
-  tags: packages:remove
+- name: Include APT tasks
+  ansible.builtin.import_tasks: apt.yml
+  when: ansible_facts.pkg_mgr == "apt"
+  tags: packages:apt

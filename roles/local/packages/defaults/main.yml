@@ -1,6 +1,7 @@
 ---
-packages_install: []
+# APT
+packages_apt_install: []
 
-packages_remove: []
+packages_apt_remove: []
 
-packages_purge: true
+packages_apt_purge: true
