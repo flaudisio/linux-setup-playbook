@@ -23,15 +23,14 @@ install_zoom: false
 # base
 base_remove_snapd: true
 
-# pipx-packages
-pipx_packages_user:
+packages_pipx_install_user:
   - bump-my-version
   - bump2version
   - cookiecutter
   - name: pre-commit
     state: upgrade
 
-pipx_packages_global:
+packages_pipx_install_global:
   - ps-mem
 
 # xubuntu-desktop
