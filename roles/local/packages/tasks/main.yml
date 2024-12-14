@@ -1,6 +1,7 @@
 ---
 - name: Include Snap tasks
   ansible.builtin.import_tasks: snap.yml
+  when: ansible_facts.distribution == "Ubuntu"
   tags: packages:snap
 
 - name: Include APT tasks
