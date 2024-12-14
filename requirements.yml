@@ -3,7 +3,7 @@ collections:
   - name: ansible.posix
     version: ">=1.6,<2.0"
   - name: community.general
-    version: ">=9.5,<10.0"
+    version: ">=10.1,<11.0"
 
 roles:
   - src: geerlingguy.docker

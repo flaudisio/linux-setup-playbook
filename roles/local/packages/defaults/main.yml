@@ -21,6 +21,4 @@ packages_pipx_cli_venv: /opt/ansible-pipx
 
 packages_pipx_cli_version: ">= 1.7.0"
 
-packages_pipx_install_user: []
-
-packages_pipx_install_global: []
+packages_pipx_install: []

@@ -25,24 +25,13 @@
   when: _check_version.stdout == ""
   tags: packages:pipx:setup
 
-- name: Install pipx user packages
+- name: Install pipx packages
   community.general.pipx:
     name: "{{ item.name | default(item) }}"
     source: "{{ item.source | default(omit) }}"
+    global: "{{ item.global | default(omit) }}"
     state: "{{ item.state | default('install') }}"
     executable: pipx
-  loop: "{{ packages_pipx_install_user }}"
-  become: false
-  tags: packages:pipx:user
-
-- name: Install pipx global packages
-  community.general.pipx:
-    name: "{{ item.name | default(item) }}"
-    source: "{{ item.source | default(omit) }}"
-    state: "{{ item.state | default('install') }}"
-    executable: pipx
-    global: true
-  loop: "{{ packages_pipx_install_global }}"
-  register: _pipx_cmd
-  changed_when: "'Not modifying' not in _pipx_cmd.stdout"
-  tags: packages:pipx:global
+  loop: "{{ packages_pipx_install }}"
+  become: "{{ item.global | default(false) }}"
+  tags: packages:pipx:install
