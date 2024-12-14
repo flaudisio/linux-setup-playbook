@@ -142,17 +142,20 @@ packages_apt_remove:
 
 packages_apt_autoremove: true
 
+# packages - snap
+
+packages_snap_disable_snapd: true
+
 # packages - pipx
 
-packages_pipx_install_user:
+packages_pipx_install:
   - bump-my-version
   - bump2version
   - cookiecutter
   - name: pre-commit
     state: upgrade
-
-packages_pipx_install_global:
-  - ps-mem
+  - name: ps-mem
+    global: true
 
 # base
 base_remove_snapd: true
