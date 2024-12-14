@@ -50,3 +50,14 @@
 - name: Include hosts file tasks
   ansible.builtin.import_tasks: hosts-file.yml
   tags: base-system:hosts
+
+- name: Configure alternatives
+  community.general.alternatives:
+    name: "{{ item.name }}"
+    link: "{{ item.link | default(omit) }}"
+    path: "{{ item.path }}"
+    priority: "{{ item.priority | default(omit) }}"
+    state: "{{ item.state | default(omit) }}"
+    subcommands: "{{ item.subcommands | default(omit) }}"
+  loop: "{{ base_alternatives }}"
+  tags: base-system:alternatives
