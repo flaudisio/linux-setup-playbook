@@ -17,3 +17,10 @@
     state: absent
     purge: "{{ packages_apt_purge }}"
   tags: apt:remove
+
+- name: Remove APT automatically installed packages that are no longer needed
+  ansible.builtin.apt:
+    autoremove: true
+    purge: "{{ packages_apt_purge }}"
+  when: packages_apt_autoremove | bool
+  tags: apt:autoremove
