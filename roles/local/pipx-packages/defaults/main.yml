@@ -1,8 +1,0 @@
----
-pipx_cli_venv: /opt/ansible-pipx
-
-pipx_cli_version: ">= 1.7.0"
-
-pipx_packages_user: []
-
-pipx_packages_global: []
