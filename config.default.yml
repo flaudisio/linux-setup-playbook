@@ -160,6 +160,10 @@ packages_pipx_install:
 # base
 base_remove_snapd: true
 
+base_alternatives:
+  - name: editor
+    path: /usr/bin/vim.basic
+
 # xubuntu-desktop
 xubuntu_autostart_disable_apps:
   - blueman
