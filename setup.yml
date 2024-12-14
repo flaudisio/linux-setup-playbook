@@ -17,6 +17,8 @@
       tags: [base, base-system]
     - role: packages
       tags: [base, packages]
+    - role: git
+      tags: [base, git]
     - role: xubuntu-desktop
       tags: [base, xubuntu]
       when: configure_xubuntu_desktop

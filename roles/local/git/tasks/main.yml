@@ -1,0 +1,29 @@
+---
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ ['git'] + git_extra_packages }}"
+    state: present
+  tags: git:install
+
+- name: Install git-open
+  ansible.builtin.get_url:
+    url: "{{ git_open_dl_url }}"
+    dest: "{{ git_open_bin_path }}"
+    force: true
+    owner: root
+    group: root
+    mode: "0755"
+  tags: git:open
+
+- name: Create gitconfig files
+  ansible.builtin.copy:
+    content: "{{ git_config_content }}"
+    dest: "{{ item.path | default(item) }}"
+    owner: "{{ item.owner | default(omit) }}"
+    group: "{{ item.owner | default(omit) }}"
+    mode: "0644"
+  loop: "{{ git_config_files }}"
+  loop_control:
+    label: "{{ item.path | default(item) }}"
+  when: git_config_content != ""
+  tags: git:config

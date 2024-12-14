@@ -1,0 +1,32 @@
+---
+git_extra_packages:
+  - git-doc
+  - git-gui
+  - gitk
+  - qgit
+  - tig
+
+git_open_version: 3.1.0
+
+git_open_dl_url: https://raw.githubusercontent.com/paulirish/git-open/v{{ git_open_version }}/git-open
+
+git_open_bin_path: /usr/local/bin/git-open
+
+# Example:
+# git_config: |
+#   [user]
+#     name = Example User
+#     email = example.user@domain.com
+#   [color]
+#     ui = always
+#   [init]
+#     defaultBranch = main
+git_config_content: ""
+
+# git_config_files:
+#   - /etc/gitconfig
+#   - path: /home/{{ ansible_user }}/.gitconfig
+#     owner: "{{ ansible_user }}"
+#   - path: /root/.gitconfig
+#     owner: root
+git_config_files: []
