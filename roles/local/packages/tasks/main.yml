@@ -1,7 +1,6 @@
 ---
 - name: Include Snap tasks
   ansible.builtin.import_tasks: snap.yml
-  when: packages_snap_disable | bool
   tags: packages:snap
 
 - name: Include APT tasks

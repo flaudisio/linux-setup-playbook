@@ -13,6 +13,8 @@ packages_apt_autoremove: false
 
 packages_snap_disable: false
 
+packages_snap_install: []
+
 # pipx
 
 packages_pipx_cli_venv: /opt/ansible-pipx
