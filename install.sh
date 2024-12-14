@@ -18,7 +18,7 @@ function main()
     echo "==> Installing requirements"
 
     _run sudo apt-get update -q
-    _run sudo apt-get install -q -y git python3-venv
+    _run sudo apt-get install -q -y git python3-pip python3-venv
 
     if [[ ! -d "$INSTALL_DIR" ]] ; then
         echo "==> Cloning repository"
