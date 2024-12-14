@@ -140,6 +140,8 @@ packages_apt_remove:
   - unattended-upgrades
   - xul-ext-ubufox
 
+packages_apt_autoremove: true
+
 # packages - pipx
 
 packages_pipx_install_user:
