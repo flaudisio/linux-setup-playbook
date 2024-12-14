@@ -3,6 +3,7 @@
   ansible.builtin.shell: pipx --version || true
   register: _check_version
   changed_when: false
+  tags: packages:pipx:setup
 
 - name: Install pipx using pip
   ansible.builtin.pip:
@@ -12,6 +13,7 @@
     virtualenv: "{{ packages_pipx_cli_venv }}"
     virtualenv_command: python3 -m venv
   when: _check_version.stdout == ""
+  tags: packages:pipx:setup
 
 - name: Create global symlink to pipx CLI
   ansible.builtin.file:
@@ -21,6 +23,7 @@
     group: root
     state: link
   when: _check_version.stdout == ""
+  tags: packages:pipx:setup
 
 - name: Install pipx user packages
   community.general.pipx:
@@ -30,6 +33,7 @@
     executable: pipx
   loop: "{{ packages_pipx_install_user }}"
   become: false
+  tags: packages:pipx:user
 
 - name: Install pipx global packages
   community.general.pipx:
@@ -41,3 +45,4 @@
   loop: "{{ packages_pipx_install_global }}"
   register: _pipx_cmd
   changed_when: "'Not modifying' not in _pipx_cmd.stdout"
+  tags: packages:pipx:global
