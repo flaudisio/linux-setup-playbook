@@ -5,62 +5,18 @@
     cache_valid_time: 3600
   tags: packages:apt-update
 
-- name: Install base backages
+- name: Install defined backages
   ansible.builtin.apt:
-    name: "{{ packages_base }}"
+    name: "{{ packages_install }}"
     state: present
-  tags: packages:base
+  tags: packages:install
 
-- name: Install password management packages
+- name: Remove defined packages
   ansible.builtin.apt:
-    name: "{{ packages_passwd }}"
-    state: present
-  tags: packages:passwd
-
-- name: Install development packages
-  ansible.builtin.apt:
-    name: "{{ packages_dev }}"
-    state: present
-  tags: packages:dev
-
-- name: Install sysadmin packages
-  ansible.builtin.apt:
-    name: "{{ packages_sysadmin }}"
-    state: present
-  tags: packages:sysadmin
-
-- name: Install graphics and media packages
-  ansible.builtin.apt:
-    name: "{{ packages_media }}"
-    state: present
-  tags: packages:media
-
-- name: Install utilities
-  ansible.builtin.apt:
-    name: "{{ packages_utils }}"
-    state: present
-  tags: packages:utils
-
-- name: Remove selected packages
-  ansible.builtin.apt:
-    name: "{{ packages_purge }}"
+    name: "{{ packages_remove }}"
     state: absent
-    purge: true
-  tags: packages:purge
-
-- name: Install extra packages
-  ansible.builtin.apt:
-    name: "{{ packages_extra }}"
-    state: present
-  tags: packages:extra
-
-- name: Install Git-related packages
-  ansible.builtin.apt:
-    name: "{{ packages_git }}"
-    state: present
-  tags:
-    - packages:git
-    - packages:dev
+    purge: "{{ packages_purge }}"
+  tags: packages:remove
 
 - name: Install git-open
   ansible.builtin.get_url:
@@ -78,4 +34,4 @@
   community.general.alternatives:
     name: editor
     path: /usr/bin/vim.basic
-  tags: packages:alternatives
+  tags: packages:editor
