@@ -29,7 +29,7 @@
   community.general.pipx:
     name: "{{ item.name | default(item) }}"
     source: "{{ item.source | default(omit) }}"
-    global: "{{ item.global | default(omit) }}"
+    global: "{{ item.global | default(false) }}"
     state: "{{ item.state | default('install') }}"
     executable: pipx
   loop: "{{ packages_pipx_install }}"
