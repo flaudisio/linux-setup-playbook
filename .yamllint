@@ -16,7 +16,8 @@ rules:
   line-length:
     max: 140
     ignore: |
-      roles/*/*/defaults/*
+      **/roles/*/*/defaults/**
+      **/roles/*/*/vars/**
   octal-values:
     forbid-implicit-octal: true
     forbid-explicit-octal: true
