@@ -197,14 +197,6 @@ xubuntu_remove_command_shortcuts:
 
 xubuntu_command_shortcuts:
   # Audio
-  - shortcut: <Super>1
-    cmd: manage-audio.sh use-speakers
-  - shortcut: <Super>2
-    cmd: manage-audio.sh use-headphones
-  - shortcut: <Super>3
-    cmd: manage-audio.sh use-internal-mic
-  - shortcut: <Super>4
-    cmd: manage-audio.sh use-headset-mic
   - shortcut: <Primary><Super>Down
     cmd: amixer -q -M -D pulse sset Master 5%-
   - shortcut: <Primary><Super>Up
@@ -214,12 +206,6 @@ xubuntu_command_shortcuts:
     cmd: spotify
   - shortcut: <Super>r
     cmd: spotify
-  - shortcut: <Primary><Super>Insert
-    cmd: spotify-ctl.sh PlayPause
-  - shortcut: <Primary><Super>Left
-    cmd: spotify-ctl.sh Previous
-  - shortcut: <Primary><Super>Right
-    cmd: spotify-ctl.sh Next
   # Screenshot
   - shortcut: Print
     cmd: xfce4-screenshooter -f
