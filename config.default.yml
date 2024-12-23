@@ -183,6 +183,110 @@ xubuntu_bookmarks:
   - ~/{{ xubuntu_xdg_download_dir }}
   - ~/projects
 
+# xubuntu-desktop - keyboard shortcuts
+# Note: <Primary> means <Ctrl>
+xubuntu_remove_command_shortcuts:
+  - <Alt>F1
+  - <Alt>F3
+  - <Alt>Print
+  - <Primary>Escape
+  - <Primary><Alt>t
+  - <Primary><Alt>Escape
+  - <Super>f
+  - XF86Messenger
+
+xubuntu_command_shortcuts:
+  # Audio
+  - shortcut: <Super>1
+    cmd: manage-audio.sh use-speakers
+  - shortcut: <Super>2
+    cmd: manage-audio.sh use-headphones
+  - shortcut: <Super>3
+    cmd: manage-audio.sh use-internal-mic
+  - shortcut: <Super>4
+    cmd: manage-audio.sh use-headset-mic
+  - shortcut: <Primary><Super>Down
+    cmd: amixer -q -M -D pulse sset Master 5%-
+  - shortcut: <Primary><Super>Up
+    cmd: amixer -q -M -D pulse sset Master 5%+
+  # Spotify
+  - shortcut: XF86Music
+    cmd: spotify
+  - shortcut: <Super>r
+    cmd: spotify
+  - shortcut: <Primary><Super>Insert
+    cmd: spotify-ctl.sh PlayPause
+  - shortcut: <Primary><Super>Left
+    cmd: spotify-ctl.sh Previous
+  - shortcut: <Primary><Super>Right
+    cmd: spotify-ctl.sh Next
+  # Screenshot
+  - shortcut: Print
+    cmd: xfce4-screenshooter -f
+  - shortcut: <Shift>Print
+    cmd: xfce4-screenshooter -w
+  - shortcut: <Super>Print
+    cmd: flameshot gui
+  # User session
+  - shortcut: <Primary><Alt>Delete
+    cmd: xfce4-session-logout
+  - shortcut: <Primary><Alt>l
+    cmd: xflock4
+  # Window Manager
+  - shortcut: <Primary><Alt>Left
+    cmd: move-to-next-monitor
+  - shortcut: <Primary><Alt>Right
+    cmd: move-to-next-monitor
+  # Xfce tools
+  - shortcut: <Super>F1
+    cmd: xfce4-find-cursor
+  - shortcut: <Super>p
+    cmd: xfce4-display-settings --minimal
+  - shortcut: <Super>z
+    cmd: xfce4-popup-applicationsmenu
+  # Terminal
+  - shortcut: <Super>Return
+    cmd: xfce4-terminal --maximize
+  - shortcut: <Super>KP_Enter
+    cmd: xfce4-terminal --maximize
+  # Utilities
+  - shortcut: <Super>e
+    cmd: exo-open --launch FileManager
+  - shortcut: <Super>k
+    cmd: keepassxc
+  - shortcut: <Super>n
+    cmd: code {{ xubuntu_home_dir }}/notes
+  - shortcut: <Super>t
+    cmd: exo-open --launch TerminalEmulator
+  - shortcut: <Super>w
+    cmd: sensible-browser https://keep.google.com
+
+xubuntu_remove_window_manager_shortcuts:
+  - <Alt>F7
+  - <Alt>F9
+  - <Primary>F1
+  - <Primary>F2
+  - <Primary>F3
+  - <Primary>F4
+  - <Primary>F5
+  - <Primary>F6
+  - <Primary>F7
+  - <Primary>F8
+  - <Primary>F9
+  - <Primary>F10
+  - <Primary>F11
+  - <Primary>F12
+  - <Primary><Alt>Up
+  - <Primary><Alt>Down
+  - <Primary><Alt>Left
+  - <Primary><Alt>Right
+
+xubuntu_window_manager_shortcuts:
+  - shortcut: <Super>s
+    cmd: hide_window_key
+  - shortcut: <Super>Up
+    cmd: maximize_window_key
+
 # xubuntu-desktop - theme
 xubuntu_theme_packages:
   - greybird-gtk-theme
