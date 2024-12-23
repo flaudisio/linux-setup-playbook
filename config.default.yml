@@ -20,6 +20,13 @@ install_zoom: false
 # Tasks configuration
 # ------------------------------------------------------------------------------
 
+# base
+base_remove_snapd: true
+
+base_alternatives:
+  - name: editor
+    path: /usr/bin/vim.basic
+
 # packages - APT
 packages_apt_install:
   # Base
@@ -143,11 +150,9 @@ packages_apt_remove:
 packages_apt_autoremove: true
 
 # packages - snap
-
 packages_snap_disable_snapd: true
 
 # packages - pipx
-
 packages_pipx_install:
   - bump-my-version
   - bump2version
@@ -158,19 +163,12 @@ packages_pipx_install:
   - name: ps-mem
     global: true
 
-# base
-base_remove_snapd: true
-
-base_alternatives:
-  - name: editor
-    path: /usr/bin/vim.basic
-
-# xubuntu-desktop
+# xubuntu-desktop - autostart
 xubuntu_autostart_disable_apps:
   - blueman
   - update-notifier
 
-# XDG user dirs
+# xubuntu-desktop - XDG user dirs
 xubuntu_xdg_documents_dir: library/Documents
 xubuntu_xdg_download_dir: cache
 xubuntu_xdg_music_dir: library/Music
@@ -179,11 +177,13 @@ xubuntu_xdg_publicshare_dir: library/Public
 xubuntu_xdg_templates_dir: library/Templates
 xubuntu_xdg_videos_dir: library/Videos
 
+# xubuntu-desktop - bookmarks
 xubuntu_bookmarks:
   - /arquivos
   - ~/{{ xubuntu_xdg_download_dir }}
   - ~/projects
 
+# xubuntu-desktop - theme
 xubuntu_theme_packages:
   - greybird-gtk-theme
   - oxygen-cursor-theme
@@ -191,8 +191,7 @@ xubuntu_theme_packages:
 xubuntu_system_theme: Greybird-dark
 xubuntu_cursor_theme: oxy-zion
 
-xubuntu_default_web_browser: firefox
-
+# xubuntu-desktop - fonts
 xubuntu_fonts_apt_packages:
   - fonts-dejavu-core
   - fonts-noto-core
@@ -207,6 +206,9 @@ xubuntu_fonts_archives:
 xubuntu_system_default_font: Noto Sans 9
 xubuntu_system_monospace_font: DejaVu Sans Mono 10
 xubuntu_window_title_font: Noto Sans Bold 9
+
+# xubuntu-desktop - default apps
+xubuntu_default_web_browser: firefox
 
 # ulauncher
 ulauncher_config:
