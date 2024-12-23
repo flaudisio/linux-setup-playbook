@@ -348,6 +348,31 @@ xubuntu_thunar_settings:
     value: THUNAR_ICON_SIZE_24
     value_type: string
 
+# xubuntu-desktop - Xfconf
+xubuntu_xfconf_settings:
+  # Desktop
+  - channel: xfce4-desktop
+    property: /desktop-icons/style
+    value: "0"
+    value_type: int
+  - channel: xfce4-desktop
+    property: /desktop-menu/show
+    value: "true"
+    value_type: bool
+  - channel: xfce4-desktop
+    property: /desktop-menu/show-icons
+    value: "true"
+    value_type: bool
+  - channel: xfce4-desktop
+    property: /windowlist-menu/show
+    value: "false"
+    value_type: bool
+  # Window Manager
+  - channel: xfwm4
+    property: /general/button_layout
+    value: CMH|O
+    value_type: string
+
 # xubuntu-desktop - default apps
 xubuntu_default_web_browser: firefox
 
