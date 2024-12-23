@@ -7,11 +7,12 @@
       # Ohai is slow, so avoid using it
       gather_subset: "all,!ohai"
 
-  vars_files:
-    - config/base.yml
-    - config/packages.yml
-    - config/xubuntu.yml
-    - config.yml
+  pre_tasks:
+    - name: Include playbook configuration
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      with_fileglob: "{{ (query('fileglob', 'config/*') | sort) + ['config.yml'] }}"
+      tags: [always, test]
 
   roles:
     # Base system & desktop
