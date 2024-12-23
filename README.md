@@ -32,7 +32,8 @@ The script will:
 
 ## Overriding defaults
 
-You can override variables defined in `config.default.yml` (or define new ones) by creating a `config.yml` file.
+You can override variables defined in `config/` files (or define new ones) by creating a `config.yml` file in the repository
+root.
 
 Example:
 
