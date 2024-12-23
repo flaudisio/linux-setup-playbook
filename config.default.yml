@@ -297,6 +297,57 @@ xubuntu_system_default_font: Noto Sans 9
 xubuntu_system_monospace_font: DejaVu Sans Mono 10
 xubuntu_window_title_font: Noto Sans Bold 9
 
+# xubuntu-desktop - Thunar
+xubuntu_thunar_settings:
+  - property: /last-location-bar
+    value: ThunarLocationButtons
+    value_type: string
+  - property: /last-menubar-visible
+    value: "false"
+    value_type: bool
+  - property: /last-restore-tabs
+    value: "false"
+    value_type: bool
+  - property: /last-sort-column
+    value: THUNAR_COLUMN_NAME
+    value_type: string
+  - property: /last-sort-order
+    value: GTK_SORT_ASCENDING
+    value_type: string
+  - property: /last-view
+    value: ThunarDetailsView
+    value_type: string
+  - property: /last-window-maximized
+    value: "true"
+    value_type: bool
+  - property: /misc-change-window-icon
+    value: "true"
+    value_type: bool
+  - property: /misc-confirm-close-multiple-tabs
+    value: "false"
+    value_type: bool
+  - property: /misc-date-style
+    value: THUNAR_DATE_STYLE_LONG
+    value_type: string
+  - property: /misc-full-path-in-title
+    value: "false"
+    value_type: bool
+  - property: /misc-open-new-window-as-tab
+    value: "true"
+    value_type: bool
+  - property: /misc-thumbnail-mode
+    value: THUNAR_THUMBNAIL_MODE_ONLY_LOCAL
+    value_type: string
+  - property: /misc-folders-first
+    value: "true"
+    value_type: bool
+  - property: /misc-volume-management
+    value: "false"
+    value_type: bool
+  - property: /shortcuts-icon-size
+    value: THUNAR_ICON_SIZE_24
+    value_type: string
+
 # xubuntu-desktop - default apps
 xubuntu_default_web_browser: firefox
 
