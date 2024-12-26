@@ -50,7 +50,7 @@ xubuntu_cursor_theme: ""
 
 # Fonts
 
-xubuntu_fonts_apt_packages: []
+xubuntu_fonts_packages: []
 
 # xubuntu_fonts_archives:
 #   - name: ExampleFont

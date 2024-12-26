@@ -1,6 +1,6 @@
 ---
 - name: Install theme packages
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: "{{ xubuntu_theme_packages }}"
     state: present
 

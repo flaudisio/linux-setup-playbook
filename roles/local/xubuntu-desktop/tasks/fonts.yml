@@ -1,7 +1,7 @@
 ---
 - name: Install font packages
-  ansible.builtin.apt:
-    name: "{{ xubuntu_fonts_apt_packages }}"
+  ansible.builtin.package:
+    name: "{{ xubuntu_fonts_packages }}"
     state: present
 
 - name: Ensure local font directories exist
