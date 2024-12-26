@@ -219,7 +219,7 @@ xubuntu_bookmarks:
 
 # xubuntu - keyboard shortcuts
 # Note: <Primary> means <Ctrl>
-xubuntu_remove_command_shortcuts:
+xubuntu_remove_keyboard_shortcuts:
   - <Alt>F1
   - <Alt>F3
   - <Alt>Print
@@ -229,7 +229,7 @@ xubuntu_remove_command_shortcuts:
   - <Super>f
   - XF86Messenger
 
-xubuntu_command_shortcuts:
+xubuntu_keyboard_shortcuts:
   # Audio
   - shortcut: <Primary><Super>Down
     cmd: amixer -q -M -D pulse sset Master 5%-
@@ -322,7 +322,7 @@ xubuntu_system_theme: Greybird-dark
 xubuntu_cursor_theme: oxy-zion
 
 # xubuntu - fonts
-xubuntu_fonts_apt_packages:
+xubuntu_fonts_packages:
   - fonts-dejavu-core
   - fonts-noto-core
   - fonts-noto-mono
