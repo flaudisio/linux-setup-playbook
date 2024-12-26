@@ -130,6 +130,7 @@ packages_apt_install:
   - gpick
   - graphviz
   - peek
+  - playerctl
   - ristretto
   - shotwell
   - vlc
@@ -239,6 +240,12 @@ xubuntu_command_shortcuts:
     cmd: spotify
   - shortcut: <Super>r
     cmd: spotify
+  - shortcut: <Primary><Super>Insert
+    cmd: playerctl play-pause
+  - shortcut: <Primary><Super>Left
+    cmd: playerctl previous
+  - shortcut: <Primary><Super>Right
+    cmd: playerctl next
   # Screenshot
   - shortcut: Print
     cmd: xfce4-screenshooter -f
