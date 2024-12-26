@@ -32,19 +32,22 @@ The script will:
 
 ## Overriding defaults
 
-You can override variables defined in `config/` files (or define new ones) by creating a `config.yml` file in the repository
-root.
+You can override variables defined in `config.default.yml` (or define new ones) by creating a `config.yml` file.
 
 Example:
 
 ```yaml
-# Do not remove Snap support
-base_remove_snapd: false
+# Do not disable Snapd
+packages_snap_disable_snapd: false
 
 # Customize the list of installed packages
-packages_extra:
-  - foo
-  - bar
+packages_apt_install:
+  - htop
+  - jq
+  - vim
+
+packages_pipx_install:
+  - pre-commit
 
 # Clear the custom Docker daemon options by setting an empty object
 docker_daemon_options: {}

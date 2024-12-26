@@ -1,10 +1,207 @@
 ---
-# Autostart
+# ------------------------------------------------------------------------------
+# Helper variables
+# ------------------------------------------------------------------------------
+
+__current_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+
+# Opt-in tasks (see the 'setup.yml' playbook)
+configure_xubuntu_desktop: "{{ lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu' }}"
+install_cinc_workstation: false
+install_cloudflare_client: false
+install_keybase: false
+install_kvm: false
+install_q: false
+install_rclone: false
+install_steam: false
+install_zoom: false
+
+# ------------------------------------------------------------------------------
+# Tasks configuration
+# ------------------------------------------------------------------------------
+
+# base
+base_alternatives:
+  - name: editor
+    path: /usr/bin/vim.basic
+
+# ulauncher
+ulauncher_config:
+  hotkey-show-app: <Alt>F1
+  show-indicator-icon: false
+  theme-name: dark
+
+# resticprofile
+resticprofile_symlink_name: rp
+
+# firefox
+firefox_set_as_default_browser: true
+
+# docker
+docker_users:
+  - "{{ __current_user }}"
+
+docker_daemon_options:
+  # Change the default IPAM config to avoid overlapping production networks that use the 172.16/12 range
+  # Ref: https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
+  bip: 192.168.243.1/24
+  default-address-pools:
+    # Ref: ipcalc-ng 192.168.244.0/22 -S 27
+    - base: 192.168.244.0/22
+      size: 27
+
+# kvm
+kvm_install_server_packages: true
+kvm_install_virt_manager: true
+kvm_install_client_utilities: true
+
+kvm_users:
+  - "{{ __current_user }}"
+
+kvm_disable_libvirt_qemu_security_driver: true
+
+# packages - APT
+packages_apt_install:
+  # Base
+  - apt-transport-https
+  - bash-completion
+  - ca-certificates
+  - curl
+  - dkms
+  - exo-utils
+  - tmux
+  - tree
+  - wget
+  - xfce4-terminal
+  # Password management
+  - keepassxc
+  - makepasswd
+  - pwgen
+  - seahorse
+  # Development
+  - gedit
+  - gedit-plugins
+  - jq
+  - vim
+  # Development/Python
+  - libbz2-dev
+  - libffi-dev
+  - libreadline-dev
+  - libsqlite3-dev
+  - libssl-dev
+  - python3-dev
+  - python3-venv
+  - zlib1g-dev
+  # Sysadmin
+  - arping
+  - cifs-utils
+  - conntrack
+  - ethtool
+  - gdebi-core
+  - gnome-disk-utility
+  - cracklib-runtime
+  - exfat-fuse
+  - exfatprogs
+  - htop
+  - iotop
+  - iptraf-ng
+  - lm-sensors
+  - lshw
+  - lsof
+  - mtr-tiny
+  - netcat-openbsd
+  - network-manager-openvpn
+  - network-manager-openvpn-gnome
+  - nmap
+  - openssh-client
+  - rsync
+  - traceroute
+  - whois
+  # Media
+  - flameshot
+  - fonts-dejavu
+  - fonts-dejavu-extra
+  - fonts-firacode
+  - fonts-inconsolata
+  - fonts-liberation
+  - fonts-liberation2
+  - fonts-noto-color-emoji
+  - gimp
+  - gpick
+  - graphviz
+  - peek
+  - ristretto
+  - shotwell
+  - vlc
+  - vlc-plugin-notify
+  # Utilities
+  - ack
+  - atool
+  - atril
+  - mate-calc
+  - dconf-editor
+  - dos2unix
+  - engrampa
+  - gvfs-backends
+  - ipcalc-ng
+  - moreutils
+  - multitail
+  - p7zip-full
+  - p7zip-rar
+  - pbzip2
+  - pigz
+  - printer-driver-cups-pdf
+  - rename
+  - sqlite3
+  - transmission-gtk
+  - unar
+  - unrar
+  - unzip
+  - wmctrl
+  - xclip
+  - xdotool
+  - xz-utils
+  - zenity
+
+packages_apt_remove:
+  - command-not-found
+  - gnome-software
+  - gnome-software-common
+  - gnome-software-plugin-snap
+  - gnumeric
+  - hexchat
+  - motd-news-config
+  - mousepad
+  - pidgin
+  - pidgin-otr
+  - sgt-launcher
+  - sgt-puzzles
+  - thunderbird
+  - unattended-upgrades
+  - xul-ext-ubufox
+
+packages_apt_autoremove: true
+
+# packages - snap
+packages_snap_disable_snapd: true
+
+# packages - pipx
+packages_pipx_install:
+  - bump-my-version
+  - bump2version
+  - cookiecutter
+  - copier
+  - name: pre-commit
+    state: upgrade
+  - name: ps-mem
+    global: true
+
+# xubuntu - autostart
 xubuntu_autostart_disable_apps:
   - blueman
   - update-notifier
 
-# XDG user dirs
+# xubuntu - XDG user dirs
 xubuntu_xdg_documents_dir: library/Documents
 xubuntu_xdg_download_dir: cache
 xubuntu_xdg_music_dir: library/Music
@@ -13,13 +210,13 @@ xubuntu_xdg_publicshare_dir: library/Public
 xubuntu_xdg_templates_dir: library/Templates
 xubuntu_xdg_videos_dir: library/Videos
 
-# Bookmarks
+# xubuntu - bookmarks
 xubuntu_bookmarks:
   - /arquivos
   - ~/{{ xubuntu_xdg_download_dir }}
   - ~/projects
 
-# Keyboard shortcuts
+# xubuntu - keyboard shortcuts
 # Note: <Primary> means <Ctrl>
 xubuntu_remove_command_shortcuts:
   - <Alt>F1
@@ -109,7 +306,7 @@ xubuntu_window_manager_shortcuts:
   - shortcut: <Super>Up
     cmd: maximize_window_key
 
-# Theme
+# xubuntu - theme
 xubuntu_theme_packages:
   - greybird-gtk-theme
   - oxygen-cursor-theme
@@ -117,7 +314,7 @@ xubuntu_theme_packages:
 xubuntu_system_theme: Greybird-dark
 xubuntu_cursor_theme: oxy-zion
 
-# Fonts
+# xubuntu - fonts
 xubuntu_fonts_apt_packages:
   - fonts-dejavu-core
   - fonts-noto-core
@@ -133,7 +330,7 @@ xubuntu_system_default_font: Noto Sans 9
 xubuntu_system_monospace_font: DejaVu Sans Mono 10
 xubuntu_window_title_font: Noto Sans Bold 9
 
-# Thunar
+# xubuntu - Thunar
 xubuntu_thunar_settings:
   - property: /last-location-bar
     value: ThunarLocationButtons
@@ -184,7 +381,7 @@ xubuntu_thunar_settings:
     value: THUNAR_ICON_SIZE_24
     value_type: string
 
-# Xfconf
+# xubuntu - Xfconf
 xubuntu_xfconf_settings:
   # Desktop
   - channel: xfce4-desktop
@@ -209,5 +406,5 @@ xubuntu_xfconf_settings:
     value: CMH|O
     value_type: string
 
-# Default apps
+# xubuntu - default apps
 xubuntu_default_web_browser: firefox
