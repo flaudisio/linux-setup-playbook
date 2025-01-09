@@ -16,7 +16,7 @@ tag_name = "v{new_version}"
 tag_message = "Version {new_version}"
 
 [tool.bumpversion.parts.release]
-calver_format = "{YYYY}.{MM}"
+calver_format = "{YYYY}.{0M}"
 
 [[tool.bumpversion.files]]
 filename = "VERSION"
