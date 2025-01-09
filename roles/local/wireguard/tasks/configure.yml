@@ -10,12 +10,12 @@
 - name: Check if private key exists
   ansible.builtin.stat:
     path: "{{ _wg_private_key_file }}"
-  register: _private_key_check
+  register: _wg_private_key_check
 
 - name: Generate key pair
   ansible.builtin.shell: >
     wg genkey | tee '{{ _wg_private_key_file }}' | wg pubkey > '{{ _wg_public_key_file }}'
-  when: not _private_key_check.stat.exists
+  when: not _wg_private_key_check.stat.exists
 
 - name: Ensure correct key file permissions
   ansible.builtin.file:
