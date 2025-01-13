@@ -1,12 +1,13 @@
 [tool.bumpversion]
 current_version = "2025.01.0"
 # Based on: https://callowayproject.github.io/bump-my-version/howtos/calver/
-parse = """(?x)              # Verbose mode
+parse = """
+    (?x)                     # Verbose mode
     (?P<release>             # The release part
         (?:[1-9][0-9]{3})\\. # YYYY.
-        (?:1[0-2]|[1-9])     # MM
+        (?:[0-9]{2})         # MM
     )
-    (?:\\.(?P<patch>\\d+))   # .patch
+    (?:\\.(?P<patch>[0-9]+)) # .patch
 """
 serialize = ["{release}.{patch}"]
 commit = true
