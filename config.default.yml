@@ -179,6 +179,7 @@ packages_apt_remove:
   - sgt-puzzles
   - thunderbird
   - unattended-upgrades
+  - xfburn
   - xul-ext-ubufox
 
 packages_apt_autoremove: true
