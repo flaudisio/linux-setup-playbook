@@ -93,6 +93,8 @@
       tags: [infra, doppler]
 
     # Development
+    - role: mise
+      tags: [dev, mise]
     - role: bat
       tags: [dev, bat]
     - role: vscode
