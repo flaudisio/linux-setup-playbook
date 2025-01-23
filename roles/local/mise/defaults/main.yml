@@ -1,0 +1,22 @@
+---
+# Ref: https://mise.jdx.dev/installing-mise.html#github-releases
+
+mise_version: 2025.1.9
+
+mise_bin_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'x64' }}"
+
+mise_bin_dl_url: https://github.com/jdx/mise/releases/download/v{{ mise_version }}/mise-v{{ mise_version }}-linux-{{ mise_bin_dl_arch }}
+
+mise_sha256sums_url: https://github.com/jdx/mise/releases/download/v{{ mise_version }}/SHASUMS256.txt
+
+mise_bin_path: /usr/local/bin/mise
+
+mise_configure_bashrc: true
+
+mise_bashrc_file: ~/.bashrc
+
+mise_bashrc_become: false
+
+# Note: Mise completion requires the 'usage' tool (which is installed by Mise itself), so this variable
+# will be ignored unless bashrc configuration is also enabled
+mise_configure_bash_completion: false
