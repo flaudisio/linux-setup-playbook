@@ -9,12 +9,11 @@ mise_bin_dl_url: https://github.com/jdx/mise/releases/download/v{{ mise_version 
 
 mise_sha256sums_url: https://github.com/jdx/mise/releases/download/v{{ mise_version }}/SHASUMS256.txt
 
-mise_bin_path: /usr/local/bin/mise
+mise_install_path: ~/.local/bin/mise
+mise_install_become: false
 
 mise_configure_bashrc: true
-
 mise_bashrc_file: ~/.bashrc
-
 mise_bashrc_become: false
 
 # Note: Mise completion requires the 'usage' tool (which is installed by Mise itself), so this variable
