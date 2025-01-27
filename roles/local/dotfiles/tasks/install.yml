@@ -1,0 +1,39 @@
+---
+- name: Clone repository to local directory
+  ansible.builtin.git:
+    repo: "{{ dotfiles_repo_url }}"
+    dest: "{{ dotfiles_repo_local_dir }}"
+    version: "{{ dotfiles_repo_version }}"
+
+- name: Find source files
+  ansible.builtin.find:
+    paths: "{{ dotfiles_repo_local_dir }}/{{ dotfiles_src_rel_dir }}"
+    file_type: file
+    hidden: true
+    recurse: false
+  register: _found_src_files
+
+- name: Find source folders
+  ansible.builtin.find:
+    paths: "{{ [_source_dir] | product(dotfiles_dirs) | map('path_join') | list }}"
+    file_type: directory
+    recurse: false
+  vars:
+    _source_dir: "{{ dotfiles_repo_local_dir }}/{{ dotfiles_src_rel_dir }}"
+  register: _found_src_dirs
+
+- name: Create file symlinks
+  ansible.builtin.file:
+    src: "{{ item }}"
+    path: "{{ dotfiles_home | expanduser }}/{{ item | basename }}"
+    state: link
+  loop: "{{ _found_src_files.files | map(attribute='path') }}"
+
+- name: Create folder symlinks
+  ansible.builtin.file:
+    src: "{{ item }}"
+    path: "{{ dotfiles_home | expanduser }}/{{ item | relpath(_local_base_dir) }}"
+    state: link
+  loop: "{{ _found_src_dirs.files | map(attribute='path') }}"
+  vars:
+    _local_base_dir: "{{ dotfiles_repo_local_dir.rstrip('/') | expanduser }}/{{ dotfiles_src_rel_dir }}"
