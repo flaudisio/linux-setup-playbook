@@ -1,6 +1,6 @@
 ---
 # Ref: https://github.com/aws/aws-cli/tags
-awscli_version: 2.23.2  # or "latest"
+awscli_version: latest  # or specific version, e.g. '2.23.2'
 
 awscli_bin_dir: /usr/local/bin
 
