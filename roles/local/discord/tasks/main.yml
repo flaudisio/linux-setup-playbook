@@ -1,4 +1,17 @@
 ---
+- name: Fetch Discord download URL
+  ansible.builtin.uri:
+    url: https://discord.com/api/download?platform=linux
+    method: HEAD
+  register: _api_uri
+  when: discord_version == "latest"
+
+- name: Update variables according to the latest version
+  ansible.builtin.set_fact:
+    discord_version: "{{ _api_uri.url | regex_replace('.*discord-(.+)\\.deb.*', '\\1') }}"
+    discord_package_url: "{{ _api_uri.url }}"
+  when: discord_version == "latest"
+
 - name: Check if version {{ discord_version }} is installed
   ansible.builtin.shell: dpkg-query --showformat='${Version}' --show discord || true
   register: _dpkg_query
