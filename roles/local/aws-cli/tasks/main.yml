@@ -6,7 +6,7 @@
   register: _fetch_tags
   when: awscli_version == "latest"
 
-- name: Update version variable with the latest version
+- name: Update variables according to the latest version
   ansible.builtin.set_fact:
     awscli_version: "{{ _fetch_tags.json[0].name }}"
   when: awscli_version == "latest"
