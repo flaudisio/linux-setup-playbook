@@ -1,4 +1,5 @@
 ---
-discord_version: 0.0.81
+# Or specific version, e.g. '0.0.81'
+discord_version: latest
 
 discord_package_url: https://dl.discordapp.net/apps/linux/{{ discord_version }}/discord-{{ discord_version }}.deb
