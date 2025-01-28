@@ -1,12 +1,11 @@
 ---
+dotfiles_home: "~"
+
 dotfiles_repo_url: https://github.com/flaudisio/dotfiles.git
 dotfiles_repo_version: main
-
-dotfiles_repo_local_dir: ~/.files
+dotfiles_repo_local_dir: "{{ dotfiles_home }}/.files"
 
 dotfiles_src_rel_dir: src
 
 dotfiles_dirs:
   - .config
-
-dotfiles_home: "~"
