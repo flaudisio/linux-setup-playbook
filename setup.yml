@@ -1,6 +1,7 @@
 ---
 - name: Linux setup
   hosts: all
+  gather_facts: "{{ not (skip_facts | default(false)) }}"
 
   module_defaults:
     ansible.builtin.setup:
