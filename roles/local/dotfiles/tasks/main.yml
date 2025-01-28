@@ -3,3 +3,17 @@
   ansible.builtin.import_tasks: install.yml
   become: false
   tags: dotfiles:install
+
+- name: Install Vim plugins from Git repositories
+  ansible.builtin.git:
+    repo: "{{ _plugin_repo }}"
+    dest: "{{ dotfiles_vim_plugins_dir | expanduser }}/{{ _plugin_repo | basename | replace('.git', '') }}"
+    version: "{{ item.version | default(omit) }}"
+    update: "{{ item.update_repo | default(true) }}"
+  loop: "{{ dotfiles_vim_plugins }}"
+  loop_control:
+    label: "{{ _plugin_repo }}"
+  vars:
+    _plugin_repo: "{{ item.repo | default(item) }}"
+  become: false
+  tags: dotfiles:vim-plugins

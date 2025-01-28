@@ -8,3 +8,12 @@ dotfiles_repo_src_dir: src
 
 dotfiles_dirs:
   - .config
+
+dotfiles_vim_plugins_dir: "{{ dotfiles_home }}/.vim/pack/plugins/start"
+
+# dotfiles_vim_plugins:
+#   - https://github.com/editorconfig/editorconfig-vim.git
+#   - repo: https://github.com/preservim/nerdtree.git
+#     version: 7.1.3
+#     update_repo: false
+dotfiles_vim_plugins: []
