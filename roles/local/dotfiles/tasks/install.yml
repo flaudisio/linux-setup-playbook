@@ -18,11 +18,21 @@
     recurse: false
   register: _found_src_files
 
-- name: Find source folders
+- name: Find base directories
+  ansible.builtin.find:
+    paths: "{{ _dotfiles_search_base_dir }}"
+    file_type: directory
+    hidden: true
+    recurse: false
+  register: _found_base_dirs
+
+- name: Find source directories
   ansible.builtin.find:
     paths: "{{ [_dotfiles_search_base_dir] | product(_base_source_dirs) | map('path_join') | list }}"
     file_type: directory
     recurse: false
+  vars:
+    _base_source_dirs: "{{ _found_base_dirs.files | map(attribute='path') }}"
   register: _found_src_dirs
 
 - name: Create file symlinks
@@ -32,7 +42,7 @@
     state: link
   loop: "{{ _found_src_files.files | map(attribute='path') }}"
 
-- name: Create folder symlinks
+- name: Create directory symlinks
   ansible.builtin.file:
     src: "{{ item }}"
     path: "{{ _dotfiles_home_expanded }}/{{ _base_path }}"
