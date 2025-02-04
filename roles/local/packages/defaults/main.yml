@@ -2,23 +2,17 @@
 # APT
 
 packages_apt_install: []
-
 packages_apt_remove: []
-
 packages_apt_purge: true
-
 packages_apt_autoremove: false
 
 # Snap
 
-packages_snap_disable_snapd: false
-
+packages_snap_remove_snapd: false
 packages_snap_install: []
 
 # pipx
 
 packages_pipx_cli_venv: /opt/ansible-pipx
-
 packages_pipx_cli_version: ">= 1.7.0"
-
 packages_pipx_install: []

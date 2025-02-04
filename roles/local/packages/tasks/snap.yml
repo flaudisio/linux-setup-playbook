@@ -1,7 +1,7 @@
 ---
-- name: Disable snapd
-  when: packages_snap_disable_snapd | bool
-  tags: packages:snap:disable
+- name: Remove snapd
+  when: packages_snap_remove_snapd | bool
+  tags: packages:snap:remove
   block:
     - name: Remove snapd package
       ansible.builtin.apt:
@@ -22,7 +22,7 @@
         mode: "0644"
 
 - name: Enable snapd and install snaps
-  when: not (packages_snap_disable_snapd | bool)
+  when: not (packages_snap_remove_snapd | bool)
   tags: packages:snap:install
   block:
     - name: Remove APT configuration which prevents the snapd package installation
