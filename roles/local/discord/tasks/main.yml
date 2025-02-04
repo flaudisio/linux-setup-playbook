@@ -1,11 +1,10 @@
 ---
-- name: Get the currently installed version
-  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show discord || true
-  register: _dpkg_query
-  changed_when: false
+- name: Gather package facts
+  ansible.builtin.package_facts:
+  when: ansible_facts.packages is not defined
 
 - name: Run installation tasks
-  when: _dpkg_query.stdout != discord_version
+  when: ansible_facts.packages["discord"][0]["version"] | default("") != discord_version
   block:
     - name: Fetch Discord download URL
       ansible.builtin.uri:
