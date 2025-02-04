@@ -4,8 +4,8 @@ Ansible playbooks and roles that I use to provision my Linux-based machines.
 
 ## Compatibility
 
-This repository is currently tested against **Xubuntu 24.04** (x86_64), but most roles should work with any Ubuntu flavor
-running the same version.
+This repository is currently tested against **Xubuntu 24.04**, but most roles should work with any Ubuntu
+flavor running the same version.
 
 ## Prerequisites
 
@@ -32,14 +32,12 @@ The script will:
 
 ## Overriding defaults
 
-You can override variables defined in `config.default.yml` (or define new ones) by creating a `config.yml` file.
+You can override variables defined in `config.default.yml` (or define new ones) by creating a `config.yml`
+file.
 
 Example:
 
 ```yaml
-# Do not disable Snapd
-packages_snap_disable_snapd: false
-
 # Customize the list of installed packages
 packages_apt_install:
   - htop
@@ -65,19 +63,21 @@ cd ~/.local/share/linux-setup-playbook
 ./run.sh setup.yml
 ```
 
-The [run.sh](run.sh) script is a tiny wrapper for the `ansible-playbook` command. By default it uses the `--become --ask-become-pass`
-arguments, so your user must be able to run commands using `sudo` (which is default in standard Ubuntu installations).
+The [run.sh](run.sh) script is a tiny wrapper for the `ansible-playbook` command. By default it uses
+the `--become --ask-become-pass` arguments, so your user must be able to use `sudo` (which is default
+on clean Ubuntu installations).
 
 ## Running specific tasks
 
-Use `ansible-playbook`'s flags like `--tags` to run only specific tasks, enable check mode and so on.
+Use `ansible-playbook`'s flags like `--tags` (shorthand: `-t`) to run only specific tasks, enable check
+mode and so on.
 
 Example:
 
 ```bash
 ./run.sh setup.yml --list-tasks
-./run.sh setup.yml --tags backup,spotify
-./run.sh setup.yml -t packages:dev -t restic
+./run.sh setup.yml -t backup -t spotify
+./run.sh setup.yml -t packages -t restic
 ./run.sh setup.yml -t spotify --diff -C
 ```
 
