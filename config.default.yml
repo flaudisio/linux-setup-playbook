@@ -193,7 +193,7 @@ packages_apt_remove:
 packages_apt_autoremove: true
 
 # packages - snap
-packages_snap_disable_snapd: true
+packages_snap_remove_snapd: true
 
 # packages - pipx
 packages_pipx_install:
