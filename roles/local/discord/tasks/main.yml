@@ -1,10 +1,11 @@
 ---
 - name: Gather package facts
   ansible.builtin.package_facts:
+    manager: auto
   when: ansible_facts.packages is not defined
 
 - name: Run installation tasks
-  when: ansible_facts.packages["discord"][0]["version"] | default("") != discord_version
+  when: discord_version not in ansible_facts.packages["discord"] | default([]) | map(attribute="version")
   block:
     - name: Fetch Discord download URL
       ansible.builtin.uri:

@@ -1,15 +1,14 @@
 ---
-- name: Check if version {{ ulauncher_version }} is installed
-  ansible.builtin.shell: >
-    dpkg-query --showformat='${Version}' --show ulauncher || true
-  register: _dpkg_query
-  changed_when: false
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+  when: ansible_facts.packages is not defined
 
 - name: Install package
   ansible.builtin.apt:
     deb: "{{ ulauncher_package_url }}"
     state: present
-  when: _dpkg_query.stdout != ulauncher_version
+  when: ulauncher_version not in ansible_facts.packages["ulauncher"] | default([]) | map(attribute="version")
 
 - name: Ensure configuration directory exists
   ansible.builtin.file:

@@ -1,15 +1,15 @@
 ---
-- name: Check if version {{ bat_version }} is installed
-  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show bat || true
-  register: _dpkg_query
-  changed_when: false
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+  when: ansible_facts.packages is not defined
   tags: bat:install
 
 - name: Install package
   ansible.builtin.apt:
     deb: "{{ bat_package_url }}"
     state: present
-  when: _dpkg_query.stdout != bat_version
+  when: bat_version not in ansible_facts.packages["bat"] | default([]) | map(attribute="version")
   tags: bat:install
 
 - name: Disable package installation from Ubuntu repos

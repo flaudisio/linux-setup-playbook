@@ -1,11 +1,11 @@
 ---
-- name: Check if version {{ dive_version }} is installed
-  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show dive || true
-  register: _dpkg_query
-  changed_when: false
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+  when: ansible_facts.packages is not defined
 
 - name: Install package
   ansible.builtin.apt:
     deb: "{{ dive_package_url }}"
     state: present
-  when: dive_version != _dpkg_query.stdout
+  when: dive_version not in ansible_facts.packages["dive"] | default([]) | map(attribute="version")
