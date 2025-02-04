@@ -32,6 +32,9 @@ ulauncher_config:
   theme-name: dark
 
 # dotfiles
+dotfiles_extra_dirs:
+  - ~/.bashrc.d
+
 dotfiles_vim_plugins:
   - https://github.com/editorconfig/editorconfig-vim.git
   - https://github.com/hashivim/vim-terraform.git
