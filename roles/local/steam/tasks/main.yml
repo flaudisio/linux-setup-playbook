@@ -1,11 +1,11 @@
 ---
-- name: Check if Steam is installed
-  ansible.builtin.shell: dpkg-query --show steam-launcher || true
-  register: _dpkg_query
-  changed_when: false
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+  when: ansible_facts.packages is not defined
 
 - name: Install package
   ansible.builtin.apt:
     deb: "{{ steam_package_url }}"
     state: present
-  when: "'no packages found' in _dpkg_query.stderr"
+  when: "'steam-launcher' not in ansible_facts.packages"

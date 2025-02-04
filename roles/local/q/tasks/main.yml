@@ -1,11 +1,11 @@
 ---
-- name: Check if version {{ q_version }} is installed
-  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show q-text-as-data || true
-  register: _dpkg_query
-  changed_when: false
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+  when: ansible_facts.packages is not defined
 
 - name: Install package
   ansible.builtin.apt:
     deb: "{{ q_package_url }}"
     state: present
-  when: _dpkg_query.stdout != q_version
+  when: q_version != ansible_facts.packages["q-text-as-data"][0]["version"] | default("")
