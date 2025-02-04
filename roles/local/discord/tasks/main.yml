@@ -1,24 +1,34 @@
 ---
-- name: Fetch Discord download URL
-  ansible.builtin.uri:
-    url: https://discord.com/api/download?platform=linux
-    method: HEAD
-  register: _api_uri
-  when: discord_version == "latest"
-
-- name: Update variables according to the latest version
-  ansible.builtin.set_fact:
-    discord_version: "{{ _api_uri.url | regex_replace('.*discord-(.+)\\.deb.*', '\\1') }}"
-    discord_package_url: "{{ _api_uri.url }}"
-  when: discord_version == "latest"
-
-- name: Check if version {{ discord_version }} is installed
+- name: Get the currently installed version
   ansible.builtin.shell: dpkg-query --showformat='${Version}' --show discord || true
   register: _dpkg_query
   changed_when: false
 
-- name: Install package
-  ansible.builtin.apt:
-    deb: "{{ discord_package_url }}"
-    state: present
+- name: Run installation tasks
   when: _dpkg_query.stdout != discord_version
+  block:
+    - name: Fetch Discord download URL
+      ansible.builtin.uri:
+        url: https://discord.com/api/download?platform=linux
+        method: HEAD
+      register: _api_uri
+      until: _api_uri.status == 200
+      retries: 2
+      delay: 3
+
+    - name: Set package URL for the provided version
+      ansible.builtin.set_fact:
+        # (Hacky) way to reuse Discord's download URL structure
+        discord_package_url: "{{ _api_uri.url | regex_replace('[0-9]+\\.[0-9]+\\.[0-9]+', discord_version) }}"
+      when: discord_version != "latest"
+
+    - name: Set variables for the latest version
+      ansible.builtin.set_fact:
+        discord_version: "{{ _api_uri.url | regex_replace('.*discord-(.+)\\.deb.*', '\\1') }}"
+        discord_package_url: "{{ _api_uri.url }}"
+      when: discord_version == "latest"
+
+    - name: Install package
+      ansible.builtin.apt:
+        deb: "{{ discord_package_url }}"
+        state: present
