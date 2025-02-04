@@ -91,7 +91,7 @@
     - role: session-manager-plugin
       tags: [cloud-tools, session-manager-plugin]
     - role: doppler
-      tags: [infra, doppler]
+      tags: [cloud-tools, doppler]
 
     # Development
     - role: bat
