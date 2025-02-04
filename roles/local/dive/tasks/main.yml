@@ -8,4 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ dive_package_url }}"
     state: present
-  when: dive_version != ansible_facts.packages["dive"][0]["version"] | default("")
+  when: dive_version not in ansible_facts.packages["dive"] | default([]) | map(attribute="version")

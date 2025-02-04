@@ -8,4 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ granted_package_url }}"
     state: present
-  when: granted_version != ansible_facts.packages["granted"][0]["version"] | default("")
+  when: granted_version not in ansible_facts.packages["granted"] | default([]) | map(attribute="version")

@@ -8,4 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ q_package_url }}"
     state: present
-  when: q_version != ansible_facts.packages["q-text-as-data"][0]["version"] | default("")
+  when: q_version not in ansible_facts.packages["q-text-as-data"] | default([]) | map(attribute="version")

@@ -8,4 +8,4 @@
   ansible.builtin.apt:
     deb: "{{ zoom_package_url }}"
     state: present
-  when: zoom_version != ansible_facts.packages["zoom"][0]["version"] | default("")
+  when: zoom_version not in ansible_facts.packages["zoom"] | default([]) | map(attribute="version")

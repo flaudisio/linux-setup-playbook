@@ -9,7 +9,7 @@
   ansible.builtin.apt:
     deb: "{{ bat_package_url }}"
     state: present
-  when: bat_version != ansible_facts.packages["bat"][0]["version"] | default("")
+  when: bat_version not in ansible_facts.packages["bat"] | default([]) | map(attribute="version")
   tags: bat:install
 
 - name: Disable package installation from Ubuntu repos

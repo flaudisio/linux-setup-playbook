@@ -8,7 +8,7 @@
   ansible.builtin.apt:
     deb: "{{ ulauncher_package_url }}"
     state: present
-  when: ulauncher_version != ansible_facts.packages["ulauncher"][0]["version"] | default("")
+  when: ulauncher_version not in ansible_facts.packages["ulauncher"] | default([]) | map(attribute="version")
 
 - name: Ensure configuration directory exists
   ansible.builtin.file:
