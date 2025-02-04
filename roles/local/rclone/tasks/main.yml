@@ -13,6 +13,5 @@
 - name: Configure Bash completion
   ansible.builtin.command: >
     rclone completion bash /etc/bash_completion.d/rclone
-  when:
-    - rclone_version not in ansible_facts.packages["rclone"] | default([]) | map(attribute="version")
-    - rclone_enable_bash_completion | bool
+  changed_when: false
+  when: rclone_enable_bash_completion | bool
