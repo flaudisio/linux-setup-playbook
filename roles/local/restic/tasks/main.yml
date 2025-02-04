@@ -7,7 +7,7 @@
 
 - name: Run installation tasks
   when:
-    - '("restic " + restic_version + " compiled") not in _check_version.stdout'
+    - "('restic ' ~ restic_version ~ ' compiled') not in _check_version.stdout"
   block:
     - name: Create temporary directory
       ansible.builtin.tempfile:

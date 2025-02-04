@@ -19,7 +19,7 @@
 
 - name: Download and install
   when:
-    - ("aws-cli/" + awscli_version + " ") not in _check_version.stdout
+    - ("aws-cli/" ~ awscli_version ~ " ") not in _check_version.stdout
   block:
     - name: Create temporary directory
       ansible.builtin.tempfile:

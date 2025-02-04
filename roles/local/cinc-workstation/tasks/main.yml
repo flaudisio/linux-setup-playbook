@@ -7,7 +7,7 @@
 - name: Run installation tasks
   when:
     - not ansible_check_mode
-    - '("Cinc Workstation version: " + cinc_workstation_version) not in _check_version.stdout'
+    - "('Cinc Workstation version: ' ~ cinc_workstation_version) not in _check_version.stdout"
   block:
     - name: Create temporary directory
       ansible.builtin.tempfile:

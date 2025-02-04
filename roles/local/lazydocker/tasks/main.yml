@@ -14,4 +14,4 @@
     owner: root
     group: root
     mode: "0755"
-  when: '("Version: " + lazydocker_version) not in _check_version.stdout'
+  when: "('Version: ' ~ lazydocker_version) not in _check_version.stdout"

@@ -17,7 +17,7 @@
     group: root
     mode: "0755"
   when:
-    - ("version " + resticprofile_version + " commit") not in _check_version.stdout
+    - ("version " ~ resticprofile_version ~ " commit") not in _check_version.stdout
   tags: resticprofile:install
 
 - name: Create symlink to binary
