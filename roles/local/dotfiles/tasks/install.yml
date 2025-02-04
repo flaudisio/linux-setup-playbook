@@ -1,4 +1,10 @@
 ---
+- name: Create extra directories
+  ansible.builtin.file:
+    path: "{{ item | expanduser }}"
+    state: directory
+  loop: "{{ dotfiles_extra_dirs }}"
+
 - name: Clone repository to local directory
   ansible.builtin.git:
     repo: "{{ dotfiles_repo_url }}"

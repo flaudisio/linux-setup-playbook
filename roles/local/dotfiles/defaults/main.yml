@@ -6,6 +6,8 @@ dotfiles_repo_version: main
 dotfiles_repo_local_dest: "{{ dotfiles_home }}/.files"
 dotfiles_repo_src_dir: src
 
+dotfiles_extra_dirs: []
+
 dotfiles_vim_plugins_dir: "{{ dotfiles_home }}/.vim/pack/plugins/start"
 
 # dotfiles_vim_plugins:
