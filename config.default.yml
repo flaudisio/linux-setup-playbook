@@ -202,7 +202,7 @@ packages_pipx_install:
   - cookiecutter
   - copier
   - name: pre-commit
-    state: upgrade
+    state: latest
   - name: ps-mem
     global: true
 
