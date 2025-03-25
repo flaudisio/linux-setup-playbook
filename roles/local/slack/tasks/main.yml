@@ -1,41 +1,29 @@
 ---
-- name: Install repository key
-  ansible.builtin.get_url:
-    url: "{{ slack_apt_repo_key_url }}"
-    dest: "{{ slack_apt_repo_key_file }}"
-    force: true
-    owner: root
-    group: root
-    mode: "0644"
-  tags:
-    - slack:repo
-    - slack:install
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+  when: ansible_facts.packages is not defined
 
-- name: Configure repository
-  ansible.builtin.apt_repository:
-    repo: "{{ slack_apt_repo_line }}"
-    filename: "{{ slack_apt_repo_file }}"
-    state: present
-    update_cache: true
-  tags:
-    - slack:repo
-    - slack:install
+- name: Run installation tasks
+  when: slack_package_name not in ansible_facts.packages
+  block:
+    - name: Install repository key
+      ansible.builtin.get_url:
+        url: "{{ slack_apt_repo_key_url }}"
+        dest: "{{ slack_apt_repo_key_file }}"
+        force: true
+        owner: root
+        group: root
+        mode: "0644"
 
-- name: Configure package defaults
-  ansible.builtin.copy:
-    content: |
-      repo_add_once="true"
-      repo_reenable_on_distupgrade="true"
-    dest: /etc/default/slack
-    owner: root
-    group: root
-    mode: "0644"
-  tags:
-    - slack:repo
-    - slack:install
+    - name: Configure repository
+      ansible.builtin.apt_repository:
+        repo: "{{ slack_apt_repo_line }}"
+        filename: "{{ slack_apt_repo_file }}"
+        state: present
+        update_cache: true
 
-- name: Install package
-  ansible.builtin.apt:
-    name: slack-desktop
-    state: present
-  tags: slack:install
+    - name: Install package
+      ansible.builtin.apt:
+        name: "{{ slack_package_name }}"
+        state: present
