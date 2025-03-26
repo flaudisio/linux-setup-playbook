@@ -22,9 +22,8 @@
         discord_package_url: "{{ _api_uri.url | regex_replace('[0-9]+\\.[0-9]+\\.[0-9]+', discord_version) }}"
       when: discord_version != "latest"
 
-    - name: Set variables for the latest version
+    - name: Set package URL for the latest version
       ansible.builtin.set_fact:
-        discord_version: "{{ _api_uri.url | regex_replace('.*discord-(.+)\\.deb.*', '\\1') }}"
         discord_package_url: "{{ _api_uri.url }}"
       when: discord_version == "latest"
 
