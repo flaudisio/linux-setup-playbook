@@ -5,25 +5,44 @@
   when: ansible_facts.packages is not defined
 
 - name: Run installation tasks
-  when: slack_package_name not in ansible_facts.packages
+  when: "'slack-desktop' not in ansible_facts.packages"
   block:
-    - name: Install repository key
-      ansible.builtin.get_url:
-        url: "{{ slack_apt_repo_key_url }}"
-        dest: "{{ slack_apt_repo_key_file }}"
-        force: true
-        owner: root
-        group: root
-        mode: "0644"
+    # Because the Packagecloud API requires authentication, we scrape the search
+    # website page to find out the latest .deb package available
+    - name: Fetch package list URL
+      ansible.builtin.uri:
+        url: https://packagecloud.io/app/slacktechnologies/slack/search?q=&filter=deb&filter=deb&dist=&arch=
+        return_content: true
+      register: _search_uri
+      until: _search_uri.status == 200
+      retries: 2
+      delay: 3
 
-    - name: Configure repository
-      ansible.builtin.apt_repository:
-        repo: "{{ slack_apt_repo_line }}"
-        filename: "{{ slack_apt_repo_file }}"
-        state: present
-        update_cache: true
+    - name: Set package URL variable
+      ansible.builtin.set_fact:
+        # Example 'regex_findall' output:
+        # /slacktechnologies/slack/packages/debian/jessie/slack-desktop_4.43.43_amd64.deb
+        # /slacktechnologies/slack/packages/debian/jessie/slack-desktop_4.41.105_amd64.deb
+        # ...
+        _slack_package_url_path: "{{
+          _search_uri.content
+            | regex_findall('<a href=\"(.+slack-desktop.+\\.deb).+\">', '\\1')
+            | community.general.version_sort
+            | last
+            | default('')
+        }}"
+
+    - name: Ensure package URL variable is valid
+      ansible.builtin.assert:
+        that:
+          - _slack_package_url_path != ""
+        quiet: true
+        fail_msg: |
+          The URL of the Slack package could not be determined. This is probably
+          due to a change in the contents returned by Packagecloud's search URL
+          or a bug in the scrapping logic.
 
     - name: Install package
       ansible.builtin.apt:
-        name: "{{ slack_package_name }}"
+        deb: https://packagecloud.io{{ _slack_package_url_path }}/download.deb
         state: present
