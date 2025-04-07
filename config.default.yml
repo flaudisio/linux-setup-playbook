@@ -45,6 +45,9 @@ resticprofile_symlink_name: rp
 # firefox
 firefox_set_as_default_browser: true
 
+# asdf
+asdf_bashrc_file: ~/.bashrc.d/asdf.bash
+
 # mise
 mise_bashrc_file: ~/.bashrc.d/mise.bash
 

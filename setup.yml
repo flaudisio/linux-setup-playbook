@@ -94,6 +94,8 @@
       tags: [cloud-tools, doppler]
 
     # Development
+    - role: asdf
+      tags: [dev, asdf]
     - role: mise
       tags: [dev, mise]
     - role: bat
