@@ -1,5 +1,5 @@
 ---
-resticprofile_version: 0.29.1
+resticprofile_version: 0.30.0
 
 resticprofile_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
