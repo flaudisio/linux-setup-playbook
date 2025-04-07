@@ -1,0 +1,52 @@
+---
+- name: Check if version {{ mise_version }} is installed
+  ansible.builtin.shell: >
+    {{ mise_install_path }} version || true
+  register: _check_version
+  changed_when: false
+  become: "{{ mise_install_become }}"
+  tags: mise:install
+
+- name: Install binary
+  ansible.builtin.get_url:
+    url: "{{ mise_bin_dl_url }}"
+    dest: "{{ mise_install_path | expanduser }}"
+    checksum: sha256:{{ mise_sha256sums_url }}
+    owner: "{{ mise_install_become | ternary('root', omit) }}"
+    group: "{{ mise_install_become | ternary('root', omit) }}"
+    mode: "0755"
+  become: "{{ mise_install_become }}"
+  when:
+    - (mise_version ~ " ") not in _check_version.stdout
+  tags: mise:install
+
+- name: Configure .bashrc
+  ansible.builtin.blockinfile:
+    path: "{{ mise_bashrc_file | expanduser }}"
+    marker: "### {mark} Managed by Ansible ###"
+    block: |
+      eval "$( mise activate bash )"
+    create: true
+    backup: false
+    state: "{{ mise_configure_bashrc | bool | ternary('present', 'absent') }}"
+  become: "{{ mise_bashrc_become }}"
+  tags: mise:bashrc
+
+- name: Install usage tool
+  ansible.builtin.command: >
+    {{ mise_install_path }} use --global usage
+  register: _install_usage
+  changed_when: "'Installed' in _install_usage.stdout"
+  when:
+    - mise_configure_bashrc | bool
+    - mise_configure_bash_completion | bool
+  tags: mise:completion
+
+- name: Configure Bash completion
+  ansible.builtin.shell: >
+    {{ mise_install_path }} completion bash --include-bash-completion-lib > /etc/bash_completion.d/mise
+  changed_when: false
+  when:
+    - mise_configure_bashrc | bool
+    - mise_configure_bash_completion | bool
+  tags: mise:completion

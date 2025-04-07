@@ -1,0 +1,35 @@
+---
+- name: Check if version {{ asdf_version }} is installed
+  ansible.builtin.shell: asdf version || true
+  register: _check_version
+  changed_when: false
+
+- name: Install binary
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ asdf_dl_url }}"
+    dest: "{{ asdf_install_path | dirname }}"
+    include:
+      - asdf
+    owner: "{{ asdf_install_become | ternary('root', omit) }}"
+    group: "{{ asdf_install_become | ternary('root', omit) }}"
+    mode: "0755"
+  become: "{{ asdf_install_become }}"
+  when:
+    - _check_version.stdout != ("v" ~ asdf_version)
+
+- name: Configure .bashrc
+  ansible.builtin.blockinfile:
+    path: "{{ asdf_bashrc_file | expanduser }}"
+    marker: "### {mark} Managed by Ansible ###"
+    block: |
+      export PATH="${ASDF_DATA_DIR:-"$HOME"/.asdf}/shims:$PATH"
+
+      {% if asdf_configure_bash_completion | bool %}
+      . <( asdf completion bash )
+      {% endif %}
+    create: true
+    backup: false
+    state: "{{ asdf_configure_bashrc | bool | ternary('present', 'absent') }}"
+  become: "{{ asdf_bashrc_become }}"
+  tags: asdf:bashrc
