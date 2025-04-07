@@ -1,25 +1,13 @@
 ---
-- name: Install repository key
-  ansible.builtin.get_url:
-    url: "{{ spotify_apt_repo_key_url }}"
-    dest: "{{ spotify_apt_repo_key_file }}"
-    force: true
-    owner: root
-    group: root
-    mode: "0644"
-  tags:
-    - spotify:repo
-    - spotify:install
-
 - name: Configure repository
-  ansible.builtin.apt_repository:
-    repo: "{{ spotify_apt_repo_line }}"
-    filename: "{{ spotify_apt_repo_file }}"
+  ansible.builtin.deb822_repository:
+    name: "{{ spotify_apt_repo_name }}"
+    types: deb
+    uris: "{{ spotify_apt_repo_uri }}"
+    suites: "{{ spotify_apt_repo_suite }}"
+    components: "{{ spotify_apt_repo_component }}"
+    signed_by: "{{ spotify_apt_repo_key_url }}"
     state: present
-    update_cache: true
-  tags:
-    - spotify:repo
-    - spotify:install
 
 - name: Install packages
   ansible.builtin.apt:
@@ -27,4 +15,3 @@
       - spotify-client
       - libavcodec-extra
     state: present
-  tags: spotify:install
