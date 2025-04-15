@@ -16,8 +16,9 @@
     group: "{{ mise_install_become | ternary('root', omit) }}"
     mode: "0755"
   become: "{{ mise_install_become }}"
-  when:
-    - (mise_version ~ " ") not in _check_version.stdout
+  when: >
+    _check_version.stdout == ""
+    or ((mise_version ~ " ") not in _check_version.stdout and not mise_disable_upgrade)
   tags: mise:install
 
 - name: Configure .bashrc

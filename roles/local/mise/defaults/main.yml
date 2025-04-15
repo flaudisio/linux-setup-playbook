@@ -11,6 +11,7 @@ mise_sha256sums_url: https://github.com/jdx/mise/releases/download/v{{ mise_vers
 
 mise_install_path: ~/.local/bin/mise
 mise_install_become: false
+mise_disable_upgrade: false
 
 mise_configure_bashrc: true
 mise_bashrc_file: ~/.bashrc
