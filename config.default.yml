@@ -49,6 +49,7 @@ firefox_set_as_default_browser: true
 asdf_bashrc_file: ~/.bashrc.d/asdf.bash
 
 # mise
+mise_disable_upgrade: true
 mise_bashrc_file: ~/.bashrc.d/mise.bash
 
 # docker
