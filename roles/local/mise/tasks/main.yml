@@ -20,7 +20,7 @@
     not ansible_check_mode
     and (
       _check_version.stdout == ""
-      or (not mise_disable_upgrade and (mise_version ~ " ") not in _check_version.stdout)
+      or (mise_enable_upgrade and (mise_version ~ " ") not in _check_version.stdout)
     )
   tags: mise:install
 
