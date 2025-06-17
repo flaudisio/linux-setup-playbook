@@ -16,7 +16,7 @@
     mode: "0755"
   become: "{{ asdf_install_become }}"
   when:
-    - _check_version.stdout != ("v" ~ asdf_version)
+    - ("v" ~ asdf_version ~ " ") not in _check_version.stdout
 
 - name: Configure .bashrc
   ansible.builtin.blockinfile:

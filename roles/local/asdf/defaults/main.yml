@@ -1,5 +1,5 @@
 ---
-asdf_version: 0.16.7
+asdf_version: 0.18.0
 
 asdf_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
