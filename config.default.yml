@@ -50,8 +50,9 @@ asdf_configure_bashrc: false
 asdf_bashrc_file: ~/.bashrc.d/asdf.bash
 
 # mise
-mise_disable_upgrade: true
+mise_enable_upgrade: false
 mise_bashrc_file: ~/.bashrc.d/mise.bash
+mise_activate_command: mise activate bash --shims
 
 # docker
 docker_users:
