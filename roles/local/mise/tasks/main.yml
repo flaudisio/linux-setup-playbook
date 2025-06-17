@@ -17,8 +17,11 @@
     mode: "0755"
   become: "{{ mise_install_become }}"
   when: >
-    _check_version.stdout == ""
-    or ((mise_version ~ " ") not in _check_version.stdout and not mise_disable_upgrade)
+    not ansible_check_mode
+    and (
+      _check_version.stdout == ""
+      or (not mise_disable_upgrade and (mise_version ~ " ") not in _check_version.stdout)
+    )
   tags: mise:install
 
 - name: Configure .bashrc
