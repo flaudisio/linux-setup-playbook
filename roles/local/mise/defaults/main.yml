@@ -17,6 +17,8 @@ mise_configure_bashrc: true
 mise_bashrc_file: ~/.bashrc
 mise_bashrc_become: false
 
+mise_activate_command: mise activate bash
+
 # Note: Mise completion requires the 'usage' tool (which is installed by Mise itself), so this variable
 # will be ignored unless bashrc configuration is also enabled
 mise_configure_bash_completion: false

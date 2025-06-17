@@ -29,7 +29,7 @@
     path: "{{ mise_bashrc_file | expanduser }}"
     marker: "### {mark} Managed by Ansible ###"
     block: |
-      eval "$( mise activate bash )"
+      eval "$( {{ mise_activate_command }} )"
     create: true
     backup: false
     state: "{{ mise_configure_bashrc | bool | ternary('present', 'absent') }}"
