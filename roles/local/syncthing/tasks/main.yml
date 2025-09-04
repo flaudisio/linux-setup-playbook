@@ -11,9 +11,19 @@
     - syncthing:repo
     - syncthing:install
 
+- name: Ensure unused repository channels are absent
+  ansible.builtin.apt_repository:
+    repo: "{{ syncthing_apt_repo_base }} {{ item }}"
+    filename: "{{ syncthing_apt_repo_file }}"
+    state: absent
+  loop: "{{ ['stable', 'stable-v2', 'candidate'] | difference([syncthing_apt_repo_channel]) }}"
+  tags:
+    - syncthing:repo
+    - syncthing:install
+
 - name: Configure repository
   ansible.builtin.apt_repository:
-    repo: "{{ syncthing_apt_repo_line }}"
+    repo: "{{ syncthing_apt_repo_base }} {{ syncthing_apt_repo_channel }}"
     filename: "{{ syncthing_apt_repo_file }}"
     state: present
     update_cache: true
