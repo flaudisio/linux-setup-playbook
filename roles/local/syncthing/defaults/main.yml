@@ -8,7 +8,7 @@ syncthing_apt_repo_key_file: /etc/apt/keyrings/syncthing-archive-keyring.gpg
 syncthing_apt_repo_base: >-
   deb [signed-by={{ syncthing_apt_repo_key_file }}] https://apt.syncthing.net/ syncthing
 
-syncthing_apt_repo_channel: stable
+syncthing_apt_repo_channel: stable-v2
 
 syncthing_apt_repo_file: syncthing
 
