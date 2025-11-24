@@ -30,6 +30,25 @@
   when: resticprofile_symlink_name != ""
   tags: resticprofile:install
 
+- name: Ensure log directory exists
+  ansible.builtin.file:
+    path: "{{ resticprofile_log_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags: resticprofile:install
+
+- name: Create logrotate configuration
+  ansible.builtin.template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/resticprofile
+    owner: root
+    group: root
+    mode: "0644"
+    lstrip_blocks: true
+  tags: resticprofile:install
+
 - name: Ensure config directory exists
   ansible.builtin.file:
     path: "{{ resticprofile_config_dir }}"

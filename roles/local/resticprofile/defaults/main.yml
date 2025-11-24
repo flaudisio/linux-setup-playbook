@@ -10,6 +10,7 @@ resticprofile_bin_path: /usr/local/bin/resticprofile
 
 resticprofile_symlink_name: ""
 
+resticprofile_log_dir: /var/log/resticprofile
 resticprofile_config_dir: /etc/resticprofile
 
 resticprofile_config_file: "{{ resticprofile_config_dir }}/profiles.yaml"
