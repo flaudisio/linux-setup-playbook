@@ -15,4 +15,4 @@ resticprofile_log_dir: /var/log/resticprofile
 resticprofile_config_dir: /etc/resticprofile
 resticprofile_config_file: "{{ resticprofile_config_dir }}/profiles.yaml"
 resticprofile_config: {}
-
+resticprofile_config_templates: []

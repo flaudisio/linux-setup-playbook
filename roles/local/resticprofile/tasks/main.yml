@@ -56,7 +56,25 @@
     owner: root
     group: root
     mode: "0755"
-  when: resticprofile_config_content != ""
+  tags: resticprofile:config
+
+- name: Render config templates
+  ansible.builtin.template:
+    src: "{{ tpl_src }}"
+    dest: "{{ resticprofile_config_dir ~ '/' ~ tpl_dest }}"
+    owner: root
+    group: root
+    mode: "{{ is_sensitive | ternary('0600', '0644') }}"
+    lstrip_blocks: true
+  no_log: "{{ is_sensitive }}"
+  loop: "{{ resticprofile_config_templates }}"
+  loop_control:
+    label: "{{ tpl_dest }}"
+  vars:
+    config: "{{ item.config | default({}) }}"
+    tpl_src: "{{ item.src | default(item) }}"
+    tpl_dest: "{{ item.dest | default(tpl_src | basename | replace('.j2', '')) }}"
+    is_sensitive: "{{ item.sensitive | default(false) }}"
   tags: resticprofile:config
 
 - name: Create config file
