@@ -87,3 +87,33 @@
     lstrip_blocks: true
   when: resticprofile_config != {}
   tags: resticprofile:config
+
+- name: Fetch schedule status
+  ansible.builtin.shell: >
+    {{ resticprofile_bin_path }} --name '{{ item }}' status
+    | grep -o 'Normalized form.*' || true
+  loop: "{{ resticprofile_enable_schedules }}"
+  register: _rp_status
+  changed_when: false
+  tags: resticprofile:schedule
+
+- name: Configure enabled schedules
+  ansible.builtin.command: >
+    {{ resticprofile_bin_path }} --name '{{ item }}' schedule
+  loop: "{{ resticprofile_enable_schedules }}"
+  register: _rp_schedule
+  changed_when: >
+    (_rp_schedule.stdout | regex_search("Normalized form.*")) != item_status
+  vars:
+    item_status: "{{ _rp_status.results | selectattr('item', 'equalto', item) | map(attribute='stdout') | first }}"
+  when: item not in resticprofile_remove_schedules
+  tags: resticprofile:schedule
+
+- name: Remove disabled schedules
+  ansible.builtin.command: >
+    {{ resticprofile_bin_path }} --name '{{ item }}' unschedule
+  loop: "{{ resticprofile_remove_schedules }}"
+  register: _rp_unschedule
+  changed_when: >
+    'no scheduled jobs found' not in _rp_unschedule.stdout
+  tags: resticprofile:schedule
