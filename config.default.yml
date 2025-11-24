@@ -40,7 +40,7 @@ dotfiles_vim_plugins:
   - https://github.com/hashivim/vim-terraform.git
 
 # resticprofile
-resticprofile_symlink_name: rp
+# See 'config/resticprofile.yml'
 
 # firefox
 firefox_set_as_default_browser: true
