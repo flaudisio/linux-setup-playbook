@@ -1,0 +1,11 @@
+{#
+Note: the error message and stderr are converted to JSON strings (using the `js`
+template function) to avoid breaking the Gotify payload.
+Ref: https://creativeprojects.github.io/resticprofile/configuration/templates/index.html#template-functions
+#}
+{% raw -%}
+{
+  "title": "resticprofile on {{ .Hostname }}",
+  "message": "Error: {{ .Error.Message }}\n\nStderr: {{ .Error.Stderr | js }}"
+}
+{% endraw %}

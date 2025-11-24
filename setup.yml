@@ -12,6 +12,13 @@
     - config.default.yml
     - config.yml
 
+  pre_tasks:
+    - name: Include extra configuration
+      ansible.builtin.include_vars: "{{ item }}"
+      with_fileglob:
+        - "{{ playbook_dir }}/config/*.yml"
+      tags: [always]
+
   roles:
     # Base system & desktop
     - role: base-system
