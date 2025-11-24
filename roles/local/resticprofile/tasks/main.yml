@@ -67,5 +67,5 @@
     group: root
     mode: "0644"
     lstrip_blocks: true
-  when: resticprofile_config_content != ""
+  when: resticprofile_config != {}
   tags: resticprofile:config
