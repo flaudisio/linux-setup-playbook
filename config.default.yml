@@ -40,7 +40,17 @@ dotfiles_vim_plugins:
   - https://github.com/hashivim/vim-terraform.git
 
 # resticprofile
-# See 'config/resticprofile.yml'
+resticprofile_symlink_name: rp
+
+resticprofile_config_templates:
+  - "{{ __configs_dir }}/resticprofile/templates/send-after-fail.body.json.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/excludes.txt.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/includes.txt.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/secrets.env.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/profiles.yaml.j2"
+
+resticprofile_enable_schedules:
+  - default
 
 # firefox
 firefox_set_as_default_browser: true

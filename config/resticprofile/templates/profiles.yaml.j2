@@ -1,0 +1,97 @@
+---
+# {{ ansible_managed }}
+# yaml-language-server: $schema=https://creativeprojects.github.io/resticprofile/jsonschema/config-1.json
+version: "1"
+
+global:
+  priority: low
+  ionice: true
+  ionice-class: 2
+  ionice-level: 6
+  restic-lock-retry-after: 1m
+  restic-stale-lock-age: 12h
+  schedule-defaults:
+    ignore-on-battery-less-than: 30
+    permission: system
+    after-network-online: true
+    lock-wait: 15m
+    log: {{ resticprofile_log_dir }}/{{ '{{ .Profile.Name }}' }}.log
+
+.base:
+  lock: /tmp/resticprofile.{{ '{{ .Profile.Name }}' }}.lock
+  force-inactive-lock: true
+  compression: max
+  verbose: true
+  host: {{ '{{ .Hostname }}' }}
+  env-file:
+    - secrets.env
+  backup:
+    exclude-caches: true
+    exclude-file:
+      - excludes.txt
+    files-from:
+      - includes.txt
+    run-after-fail:
+      - >-
+        /home/flaudisio/projects/flaudisio/scripts/bin/notify-send-as-user --expire-time 0 --icon dialog-error
+        "resticprofile backup error"
+        "See execution logs in {{ resticprofile_log_dir }}/{{ '{{ .Profile.Name }}' }}.log"
+      # - >-
+      #   curl --max-time 5 -X POST
+      #   "{{ vault_rp_gotify_host }}/message?token={{ vault_rp_gotify_client_key }}"
+      #   -F "title=resticprofile on {{ '{{ .Hostname }}' }}"
+      #   -F "message=${ERROR_MESSAGE}"$'\n\n'"${ERROR_STDERR}"
+    send-after-fail:
+      method: POST
+      url: {{ vault_rp_gotify_host }}/message
+      body-template: send-after-fail.body.json
+      headers:
+        - name: Content-Type
+          value: application/json
+        - name: X-Gotify-Key
+          value: "{{ vault_rp_gotify_client_key }}"
+  forget: &forget
+    # Behavior
+    # compact: true
+    group-by: host
+    path: false
+    prune: false
+    # Policy
+    keep-last: 12
+    keep-within: 5d
+    keep-daily: 15
+    keep-weekly: 8
+    keep-monthly: 120
+    keep-yearly: 10
+    keep-tag:
+      - final-backup
+      - pre-format
+  retention:
+    # Retention-specific
+    before-backup: false
+    after-backup: false
+    # Reuse 'forget' config
+    <<: *forget
+  prune:
+    cleanup-cache: true
+  check:
+    cleanup-cache: true
+
+groups:
+  all:
+    - default
+    - backblaze
+
+default:
+  inherit: .base
+  repository: rest:{{ vault_rp_rest_server_repository_host }}/{{ '{{ .Hostname }}' }}
+  backup:
+    # Tip: systemd-analyze calendar --iterations 3 '*:40'
+    schedule: "*:40"
+
+backblaze:
+  inherit: .base
+  repository: s3:s3.us-west-002.backblazeb2.com/{{ vault_rp_backblaze_bucket_name }}/{{ '{{ .Hostname }}' }}
+  # backup:
+  #   # Tip: systemd-analyze calendar --iterations 3 '*:40'
+  #   schedule: "*:40"

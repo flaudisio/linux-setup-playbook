@@ -6,6 +6,6 @@ Ref: https://creativeprojects.github.io/resticprofile/configuration/templates/in
 {% raw -%}
 {
   "title": "resticprofile on {{ .Hostname }}",
-  "message": "Error: {{ .Error.Message }}\n\nStderr: {{ .Error.Stderr | js }}"
+  "message": "Error: {{ .Error.Message }}\n\n{{ .Error.Stderr | js }}"
 }
 {% endraw %}
