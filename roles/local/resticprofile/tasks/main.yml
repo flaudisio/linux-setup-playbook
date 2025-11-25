@@ -77,7 +77,7 @@
     is_sensitive: "{{ item.sensitive | default(false) }}"
   tags: resticprofile:config
 
-- name: Create config file
+- name: Create config file using inline variable
   ansible.builtin.template:
     src: profiles.yaml.j2
     dest: "{{ resticprofile_config_file }}"
@@ -85,7 +85,7 @@
     group: root
     mode: "0644"
     lstrip_blocks: true
-  when: resticprofile_config != {}
+  when: resticprofile_config_inline != {}
   tags: resticprofile:config
 
 - name: Fetch schedule status
