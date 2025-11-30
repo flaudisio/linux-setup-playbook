@@ -30,6 +30,25 @@
   when: resticprofile_symlink_name != ""
   tags: resticprofile:install
 
+- name: Ensure log directory exists
+  ansible.builtin.file:
+    path: "{{ resticprofile_log_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags: resticprofile:install
+
+- name: Create logrotate configuration
+  ansible.builtin.template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/resticprofile
+    owner: root
+    group: root
+    mode: "0644"
+    lstrip_blocks: true
+  tags: resticprofile:install
+
 - name: Ensure config directory exists
   ansible.builtin.file:
     path: "{{ resticprofile_config_dir }}"
@@ -37,10 +56,28 @@
     owner: root
     group: root
     mode: "0755"
-  when: resticprofile_config_content != ""
   tags: resticprofile:config
 
-- name: Create config file
+- name: Render config templates
+  ansible.builtin.template:
+    src: "{{ tpl_src }}"
+    dest: "{{ resticprofile_config_dir ~ '/' ~ tpl_dest }}"
+    owner: root
+    group: root
+    mode: "{{ is_sensitive | ternary('0600', '0644') }}"
+    lstrip_blocks: true
+  no_log: "{{ is_sensitive }}"
+  loop: "{{ resticprofile_config_templates }}"
+  loop_control:
+    label: "{{ tpl_dest }}"
+  vars:
+    config: "{{ item.config | default({}) }}"
+    tpl_src: "{{ item.src | default(item) }}"
+    tpl_dest: "{{ item.dest | default(tpl_src | basename | replace('.j2', '')) }}"
+    is_sensitive: "{{ item.sensitive | default(false) }}"
+  tags: resticprofile:config
+
+- name: Create config file using inline variable
   ansible.builtin.template:
     src: profiles.yaml.j2
     dest: "{{ resticprofile_config_file }}"
@@ -48,5 +85,37 @@
     group: root
     mode: "0644"
     lstrip_blocks: true
-  when: resticprofile_config_content != ""
+  when: resticprofile_config_inline != {}
   tags: resticprofile:config
+
+- name: Fetch schedule status
+  ansible.builtin.command: >
+    {{ resticprofile_bin_path }} --name '{{ item }}' status
+  loop: "{{ resticprofile_enable_schedules }}"
+  register: _rp_schedule_status
+  changed_when: false
+  tags: resticprofile:schedule
+
+- name: Configure enabled schedules
+  ansible.builtin.command: >
+    {{ resticprofile_bin_path }} --name '{{ item }}' schedule
+  loop: "{{ resticprofile_enable_schedules }}"
+  register: _rp_new_schedule
+  changed_when: >
+    status_normalized != new_schedule_normalized
+  vars:
+    status_stdout: "{{ _rp_schedule_status.results | selectattr('item', 'equalto', item) | map(attribute='stdout_lines') | first }}"
+    status_normalized: "{{ status_stdout | select('match', '.*Normalized form.*') | sort }}"
+    new_schedule_stdout: "{{ _rp_new_schedule.stdout_lines }}"
+    new_schedule_normalized: "{{ new_schedule_stdout | select('match', '.*Normalized form.*') | sort }}"
+  when: item not in resticprofile_disable_schedules
+  tags: resticprofile:schedule
+
+- name: Remove disabled schedules
+  ansible.builtin.command: >
+    {{ resticprofile_bin_path }} --name '{{ item }}' unschedule
+  loop: "{{ resticprofile_disable_schedules }}"
+  register: _rp_unschedule
+  changed_when: >
+    'no scheduled jobs found' not in _rp_unschedule.stdout
+  tags: resticprofile:schedule

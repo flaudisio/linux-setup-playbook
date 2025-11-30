@@ -1,5 +1,5 @@
 ---
-resticprofile_version: 0.31.0
+resticprofile_version: 0.32.0
 
 resticprofile_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
@@ -10,33 +10,12 @@ resticprofile_bin_path: /usr/local/bin/resticprofile
 
 resticprofile_symlink_name: ""
 
+resticprofile_log_dir: /var/log/resticprofile
+
 resticprofile_config_dir: /etc/resticprofile
-
 resticprofile_config_file: "{{ resticprofile_config_dir }}/profiles.yaml"
+resticprofile_config_inline: {}
+resticprofile_config_templates: []
 
-resticprofile_config_content: ""
-# Note: '!unsafe' is used to avoid templating errors in the string and use it as is
-# See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_advanced_syntax.html#unsafe-or-raw-strings
-# resticprofile_config_content: !unsafe |
-# version: "1"
-#
-# default:
-#   repository: s3:s3.us-east-1.amazonaws.com/restic-backups-example/{{ .Hostname }}
-#   password-file: password.txt
-#   env:
-#     AWS_ACCESS_KEY_ID: <MY_ACCESS_KEY>
-#     AWS_SECRET_ACCESS_KEY: <MY_SECRET_ACCESS_KEY>
-#   # Or:
-#   # env-file:
-#   #   - aws.env
-#
-#   backup:
-#     exclude-file: excludes.txt
-#     exclude-caches: true
-#     one-file-system: true
-#     source:
-#       - /home
-#       - /etc
-#       - /var
-#     schedule: daily
-#     schedule-after-network-online: true
+resticprofile_enable_schedules: []
+resticprofile_disable_schedules: []

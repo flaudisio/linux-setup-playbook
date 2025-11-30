@@ -296,6 +296,8 @@ $RECYCLE.BIN/
 ### Ansible ###
 
 .vault_password
+vault.yml
+*.vault.yml
 
 collections/*
 !collections/README.md
