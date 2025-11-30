@@ -89,11 +89,10 @@
   tags: resticprofile:config
 
 - name: Fetch schedule status
-  ansible.builtin.shell: >
+  ansible.builtin.command: >
     {{ resticprofile_bin_path }} --name '{{ item }}' status
-    | grep -o 'Normalized form.*' || true
   loop: "{{ resticprofile_enable_schedules }}"
-  register: _rp_status
+  register: _rp_schedule_status
   changed_when: false
   tags: resticprofile:schedule
 
@@ -101,18 +100,21 @@
   ansible.builtin.command: >
     {{ resticprofile_bin_path }} --name '{{ item }}' schedule
   loop: "{{ resticprofile_enable_schedules }}"
-  register: _rp_schedule
+  register: _rp_new_schedule
   changed_when: >
-    (_rp_schedule.stdout | regex_search("Normalized form.*")) != item_status
+    status_normalized != new_schedule_normalized
   vars:
-    item_status: "{{ _rp_status.results | selectattr('item', 'equalto', item) | map(attribute='stdout') | first }}"
-  when: item not in resticprofile_remove_schedules
+    status_stdout: "{{ _rp_schedule_status.results | selectattr('item', 'equalto', item) | map(attribute='stdout_lines') | first }}"
+    status_normalized: "{{ status_stdout | select('match', '.*Normalized form.*') | sort }}"
+    new_schedule_stdout: "{{ _rp_new_schedule.stdout_lines }}"
+    new_schedule_normalized: "{{ new_schedule_stdout | select('match', '.*Normalized form.*') | sort }}"
+  when: item not in resticprofile_disable_schedules
   tags: resticprofile:schedule
 
 - name: Remove disabled schedules
   ansible.builtin.command: >
     {{ resticprofile_bin_path }} --name '{{ item }}' unschedule
-  loop: "{{ resticprofile_remove_schedules }}"
+  loop: "{{ resticprofile_disable_schedules }}"
   register: _rp_unschedule
   changed_when: >
     'no scheduled jobs found' not in _rp_unschedule.stdout
