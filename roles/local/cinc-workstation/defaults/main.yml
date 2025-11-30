@@ -1,4 +1,4 @@
 ---
 # Ref: curl -sSL 'https://omnitruck.cinc.sh/stable/cinc-workstation/packages'
 
-cinc_workstation_version: 24.8.1068
+cinc_workstation_version: 24.12.1073

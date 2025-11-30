@@ -1,5 +1,5 @@
 ---
-bat_version: 0.25.0
+bat_version: 0.26.0
 
 bat_package_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 

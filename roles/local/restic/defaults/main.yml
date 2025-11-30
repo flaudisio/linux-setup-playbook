@@ -1,5 +1,5 @@
 ---
-restic_version: 0.18.0
+restic_version: 0.18.1
 
 restic_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 

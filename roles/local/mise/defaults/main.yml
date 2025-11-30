@@ -1,7 +1,7 @@
 ---
 # Ref: https://mise.jdx.dev/installing-mise.html#github-releases
 
-mise_version: 2025.4.4
+mise_version: 2025.11.11
 
 mise_bin_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'x64' }}"
 
