@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 
-AnsibleOpts=()
+set -eo pipefail
 
-[[ -z "$NO_SUDO" ]] && AnsibleOpts+=( --become --ask-become-pass )
+CMD=( "$@" )
 
-set -e
-set -o pipefail
+if [[ "$1" != ansible* ]] ; then
+    CMD=( ansible-playbook "$@" )
+
+    if [[ -z "$NO_SUDO" ]] ; then
+        CMD+=( --become --ask-become-pass )
+    fi
+fi
 
 if ! command -v ansible > /dev/null ; then
     eval "$( make venv-activate )"
 fi
 
-set -x
+echo "+ ${CMD[*]}" >&2
 
-ansible-playbook "${AnsibleOpts[@]}" "$@"
+exec "${CMD[@]}"

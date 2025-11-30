@@ -295,7 +295,7 @@ $RECYCLE.BIN/
 
 ### Ansible ###
 
-.vault_password
+.vault-password
 vault.yml
 *.vault.yml
 

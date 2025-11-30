@@ -13,7 +13,7 @@ help:  ## Show available commands
 
 .PHONY: pre-commit
 pre-commit:  ## Run pre-commit (optional: HOOK=example)
-	pre-commit run --all-files --verbose --show-diff-on-failure --color always $(HOOK)
+	pre-commit run --all-files --color always $(HOOK)
 
 .PHONY: install
 install: install/ansible install/galaxy  ## Run all installation tasks

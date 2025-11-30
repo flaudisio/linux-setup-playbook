@@ -3,25 +3,25 @@ root = true
 [*]
 charset = utf-8
 end_of_line = lf
-indent_size = 4
+indent_size = 2
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[Makefile]
-indent_style = tab
-
 [*.md]
-indent_size = 2
-max_line_length = 120
+max_line_length = 100
 trim_trailing_whitespace = false
 
-[*.{hcl,tf,tfvars}{,.j2,.tpl}]
-indent_size = 2
-max_line_length = 80
+[{*.go,go.mod}{,.tpl,.tftpl,.erb,.j2,.jinja}]
+indent_size = 4
+indent_style = tab
 
-[*.{json,yml,yaml}{,.j2}]
-indent_size = 2
+[*.{py,sh}{,.tpl,.tftpl,.erb,.j2,.jinja}]
+indent_size = 4
+
+[Makefile]
+indent_size = 4
+indent_style = tab
 
 # Note: shell configuration is used by shfmt
 # TODO: add pre-commit hook for shfmt
