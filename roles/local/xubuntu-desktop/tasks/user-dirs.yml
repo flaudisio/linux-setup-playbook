@@ -1,5 +1,5 @@
 ---
-- name: Ensure custom user dirs exist
+- name: Ensure XDG user dirs exist
   ansible.builtin.file:
     path: "{{ xubuntu_home_dir }}/{{ item }}"
     state: directory
