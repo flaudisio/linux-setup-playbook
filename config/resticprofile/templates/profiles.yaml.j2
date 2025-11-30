@@ -23,8 +23,7 @@ global:
   compression: max
   verbose: true
   host: {{ '{{ .Hostname }}' }}
-  env-file:
-    - secrets.env
+  password-file: repo-password.txt
   backup:
     exclude-caches: true
     exclude-file:
@@ -79,19 +78,39 @@ global:
 
 groups:
   all:
-    - default
+    - aws
+    - homelab
     - backblaze
 
 default:
+  inherit: aws
+
+aws:
   inherit: .base
-  repository: rest:{{ vault_rp_rest_server_repository_host }}/{{ '{{ .Hostname }}' }}
+  repository: s3:s3.us-east-1.amazonaws.com/{{ vault_rp_aws_bucket_name }}/{{ vault_rp_aws_bucket_prefix }}/{{ '{{ .Hostname }}' }}
+  env:
+    AWS_PROFILE: {{ vault_rp_aws_profile }}
+    AWS_REGION: us-east-1
+  run-before:
+    - {{ vault_rp_aws_run_before_script }}
   backup:
     # Tip: systemd-analyze calendar --iterations 3 '*:40'
     schedule: "*:40"
 
+homelab:
+  inherit: .base
+  repository: rest:{{ vault_rp_rest_server_repository_host }}/{{ '{{ .Hostname }}' }}
+  env-file:
+    - .env.homelab
+  backup:
+    # Tip: systemd-analyze calendar --iterations 3 '*:40'
+    schedule: "*:50"
+
 backblaze:
   inherit: .base
   repository: s3:s3.us-west-002.backblazeb2.com/{{ vault_rp_backblaze_bucket_name }}/{{ '{{ .Hostname }}' }}
-  # backup:
-  #   # Tip: systemd-analyze calendar --iterations 3 '*:40'
-  #   schedule: "*:40"
+  env-file:
+    - .env.backblaze
+  backup:
+    # Tip: systemd-analyze calendar --iterations 3 '*:40'
+    schedule: "*:40"

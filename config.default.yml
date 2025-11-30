@@ -4,6 +4,7 @@
 # ------------------------------------------------------------------------------
 
 __current_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+__configs_dir: "{{ playbook_dir }}/config"
 
 # Opt-in tasks (see the 'setup.yml' playbook)
 configure_xubuntu_desktop: "{{ lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu' }}"
@@ -43,14 +44,20 @@ dotfiles_vim_plugins:
 resticprofile_symlink_name: rp
 
 resticprofile_config_templates:
-  - "{{ __configs_dir }}/resticprofile/templates/send-after-fail.body.json.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/.env.backblaze.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/.env.homelab.j2"
   - "{{ __configs_dir }}/resticprofile/templates/excludes.txt.j2"
   - "{{ __configs_dir }}/resticprofile/templates/includes.txt.j2"
-  - "{{ __configs_dir }}/resticprofile/templates/secrets.env.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/repo-password.txt.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/send-after-fail.body.json.j2"
   - "{{ __configs_dir }}/resticprofile/templates/profiles.yaml.j2"
 
 resticprofile_enable_schedules:
-  - default
+  - aws
+
+resticprofile_disable_schedules:
+  - homelab
+  - backblaze
 
 # firefox
 firefox_set_as_default_browser: true
