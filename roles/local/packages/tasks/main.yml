@@ -12,3 +12,7 @@
 - name: Include pipx tasks
   ansible.builtin.import_tasks: pipx.yml
   tags: packages:pipx
+
+- name: Include config files tasks
+  ansible.builtin.import_tasks: config-files.yml
+  tags: packages:config-files

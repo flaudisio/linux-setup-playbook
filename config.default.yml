@@ -232,6 +232,17 @@ packages_pipx_install:
   - name: ps-mem
     global: true
 
+# packages - config files
+packages_config_files:
+  - path: ~/.config/flameshot/flameshot.ini
+    content: |
+      [General]
+      contrastOpacity=188
+      disabledTrayIcon=true
+      drawColor=#ff0000
+      drawThickness=3
+      savePath={{ ("~/" + xubuntu_xdg_download_dir) | expanduser }}
+
 # xubuntu - autostart
 xubuntu_autostart_disable_apps:
   - blueman
