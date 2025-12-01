@@ -15,27 +15,34 @@
         prefix: ansible-cinc-
       register: _temp_dir
 
-    - name: Fetch package information
+    - name: Fetch package information from upstream
       ansible.builtin.uri:
         url: https://omnitruck.cinc.sh/stable/cinc-workstation/packages?v={{ cinc_workstation_version }}
         return_content: true
       register: _cinc_uri
+      when: cinc_workstation_package_url == ""
 
-    - name: Set helper variables
+    - name: Set helper variables (upstream package)
       ansible.builtin.set_fact:
         _package_url: "{{ _package_info['url'] }}"
-        _package_sha256: "{{ _package_info['sha256'] }}"
-        _package_version: "{{ _package_info['version'] }}"
         _package_local_file: "{{ _temp_dir.path }}/{{ _package_info['url'] | basename }}"
+        _package_get_url_checksum: sha256:{{ _package_info['sha256'] }}
       vars:
         # yamllint disable-line rule:line-length
         _package_info: "{{ _cinc_uri.json[ansible_facts.distribution | lower][ansible_facts.distribution_version][ansible_facts.architecture] }}"
+      when: cinc_workstation_package_url == ""
+
+    - name: Set helper variables (direct URL)
+      ansible.builtin.set_fact:
+        _package_url: "{{ cinc_workstation_package_url }}"
+        _package_local_file: "{{ _temp_dir.path }}/{{ cinc_workstation_package_url | basename }}"
+      when: cinc_workstation_package_url != ""
 
     - name: Download package
       ansible.builtin.get_url:
         url: "{{ _package_url }}"
         dest: "{{ _package_local_file }}"
-        checksum: sha256:{{ _package_sha256 }}
+        checksum: "{{ _package_get_url_checksum | default(omit) }}"
 
     - name: Install package (APT)
       ansible.builtin.apt:
