@@ -11,13 +11,7 @@
   vars_files:
     - config.default.yml
     - config.yml
-
-  pre_tasks:
-    - name: Include extra configuration
-      ansible.builtin.include_vars: "{{ item }}"
-      with_fileglob:
-        - "{{ playbook_dir }}/config/*.yml"
-      tags: [always]
+    - vault.yml
 
   roles:
     # Base system & desktop
