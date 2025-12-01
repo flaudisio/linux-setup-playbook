@@ -223,10 +223,6 @@ packages_snap_remove_snapd: true
 
 # packages - pipx
 packages_pipx_install:
-  - bump-my-version
-  - bump2version
-  - cookiecutter
-  - copier
   - name: pre-commit
     state: latest
   - name: ps-mem
