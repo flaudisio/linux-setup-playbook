@@ -1,0 +1,67 @@
+[tools]
+python = "3.12"
+shellcheck = "0.11"
+
+[vars]
+PROJECT_NAME = "linux-setup-playbook"
+VENV_DIR = "{{ env.HOME }}/.virtualenvs/{{ vars.PROJECT_NAME }}"
+COLLECTIONS_PATH = "collections"
+ROLES_PATH = "roles/public"
+
+[env]
+PATH = "{{ vars.VENV_DIR }}/bin:{{ env.PATH }}"
+
+[tasks.pre-commit]
+description = "Run pre-commit"
+run = "pre-commit run --all-files --color always"
+
+[tasks.bump-version]
+description = "Bump the project version"
+run = "bump-my-version bump patch"
+
+[tasks.git-push]
+description = "Push the current branch and related tags"
+run = "git push --follow-tags origin HEAD"
+
+[tasks.clean]
+description = "Remove Ansible installation artifacts (virtualenv, external collections, external roles, etc)"
+run = [
+  "rm -rf -- '{{ vars.VENV_DIR }}'",
+  "git clean -fdx -- '{{ vars.COLLECTIONS_PATH }}' '{{ vars.ROLES_PATH }}'",
+]
+
+[tasks."install:ansible"]
+description = "Install Ansible and dependencies in a virtualenv"
+run = """
+  #!/usr/bin/env bash
+  set -e -x
+  [ -d '{{ vars.VENV_DIR }}' ] || python3 -m venv --clear --upgrade-deps '{{ vars.VENV_DIR }}'
+  pip install --upgrade pip -r requirements.txt
+"""
+
+[tasks."install:galaxy"]
+description = "Install Galaxy dependencies from requirements files"
+run = [
+  "ansible-galaxy collection install --upgrade --requirements-file requirements.yml --collections-path '{{ vars.COLLECTIONS_PATH }}'",
+  "ansible-galaxy role install --role-file requirements.yml --roles-path '{{ vars.ROLES_PATH }}'",
+]
+
+[tasks.install]
+description = "Run all installation tasks"
+run = [
+  "mise run install:ansible",
+  "mise run install:galaxy",
+]
+
+[tasks.venv-activate]
+description = "Print the virtualenv activation command"
+run = "echo source '{{ vars.VENV_DIR }}/bin/activate'"
+quiet = true
+
+[tasks.show-env]
+description = "Print information about the environment"
+run = [
+  "ansible --version",
+  "ansible-galaxy collection list",
+  "ansible-galaxy role list",
+]
