@@ -13,7 +13,7 @@ install_cloudflare_client: false
 install_keybase: false
 install_kvm: false
 install_q: false
-install_rclone: false
+install_rclone: true
 install_steam: false
 install_zoom: false
 
