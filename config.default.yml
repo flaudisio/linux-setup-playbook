@@ -44,11 +44,14 @@ dotfiles_vim_plugins:
 resticprofile_symlink_name: rp
 
 resticprofile_config_templates:
-  - "{{ __configs_dir }}/resticprofile/templates/.env.backblaze.j2"
-  - "{{ __configs_dir }}/resticprofile/templates/.env.homelab.j2"
+  - src: "{{ __configs_dir }}/resticprofile/templates/.env.backblaze.j2"
+    sensitive: true
+  - src: "{{ __configs_dir }}/resticprofile/templates/.env.homelab.j2"
+    sensitive: true
+  - src: "{{ __configs_dir }}/resticprofile/templates/repo-password.txt.j2"
+    sensitive: true
   - "{{ __configs_dir }}/resticprofile/templates/excludes.txt.j2"
   - "{{ __configs_dir }}/resticprofile/templates/includes.txt.j2"
-  - "{{ __configs_dir }}/resticprofile/templates/repo-password.txt.j2"
   - "{{ __configs_dir }}/resticprofile/templates/send-after-fail.body.json.j2"
   - "{{ __configs_dir }}/resticprofile/templates/systemd-working-directory.conf.j2"
   - "{{ __configs_dir }}/resticprofile/templates/profiles.yaml.j2"
