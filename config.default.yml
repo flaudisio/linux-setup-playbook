@@ -50,6 +50,7 @@ resticprofile_config_templates:
   - "{{ __configs_dir }}/resticprofile/templates/includes.txt.j2"
   - "{{ __configs_dir }}/resticprofile/templates/repo-password.txt.j2"
   - "{{ __configs_dir }}/resticprofile/templates/send-after-fail.body.json.j2"
+  - "{{ __configs_dir }}/resticprofile/templates/systemd-working-directory.conf.j2"
   - "{{ __configs_dir }}/resticprofile/templates/profiles.yaml.j2"
 
 resticprofile_enable_schedules:

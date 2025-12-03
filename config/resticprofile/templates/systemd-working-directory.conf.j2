@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+[Service]
+# Use a fixed working directory to avoid errors in profile hooks related to the
+# directory from which Ansible was run, for example:
+#   0: error parsing config file: /home/user/projects/linux-setup-playbook/mise.toml
+#   1: Config files in /home/user/projects/linux-setup-playbook/mise.toml are not trusted.
+#      Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+WorkingDirectory=/

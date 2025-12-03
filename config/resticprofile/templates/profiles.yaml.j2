@@ -24,6 +24,8 @@ global:
   verbose: true
   host: {{ '{{ .Hostname }}' }}
   password-file: repo-password.txt
+  systemd-drop-in-files:
+    - systemd-working-directory.conf
   backup:
     exclude-caches: true
     exclude-file:
