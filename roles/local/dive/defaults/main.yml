@@ -1,5 +1,5 @@
 ---
-dive_version: 0.12.0
+dive_version: 0.13.1
 
 dive_package_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 

@@ -1,5 +1,5 @@
 ---
-lazydocker_version: 0.23.3
+lazydocker_version: 0.24.2
 
 lazydocker_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else ansible_facts.architecture }}"
 

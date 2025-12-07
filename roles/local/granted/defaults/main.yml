@@ -1,5 +1,5 @@
 ---
-granted_version: 0.36.3
+granted_version: 0.38.0
 
 granted_package_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 

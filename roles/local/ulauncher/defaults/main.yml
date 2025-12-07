@@ -1,5 +1,5 @@
 ---
-ulauncher_version: 5.15.7
+ulauncher_version: 5.15.15
 
 ulauncher_package_url: >-
   https://github.com/Ulauncher/Ulauncher/releases/download/{{ ulauncher_version }}/ulauncher_{{ ulauncher_version }}_all.deb
