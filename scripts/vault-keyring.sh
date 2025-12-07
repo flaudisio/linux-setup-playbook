@@ -20,7 +20,7 @@ set -o pipefail
 
 : "${DEBUG:=""}"
 
-: "${VAULT_DUMMY:=""}"
+: "${VAULT_DUMMY_PASS:=""}"
 : "${VAULT_PASSWORD:=""}"
 
 : "${KEYRING_SERVICE:="linux-setup-playbook"}"
@@ -78,8 +78,8 @@ function use_keyring()
 
 function main()
 {
-    if [[ -n "$VAULT_DUMMY" ]] ; then
-        _msg "[vault-keyring] VAULT_DUMMY variable is defined, printing dummy string to stdout"
+    if [[ -n "$VAULT_DUMMY_PASS" ]] ; then
+        _msg "[vault-keyring] VAULT_DUMMY_PASS variable is defined, printing dummy string to stdout"
         echo "dummy"
         exit 0
     fi
