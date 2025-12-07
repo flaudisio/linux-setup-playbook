@@ -34,7 +34,7 @@ global:
       - includes.txt
     run-after-fail:
       - >-
-        /home/flaudisio/projects/flaudisio/scripts/bin/notify-send-as-user --expire-time 0 --icon dialog-error
+        /home/flaudisio/.local/bin/notify-send-as-user.sh --expire-time 0 --icon dialog-error
         "resticprofile backup error"
         "See execution logs in {{ resticprofile_log_dir }}/{{ '{{ .Profile.Name }}' }}.log"
       # - >-
