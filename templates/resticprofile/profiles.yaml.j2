@@ -39,18 +39,18 @@ global:
         "See execution logs in {{ resticprofile_log_dir }}/{{ '{{ .Profile.Name }}' }}.log"
       # - >-
       #   curl --max-time 5 -X POST
-      #   "{{ vault_rp_gotify_host }}/message?token={{ vault_rp_gotify_client_key }}"
+      #   "{{ vault_restic_gotify_host }}/message?token={{ vault_restic_gotify_client_key }}"
       #   -F "title=resticprofile on {{ '{{ .Hostname }}' }}"
       #   -F "message=${ERROR_MESSAGE}"$'\n\n'"${ERROR_STDERR}"
     send-after-fail:
       method: POST
-      url: {{ vault_rp_gotify_host }}/message
+      url: {{ vault_restic_gotify_host }}/message
       body-template: send-after-fail.body.json
       headers:
         - name: Content-Type
           value: application/json
         - name: X-Gotify-Key
-          value: "{{ vault_rp_gotify_client_key }}"
+          value: "{{ vault_restic_gotify_client_key }}"
   forget: &forget
     # Behavior
     # compact: true
@@ -89,19 +89,19 @@ default:
 
 aws:
   inherit: .base
-  repository: s3:s3.us-east-1.amazonaws.com/{{ vault_rp_aws_bucket_name }}/{{ vault_rp_aws_bucket_prefix }}/{{ '{{ .Hostname }}' }}
+  repository: s3:s3.us-east-1.amazonaws.com/{{ vault_restic_aws_bucket_name }}/{{ vault_restic_aws_bucket_prefix }}/{{ '{{ .Hostname }}' }}
   env:
-    AWS_PROFILE: {{ vault_rp_aws_profile }}
+    AWS_PROFILE: {{ vault_restic_aws_profile }}
     AWS_REGION: us-east-1
   run-before:
-    - {{ vault_rp_aws_run_before_script }}
+    - {{ vault_restic_aws_run_before_script }}
   backup:
     # Tip: systemd-analyze calendar --iterations 3 '*:40'
     schedule: "*:40"
 
 homelab:
   inherit: .base
-  repository: rest:{{ vault_rp_rest_server_repository_host }}/{{ '{{ .Hostname }}' }}
+  repository: rest:{{ vault_restic_rest_server_repository_host }}/{{ '{{ .Hostname }}' }}
   env-file:
     - .env.homelab
   backup:
@@ -110,7 +110,7 @@ homelab:
 
 backblaze:
   inherit: .base
-  repository: s3:s3.us-west-002.backblazeb2.com/{{ vault_rp_backblaze_bucket_name }}/{{ '{{ .Hostname }}' }}
+  repository: s3:s3.us-west-002.backblazeb2.com/{{ vault_restic_backblaze_bucket_name }}/{{ '{{ .Hostname }}' }}
   env-file:
     - .env.backblaze
   backup:
