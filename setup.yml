@@ -70,10 +70,6 @@
     # Infrastructure
     - role: geerlingguy.docker
       tags: [infra, docker]
-    - role: dive
-      tags: [infra, dive]
-    - role: lazydocker
-      tags: [infra, lazydocker]
     - role: cinc-workstation
       tags: [infra, cinc-workstation]
       when: install_cinc_workstation
@@ -84,8 +80,6 @@
     # Cloud tools
     - role: aws-cli
       tags: [cloud-tools, aws-cli]
-    - role: granted
-      tags: [cloud-tools, granted]
     - role: cloudflare-client
       tags: [cloud-tools, cloudflare-client]
       when: install_cloudflare_client
@@ -95,8 +89,6 @@
       tags: [cloud-tools, doppler]
 
     # Development
-    - role: asdf
-      tags: [dev, asdf]
     - role: mise
       tags: [dev, mise]
     - role: bat

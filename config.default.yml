@@ -66,10 +66,6 @@ resticprofile_disable_schedules:
 # firefox
 firefox_set_as_default_browser: true
 
-# asdf
-asdf_configure_bashrc: false
-asdf_bashrc_file: ~/.bashrc.d/asdf.bash
-
 # mise
 mise_enable_upgrade: false
 mise_bashrc_file: ~/.bashrc.d/mise.bash

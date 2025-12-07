@@ -1,9 +1,0 @@
----
-lazydocker_version: 0.24.2
-
-lazydocker_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else ansible_facts.architecture }}"
-
-lazydocker_dl_url: >-
-  https://github.com/jesseduffield/lazydocker/releases/download/v{{ lazydocker_version }}/lazydocker_{{ lazydocker_version }}_Linux_{{ lazydocker_dl_arch }}.tar.gz
-
-lazydocker_bin_path: /usr/local/bin/lazydocker
