@@ -1,10 +1,4 @@
 ---
-- name: Check if pipx is installed
-  ansible.builtin.shell: pipx --version || true
-  register: _check_version
-  changed_when: false
-  tags: packages:pipx:setup
-
 - name: Install pipx using pip
   ansible.builtin.pip:
     name: pipx
@@ -12,7 +6,6 @@
     state: present
     virtualenv: "{{ packages_pipx_cli_venv }}"
     virtualenv_command: python3 -m venv
-  when: _check_version.stdout == ""
   tags: packages:pipx:setup
 
 - name: Create global symlink to pipx CLI
@@ -22,7 +15,6 @@
     owner: root
     group: root
     state: link
-  when: _check_version.stdout == ""
   tags: packages:pipx:setup
 
 - name: Install pipx packages
