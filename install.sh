@@ -19,11 +19,11 @@ function main()
     echo "==> Installing dependencies"
 
     _run sudo apt-get update -q
-    _run sudo apt-get install -q -y git python3-pip python3-venv
+    _run sudo apt-get install -q -y curl git python3-pip python3-venv
 
     echo "==> Installing mise-en-place"
 
-    curl https://mise.run | MISE_INSTALL_PATH="$MISE_INSTALL_PATH" sh
+    curl -f -sSL https://mise.run | MISE_INSTALL_PATH="$MISE_INSTALL_PATH" sh
 
     if [[ ! -d "$INSTALL_DIR" ]] ; then
         echo "==> Cloning repository"
