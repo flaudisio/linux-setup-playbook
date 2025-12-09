@@ -30,7 +30,10 @@ function main()
 
         _run git clone -b "$BRANCH" "$REPO_URL" "$INSTALL_DIR"
     else
-        echo "==> Directory '$INSTALL_DIR' already exists, skipping 'git clone'"
+        echo "==> Directory '$INSTALL_DIR' already exists, updating repository"
+
+        _run git -C "$INSTALL_DIR" switch main
+        _run git -C "$INSTALL_DIR" pull origin main
     fi
 
     echo "==> Installing Ansible"
