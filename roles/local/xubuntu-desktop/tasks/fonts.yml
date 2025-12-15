@@ -22,7 +22,7 @@
     dest: "{{ xubuntu_local_fonts_dir }}/{{ item.name }}"
     include: "{{ item.include_files | default(omit) }}"
   loop: "{{ xubuntu_fonts_archives }}"
-  notify: Rebuild fonts cache
+  notify: xubuntu-desktop - rebuild fonts cache
   when: not ansible_check_mode
   become: false
 

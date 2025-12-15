@@ -28,7 +28,7 @@
     create: false
     backup: true
     state: present
-  notify: Restart systemd-journald
+  notify: base-system - restart systemd-journald
   tags: base-system:journald
 
 - name: Configure Num Lock behavior

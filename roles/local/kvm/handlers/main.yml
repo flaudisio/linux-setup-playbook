@@ -3,3 +3,4 @@
   ansible.builtin.service:
     name: libvirtd
     state: restarted
+  listen: kvm - restart libvirtd

@@ -3,3 +3,4 @@
   ansible.builtin.service:
     name: systemd-journald
     state: restarted
+  listen: base-system - restart systemd-journald

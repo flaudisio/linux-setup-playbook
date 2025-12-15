@@ -3,3 +3,4 @@
   ansible.builtin.command: >
     fc-cache -f -v
   become: false
+  listen: xubuntu-desktop - rebuild fonts cache

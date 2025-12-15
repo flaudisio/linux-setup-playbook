@@ -48,7 +48,7 @@
     path: /etc/libvirt/qemu.conf
     regexp: "^(# *)?security_driver .*"
     line: security_driver = "none"
-  notify: Restart libvirtd
+  notify: kvm - restart libvirtd
   when: kvm_disable_libvirt_qemu_security_driver | bool
   tags: kvm:config
 
