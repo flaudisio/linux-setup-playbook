@@ -32,8 +32,6 @@
       tags: [base, dotfiles]
 
     # Backup
-    - role: megasync
-      tags: [backup, megasync]
     - role: rclone
       tags: [backup, rclone]
       when: install_rclone
