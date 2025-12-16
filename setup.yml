@@ -47,9 +47,6 @@
       tags: [utils, firefox]
     - role: chrome
       tags: [utils, chrome]
-    - role: keybase
-      tags: [utils, keybase]
-      when: install_keybase
     - role: spotify
       tags: [utils, spotify]
     - role: steam
