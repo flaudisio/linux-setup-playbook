@@ -67,6 +67,10 @@ xubuntu_window_title_font: ""
 
 xubuntu_thunar_settings: []
 
+# xfce4-terminal
+
+xubuntu_xfce4_terminal_settings: []
+
 # Xfconf
 
 xubuntu_xfconf_settings: []

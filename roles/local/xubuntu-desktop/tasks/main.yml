@@ -40,6 +40,19 @@
   become: false
   tags: xubuntu:thunar
 
+- name: Apply xfce4-terminal settings
+  community.general.xfconf:
+    channel: xfce4-terminal
+    property: "{{ item.property }}"
+    value: "{{ item.value }}"
+    value_type: "{{ item.value_type }}"
+    state: present
+  loop: "{{ xubuntu_xfce4_terminal_settings }}"
+  loop_control:
+    label: "{{ item.property }} - {{ item.value }}"
+  become: false
+  tags: xubuntu:xfce4-terminal
+
 - name: Apply Xfconf settings
   community.general.xfconf:
     channel: "{{ item.channel }}"

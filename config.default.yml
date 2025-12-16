@@ -430,6 +430,75 @@ xubuntu_thunar_settings:
     value: THUNAR_ICON_SIZE_24
     value_type: string
 
+# xubuntu - xfce4-terminal
+xubuntu_xfce4_terminal_settings:
+  - property: /background-mode
+    value: TERMINAL_BACKGROUND_SOLID
+    value_type: string
+  - property: /color-background
+    value: "#000000"
+    value_type: string
+  - property: /color-background-vary
+    value: "false"
+    value_type: bool
+  - property: /color-bold-is-bright
+    value: "true"
+    value_type: bool
+  - property: /color-bold-use-default
+    value: "true"
+    value_type: bool
+  - property: /color-cursor
+    value: "#10bec1b403df"
+    value_type: string
+  - property: /color-cursor-foreground
+    value: "#777776767b7b"
+    value_type: string
+  - property: /color-cursor-use-default
+    value: "false"
+    value_type: bool
+  - property: /color-foreground
+    value: "#ffffff"
+    value_type: string
+  - property: /color-palette
+    value: "#000000;#aa0000;#00aa00;#aa5500;#0000aa;#aa00aa;#00aaaa;#aaaaaa;#555555;#ff5555;#55ff55;#ffff55;#5555ff;#ff55ff;#55ffff;#ffffff"
+    value_type: string
+  - property: /color-selection-use-default
+    value: "true"
+    value_type: bool
+  - property: /color-use-theme
+    value: "false"
+    value_type: bool
+  - property: /font-name
+    value: DejaVu Sans Mono 11
+    value_type: string
+  - property: /misc-borders-default
+    value: "false"
+    value_type: bool
+  - property: /misc-menubar-default
+    value: "false"
+    value_type: bool
+  - property: /misc-new-tab-adjacent
+    value: "true"
+    value_type: bool
+  - property: /scrolling-bar
+    value: TERMINAL_SCROLLBAR_NONE
+    value_type: string
+  - property: /scrolling-on-output
+    value: "true"
+    value_type: bool
+  - property: /scrolling-unlimited
+    value: "true"
+    value_type: bool
+  - property: /tab-activity-color
+    value: "#65b0ffff3777"
+    value_type: string
+  - property: /text-blink-mode
+    value: TERMINAL_TEXT_BLINK_MODE_ALWAYS
+    value_type: string
+  - property: /title-mode
+    value: TERMINAL_TITLE_REPLACE
+    value_type: string
+
 # xubuntu - Xfconf
 xubuntu_xfconf_settings:
   # Desktop
