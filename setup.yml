@@ -45,8 +45,6 @@
     # Utilities
     - role: firefox
       tags: [utils, firefox]
-    - role: brave
-      tags: [utils, brave]
     - role: chrome
       tags: [utils, chrome]
     - role: keybase
