@@ -163,6 +163,7 @@ packages_apt_install:
   - gimp
   - gpick
   - graphviz
+  - qt5-style-plugins
   - peek
   - playerctl
   - ristretto
@@ -188,7 +189,7 @@ packages_apt_install:
   - printer-driver-cups-pdf
   - rename
   - sqlite3
-  - transmission-gtk
+  - transmission-qt
   - unar
   - unrar
   - unzip
