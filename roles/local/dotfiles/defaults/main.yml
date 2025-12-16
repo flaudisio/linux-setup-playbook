@@ -3,6 +3,7 @@ dotfiles_home: "~"
 
 dotfiles_repo_url: https://github.com/flaudisio/dotfiles.git
 dotfiles_repo_version: main
+dotfiles_repo_update: true
 dotfiles_repo_local_dest: "{{ dotfiles_home }}/.files"
 dotfiles_repo_src_dir: src
 

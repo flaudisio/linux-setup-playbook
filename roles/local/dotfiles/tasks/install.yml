@@ -10,6 +10,7 @@
     repo: "{{ dotfiles_repo_url }}"
     dest: "{{ dotfiles_repo_local_dest }}"
     version: "{{ dotfiles_repo_version }}"
+    update: "{{ dotfiles_repo_update }}"
 
 - name: Set helper variables
   ansible.builtin.set_fact:
