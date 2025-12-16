@@ -8,6 +8,10 @@
   loop: "{{ packages_config_files }}"
   loop_control:
     label: "{{ item.path | dirname }}"
+  vars:
+    expanded_path: "{{ item.path | expanduser }}"
+    path_in_home_dir: "{{ (expanded_path | regex_findall('^/home/') | length) > 0 }}"
+  become: "{{ item.become | default(not path_in_home_dir) }}"
 
 - name: Ensure configuration files exist
   ansible.builtin.copy:
