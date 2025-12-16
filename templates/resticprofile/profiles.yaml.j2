@@ -85,7 +85,7 @@ groups:
     - backblaze
 
 default:
-  inherit: aws
+  inherit: {{ __rp_default_profile }}
 
 aws:
   inherit: .base

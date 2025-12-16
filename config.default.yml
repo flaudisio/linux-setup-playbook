@@ -56,12 +56,10 @@ resticprofile_config_templates:
   - "{{ __templates_dir }}/resticprofile/systemd-working-directory.conf.j2"
   - "{{ __templates_dir }}/resticprofile/profiles.yaml.j2"
 
-resticprofile_enable_schedules:
-  - aws
+__rp_default_profile: homelab
 
-resticprofile_disable_schedules:
-  - homelab
-  - backblaze
+resticprofile_enable_schedules:
+  - "{{ __rp_default_profile }}"
 
 # firefox
 firefox_set_as_default_browser: true
