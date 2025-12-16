@@ -17,3 +17,9 @@ dotfiles_vim_plugins_dir: "{{ dotfiles_home }}/.vim/pack/plugins/start"
 #     version: 7.1.3
 #     update_repo: false
 dotfiles_vim_plugins: []
+
+# dotfiles_post_commands:
+#   - example-cmd --foo
+#   - cmd: pre-commit init-templatedir ~/.git-template
+#     creates: ~/.git-template
+dotfiles_post_commands: []

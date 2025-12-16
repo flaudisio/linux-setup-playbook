@@ -17,3 +17,11 @@
     _plugin_repo: "{{ item.repo | default(item) }}"
   become: false
   tags: dotfiles:vim-plugins
+
+- name: Run post commands
+  ansible.builtin.shell:
+    cmd: "{{ item.cmd | default(item) }}"
+    creates: "{{ item.creates | default(omit) }}"
+  loop: "{{ dotfiles_post_commands }}"
+  become: "{{ item.become | default(false) }}"
+  tags: dotfiles:post-commands
