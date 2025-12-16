@@ -51,6 +51,7 @@
   loop_control:
     label: "{{ item.property }} - {{ item.value }}"
   become: false
+  when: ansible_facts.distribution_version is version('24.04', '>=')
   tags: xubuntu:xfce4-terminal
 
 - name: Apply Xfconf settings
