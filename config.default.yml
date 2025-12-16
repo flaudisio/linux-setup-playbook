@@ -44,12 +44,19 @@ git_repos:
         changed_stdout: "' -> '"  # 'ln' output
 
 # dotfiles
+dotfiles_repo_local_dest: ~/projects/flaudisio/dotfiles
+
 dotfiles_extra_dirs:
   - ~/.bashrc.d
 
 dotfiles_vim_plugins:
   - https://github.com/editorconfig/editorconfig-vim.git
   - https://github.com/hashivim/vim-terraform.git
+
+dotfiles_post_commands:
+  # Ref: https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories
+  - cmd: pre-commit init-templatedir ~/.git-template
+    creates: ~/.git-template
 
 # resticprofile
 resticprofile_symlink_name: rp
