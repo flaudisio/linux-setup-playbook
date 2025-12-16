@@ -14,7 +14,6 @@ install_kvm: false
 install_q: false
 install_rclone: true
 install_steam: false
-install_zoom: false
 
 # ------------------------------------------------------------------------------
 # Tasks configuration

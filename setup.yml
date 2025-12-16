@@ -63,9 +63,6 @@
       tags: [chat, discord]
     - role: slack
       tags: [chat, slack]
-    - role: zoom
-      tags: [chat, zoom]
-      when: install_zoom
 
     # Infrastructure
     - role: geerlingguy.docker
