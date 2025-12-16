@@ -30,3 +30,12 @@ git_config_content: ""
 #   - path: /root/.gitconfig
 #     owner: root
 git_config_files: []
+
+# git_repos:
+#   - repo: https://github.com/example/my-repo.git
+#     dest: ~/my-repo
+#     version: main
+#     update_dest: true
+#     scripts:
+#       - ./install.sh
+git_repos: []

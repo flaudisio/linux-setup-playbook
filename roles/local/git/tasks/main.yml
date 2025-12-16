@@ -27,3 +27,28 @@
     label: "{{ item.path | default(item) }}"
   when: git_config_content != ""
   tags: git:config
+
+- name: Clone repositories
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest | expanduser }}"
+    version: "{{ item.version | default(omit) }}"
+    update: "{{ item.update_dest | default(omit) }}"
+  loop: "{{ git_repos }}"
+  loop_control:
+    label: "{{ item.repo }}"
+  become: "{{ item.become | default(false) }}"
+  tags: git:repos
+
+- name: Run repository scripts
+  ansible.builtin.shell:
+    cmd: "{{ item.1.cmd | default(item.1) }}"
+    creates: "{{ item.1.creates | default(omit) }}"
+    chdir: "{{ item.1.chdir | default(item.0.dest) }}"
+  loop: "{{ git_repos | subelements('scripts') }}"
+  become: "{{ item.1.become | default(false) }}"
+  register: _script
+  changed_when: >
+    (item.1.changed_stdout | default('%UNDEFINED%')) in _script.stdout
+    or (item.1.changed_stderr | default('%UNDEFINED%')) in _script.stderr
+  tags: git:repos
