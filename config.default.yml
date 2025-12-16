@@ -9,7 +9,6 @@ __templates_dir: "{{ playbook_dir }}/templates"
 # Opt-in tasks (see the 'setup.yml' playbook)
 configure_xubuntu_desktop: "{{ lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu' }}"
 install_cinc_workstation: false
-install_cloudflare_client: false
 install_keybase: false
 install_kvm: false
 install_q: false

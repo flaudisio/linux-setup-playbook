@@ -80,9 +80,6 @@
     # Cloud tools
     - role: aws-cli
       tags: [cloud-tools, aws-cli]
-    - role: cloudflare-client
-      tags: [cloud-tools, cloudflare-client]
-      when: install_cloudflare_client
     - role: session-manager-plugin
       tags: [cloud-tools, session-manager-plugin]
     - role: doppler
