@@ -32,6 +32,17 @@ ulauncher_config:
   show-indicator-icon: false
   theme-name: dark
 
+# git
+git_repos:
+  - repo: https://github.com/flaudisio/scripts.git
+    dest: ~/projects/flaudisio/scripts
+    version: main
+    update_dest: true
+    scripts:
+      - pre-commit install
+      - cmd: ./install.sh
+        changed_stdout: "' -> '"  # 'ln' output
+
 # dotfiles
 dotfiles_extra_dirs:
   - ~/.bashrc.d
