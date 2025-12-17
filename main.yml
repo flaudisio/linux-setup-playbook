@@ -1,0 +1,23 @@
+---
+- name: Configure host
+  hosts: all
+
+  vars_files:
+    - config.default.yml
+    - config.yml
+
+  roles:
+    - role: packages
+      tags: packages
+    - role: git
+      tags: git
+    - role: chrome
+      tags: chrome
+    - role: geerlingguy.docker
+      tags: docker
+    - role: mise
+      tags: mise
+    - role: bat
+      tags: bat
+    - role: vscode
+      tags: vscode

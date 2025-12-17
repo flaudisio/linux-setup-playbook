@@ -1,0 +1,26 @@
+---
+- name: Linux setup - common
+  ansible.builtin.import_playbook: common.yml
+
+  module_defaults:
+    ansible.builtin.setup:
+      gather_subset: "all,!ohai"
+
+- name: Linux setup - work machine
+  hosts: all
+  gather_facts: "{{ not (skip_facts | default(false)) }}"
+
+  module_defaults:
+    ansible.builtin.setup:
+      gather_subset: "all,!ohai"
+
+  vars_files:
+    - "{{ playbook_dir }}/../config.flaudisio.yml"
+    - "{{ playbook_dir }}/../config.yml"
+    - "{{ playbook_dir }}/../vault.yml"
+
+  roles:
+    - role: cinc-workstation
+      tags: cinc-workstation
+    - role: slack
+      tags: slack

@@ -1,4 +1,0 @@
----
-zoom_version: 6.6.11.6052
-
-zoom_package_url: https://zoom.us/client/{{ zoom_version }}/zoom_amd64.deb

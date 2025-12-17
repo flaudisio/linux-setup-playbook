@@ -60,7 +60,7 @@ Run the `setup` playbook:
 ```bash
 cd ~/.local/share/linux-setup-playbook
 
-./run.sh setup.yml
+./run.sh main.yml
 ```
 
 The [run.sh](run.sh) script is a tiny wrapper for the `ansible-playbook` command. By default it uses
@@ -75,10 +75,10 @@ mode and so on.
 Example:
 
 ```bash
-./run.sh setup.yml --list-tasks
-./run.sh setup.yml -t backup -t spotify
-./run.sh setup.yml -t packages -t restic
-./run.sh setup.yml -t spotify --diff -C
+./run.sh main.yml --list-tasks
+./run.sh main.yml -t backup -t spotify
+./run.sh main.yml -t packages -t restic
+./run.sh main.yml -t spotify --diff -C
 ```
 
 ## Thanks
