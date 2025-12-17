@@ -70,8 +70,6 @@
       when: install_kvm
 
     # Cloud tools
-    - role: aws-cli
-      tags: [cloud-tools, aws-cli]
     - role: session-manager-plugin
       tags: [cloud-tools, session-manager-plugin]
     - role: doppler
