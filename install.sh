@@ -47,7 +47,7 @@ Use the following commands to run the playbook:
 
 cd $INSTALL_DIR
 
-./run.sh setup.yml --list-tasks
+./run.sh main.yml --list-tasks
 --------------------------------------------------
 EOM
 }
