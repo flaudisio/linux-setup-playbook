@@ -124,38 +124,19 @@ packages_apt_install:
   - ca-certificates
   - curl
   - dkms
-  - exo-utils
   - tmux
   - tree
-  - wget
-  - xfce4-terminal
-  # Password management
+  # Secrets management
   - keepassxc
   - makepasswd
-  - pwgen
   - seahorse
   # Development
   - gedit
   - gedit-plugins
   - jq
   - vim
-  # Development/Python
-  - libbz2-dev
-  - libffi-dev
-  - libreadline-dev
-  - libsqlite3-dev
-  - libssl-dev
-  - python3-dev
-  - python3-venv
-  - zlib1g-dev
   # Sysadmin
   - arping
-  - cifs-utils
-  - conntrack
-  - ethtool
-  - gdebi-core
-  - gnome-disk-utility
-  - cracklib-runtime
   - exfat-fuse
   - exfatprogs
   - htop
@@ -166,8 +147,6 @@ packages_apt_install:
   - lsof
   - mtr-tiny
   - netcat-openbsd
-  - network-manager-openvpn
-  - network-manager-openvpn-gnome
   - nmap
   - openssh-client
   - rsync
@@ -218,7 +197,6 @@ packages_apt_install:
   - wmctrl
   - xclip
   - xdotool
-  - xz-utils
   - zenity
 
 packages_apt_remove:
@@ -230,8 +208,6 @@ packages_apt_remove:
   - hexchat
   - motd-news-config
   - mousepad
-  - pidgin
-  - pidgin-otr
   - sgt-launcher
   - sgt-puzzles
   - thunderbird
