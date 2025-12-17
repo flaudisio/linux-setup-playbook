@@ -1,0 +1,13 @@
+---
+- name: Install packages
+  ansible.builtin.apt:
+    name: ubuntu-advantage-tools
+    state: present
+
+- name: Attach machine
+  ansible.builtin.command: >
+    pro attach --no-auto-enable '{{ ubuntu_pro_token }}'
+  register: _pro_attach
+  changed_when: _pro_attach.rc != 2
+  failed_when: _pro_attach.rc not in [0, 2]
+  no_log: "{{ ansible_verbosity < 3 }}"

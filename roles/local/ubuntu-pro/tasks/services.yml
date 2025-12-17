@@ -1,0 +1,29 @@
+---
+- name: Fetch current service status
+  ansible.builtin.command: >
+    pro status --format json
+  changed_when: false
+  register: _pro_status
+
+- name: Set variable for enabled services
+  ansible.builtin.set_fact:
+    _pro_enabled_services: >-
+      {{ (_pro_status.stdout | from_json).services | selectattr("status", "equalto", "enabled") | map(attribute="name") | list }}
+
+- name: Enable services
+  ansible.builtin.command: >
+    pro enable --assume-yes {{ item }}
+  loop: "{{ ubuntu_pro_enable_services }}"
+  when:
+    - item not in _pro_enabled_services
+    - item not in ubuntu_pro_disable_services
+  notify: ubuntu-pro - upgrade all packages
+
+- name: Disable services
+  ansible.builtin.command: >
+    pro disable --assume-yes {{ ubuntu_pro_disable_services | join(" ") }}
+  loop: "{{ ubuntu_pro_disable_services }}"
+  when: item in _pro_enabled_services
+
+- name: Flush handlers to ensure packages are upgraded
+  ansible.builtin.meta: flush_handlers

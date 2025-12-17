@@ -1,0 +1,11 @@
+---
+# Ref: https://documentation.ubuntu.com/pro/attach-tutorial/
+
+ubuntu_pro_enabled: false
+
+ubuntu_pro_token: ""
+
+ubuntu_pro_enable_services: []
+ubuntu_pro_disable_services: []
+
+ubuntu_pro_upgrade_all_packages: false

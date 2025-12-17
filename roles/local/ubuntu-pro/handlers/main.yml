@@ -1,0 +1,8 @@
+---
+- name: Upgrade all packages
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+    update_cache: true
+  listen: ubuntu-pro - upgrade all packages
+  when: ubuntu_pro_upgrade_all_packages | bool

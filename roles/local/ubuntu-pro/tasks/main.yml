@@ -1,0 +1,26 @@
+---
+- name: Ensure running on Ubuntu LTS
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.distribution == "Ubuntu"
+      - "'LTS' in ansible_facts.lsb.description"
+    quiet: true
+    success_msg: Running on {{ ansible_facts.lsb.description }}
+    fail_msg: This machine is not running an Ubuntu LTS release.
+  tags:
+    - ubuntu-pro:attach
+    - ubuntu-pro:services
+
+- name: Include attach tasks
+  ansible.builtin.import_tasks: attach.yml
+  when:
+    - ubuntu_pro_enabled | bool
+    - ubuntu_pro_token != ""
+  tags: ubuntu-pro:attach
+
+- name: Include service tasks
+  ansible.builtin.import_tasks: services.yml
+  when:
+    - ubuntu_pro_enabled | bool
+    - ubuntu_pro_token != ""
+  tags: ubuntu-pro:services
