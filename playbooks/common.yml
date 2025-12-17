@@ -1,0 +1,67 @@
+---
+- name: Linux setup - common tasks
+  hosts: all
+  gather_facts: "{{ not (skip_facts | default(false)) }}"
+
+  vars_files:
+    - "{{ playbook_dir }}/../config.flaudisio.yml"
+    - "{{ playbook_dir }}/../config.yml"
+    - "{{ playbook_dir }}/../vault.yml"
+
+  roles:
+    # OS configuration & base utilities
+    - role: base-system
+      tags: base-system
+    - role: ubuntu-pro
+      tags: ubuntu-pro
+    - role: packages
+      tags: packages
+    - role: git
+      tags: git
+    - role: mise
+      tags: mise
+    - role: bat
+      tags: bat
+
+    # Desktop & base configuration
+    - role: xubuntu-desktop
+      tags: xubuntu
+      when: lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu'
+    - role: ulauncher
+      tags: ulauncher
+    - role: dotfiles
+      tags: dotfiles
+
+    # Utilities
+    - role: firefox
+      tags: firefox
+    - role: chrome
+      tags: chrome
+
+    # Backup & file sharing
+    - role: rclone
+      tags: rclone
+    - role: restic
+      tags: restic
+    - role: resticprofile
+      tags: resticprofile
+
+    # Infrastructure & cloud tools
+    - role: geerlingguy.docker
+      tags: docker
+    - role: doppler
+      tags: doppler
+    - role: session-manager-plugin
+      tags: session-manager-plugin
+
+    # IDEs & development tools
+    - role: vscode
+      tags: vscode
+    - role: q
+      tags: q
+
+    # Misc. applications
+    - role: discord
+      tags: discord
+    - role: spotify
+      tags: spotify

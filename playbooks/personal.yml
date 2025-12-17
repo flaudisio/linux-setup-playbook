@@ -1,0 +1,20 @@
+---
+- name: Linux setup - common
+  ansible.builtin.import_playbook: common.yml
+
+- name: Linux setup - personal machine
+  hosts: all
+  gather_facts: "{{ not (skip_facts | default(false)) }}"
+
+  vars_files:
+    - "{{ playbook_dir }}/../config.flaudisio.yml"
+    - "{{ playbook_dir }}/../config.yml"
+    - "{{ playbook_dir }}/../vault.yml"
+
+  roles:
+    - role: syncthing
+      when: configure_syncthing
+      tags: syncthing
+    - role: kvm
+      when: configure_kvm
+      tags: kvm
