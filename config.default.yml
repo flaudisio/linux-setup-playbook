@@ -252,6 +252,7 @@ packages_pipx_install:
   - name: pre-commit
     state: latest
   - name: ps-mem
+    state: latest
     global: true
 
 # packages - config files
