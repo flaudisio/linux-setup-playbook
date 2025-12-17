@@ -17,6 +17,8 @@
     # Base system & desktop
     - role: base-system
       tags: [base, base-system]
+    - role: ubuntu-pro
+      tags: [base, ubuntu-pro]
     - role: packages
       tags: [base, packages]
     - role: git
