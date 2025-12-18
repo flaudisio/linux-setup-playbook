@@ -15,12 +15,6 @@ base_alternatives:
   - name: editor
     path: /usr/bin/vim.basic
 
-# ulauncher
-ulauncher_config:
-  hotkey-show-app: <Alt>F1
-  show-indicator-icon: false
-  theme-name: dark
-
 # ubuntu-pro
 ubuntu_pro_enabled: true
 ubuntu_pro_token: "{{ vault_ubuntu_pro_token }}"
@@ -29,6 +23,12 @@ ubuntu_pro_upgrade_all_packages: true
 ubuntu_pro_enable_services:
   - esm-apps
   - esm-infra
+
+# ulauncher
+ulauncher_config:
+  hotkey-show-app: <Alt>F1
+  show-indicator-icon: false
+  theme-name: dark
 
 # git
 git_repos:
@@ -247,7 +247,6 @@ xubuntu_xdg_videos_dir: library/Videos
 
 # xubuntu - bookmarks
 xubuntu_bookmarks:
-  - /arquivos
   - ~/{{ xubuntu_xdg_download_dir }}
   - ~/projects
 
