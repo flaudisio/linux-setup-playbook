@@ -7,42 +7,46 @@ set -o pipefail
 : "${BRANCH:="main"}"
 : "${INSTALL_DIR:="${HOME}/.local/share/linux-setup-playbook"}"
 
+function _msg()
+{
+    echo "$*" >&2
+}
+
 function _run()
 {
-    echo "+ $*"
+    _msg "+ $*"
     "$@"
 }
 
 function main()
 {
-    echo "==> Installing dependencies"
+    _msg "==> Installing dependencies"
 
     _run sudo apt-get update -q
     _run sudo apt-get install -q -y curl git python3-pip python3-venv
 
     if [[ ! -d "$INSTALL_DIR" ]] ; then
-        echo "==> Cloning repository"
+        _msg "==> Cloning repository"
 
         _run git clone -b "$BRANCH" "$REPO_URL" "$INSTALL_DIR"
     else
-        echo "==> Directory '$INSTALL_DIR' already exists, updating repository"
+        _msg "==> Directory '$INSTALL_DIR' already exists, updating repository"
 
         _run git -C "$INSTALL_DIR" switch main
         _run git -C "$INSTALL_DIR" pull origin main
     fi
 
-    echo "==> Installing mise-en-place"
+    _msg "==> Installing mise-en-place"
 
     _run curl -f -sSL https://mise.run | bash
 
-    echo "==> Installing Ansible"
+    _msg "==> Installing Ansible"
 
     _run export PATH="${HOME}/.local/bin:${PATH}"
 
     _run mise -C "$INSTALL_DIR" trust --yes
     _run mise -C "$INSTALL_DIR" run install
-
-    echo
+    _msg
 
     cat << EOM
 --------------------------------------------------
