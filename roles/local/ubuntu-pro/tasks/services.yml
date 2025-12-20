@@ -21,7 +21,7 @@
 
 - name: Disable services
   ansible.builtin.command: >
-    pro disable --assume-yes {{ ubuntu_pro_disable_services | join(" ") }}
+    pro disable --assume-yes {{ item }}
   loop: "{{ ubuntu_pro_disable_services }}"
   when: item in _pro_enabled_services
 
