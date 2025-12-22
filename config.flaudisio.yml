@@ -511,6 +511,32 @@ xubuntu_xfconf_settings:
     property: /windowlist-menu/show
     value: "false"
     value_type: bool
+  # Screensaver
+  - channel: xfce4-screensaver
+    property: /lock/saver-activation/delay
+    value: "5"
+    value_type: int
+  - channel: xfce4-screensaver
+    property: /saver/enabled
+    value: "true"
+    value_type: bool
+  - channel: xfce4-screensaver
+    property: /saver/fullscreen-inhibit
+    value: "true"
+    value_type: bool
+  - channel: xfce4-screensaver
+    property: /saver/idle-activation/delay
+    value: "15"
+    value_type: int
+  - channel: xfce4-screensaver
+    property: /saver/mode
+    value: "0"  # Blank screen
+    value_type: int
+  # Power Manager
+  - channel: xfce4-power-manager
+    property: /xfce4-power-manager/power-button-action
+    value: "0"  # Ask what to do
+    value_type: int
   # Window Manager
   - channel: xfwm4
     property: /general/button_layout
