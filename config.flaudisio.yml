@@ -60,9 +60,7 @@ dotfiles_post_commands:
 resticprofile_symlink_name: rp
 
 resticprofile_config_templates:
-  - src: "{{ __templates_dir }}/resticprofile/.env.backblaze.j2"
-    sensitive: true
-  - src: "{{ __templates_dir }}/resticprofile/.env.homelab.j2"
+  - src: "{{ __templates_dir }}/resticprofile/.env.j2"
     sensitive: true
   - src: "{{ __templates_dir }}/resticprofile/repo-password.txt.j2"
     sensitive: true
@@ -72,7 +70,7 @@ resticprofile_config_templates:
   - "{{ __templates_dir }}/resticprofile/systemd-working-directory.conf.j2"
   - "{{ __templates_dir }}/resticprofile/profiles.yaml.j2"
 
-__rp_default_profile: homelab
+__rp_default_profile: main
 
 resticprofile_enable_schedules:
   - "{{ __rp_default_profile }}"

@@ -80,18 +80,30 @@ global:
   check:
     cleanup-cache: true
 
-groups:
-  all:
-    - aws
-    - homelab
-    - backblaze
-
 default:
   inherit: {{ __rp_default_profile }}
 
-aws:
+main:
   inherit: .base
-  repository: s3:s3.us-east-1.amazonaws.com/{{ vault_restic_aws_bucket_name }}/{{ vault_restic_aws_bucket_prefix }}/{{ '{{ .Hostname }}' }}
+  repository: rest:{{ vault_restic_rest_server_repository_host }}/main
+  env-file:
+    - .env
+  backup:
+    # Tip: systemd-analyze calendar --iterations 3 '*:40'
+    schedule: "*:50"
+
+work:
+  inherit: .base
+  repository: rest:{{ vault_restic_rest_server_repository_host }}/work
+  env-file:
+    - .env
+  backup:
+    # Tip: systemd-analyze calendar --iterations 3 '*:40'
+    schedule: "*:50"
+
+work-aws:
+  inherit: .base
+  repository: s3:s3.us-east-1.amazonaws.com/{{ vault_restic_aws_bucket_name }}/{{ vault_restic_aws_bucket_prefix }}
   env:
     AWS_PROFILE: {{ vault_restic_aws_profile }}
     AWS_REGION: us-east-1
@@ -101,20 +113,11 @@ aws:
     # Tip: systemd-analyze calendar --iterations 3 '*:40'
     schedule: "*:40"
 
-homelab:
-  inherit: .base
-  repository: rest:{{ vault_restic_rest_server_repository_host }}/{{ '{{ .Hostname }}' }}
-  env-file:
-    - .env.homelab
-  backup:
-    # Tip: systemd-analyze calendar --iterations 3 '*:40'
-    schedule: "*:50"
-
 backblaze:
   inherit: .base
   repository: s3:s3.us-west-002.backblazeb2.com/{{ vault_restic_backblaze_bucket_name }}/{{ '{{ .Hostname }}' }}
   env-file:
-    - .env.backblaze
+    - .env
   backup:
     # Tip: systemd-analyze calendar --iterations 3 '*:40'
     schedule: "*:40"
