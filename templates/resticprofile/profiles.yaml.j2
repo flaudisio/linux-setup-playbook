@@ -22,11 +22,11 @@ global:
   force-inactive-lock: true
   compression: max
   verbose: true
-  host: {{ '{{ .Hostname }}' }}
   password-file: repo-password.txt
   systemd-drop-in-files:
     - systemd-working-directory.conf
   backup:
+    host: {{ '{{ .Hostname }}' }}
     exclude-caches: true
     exclude-file:
       - excludes.txt
@@ -54,6 +54,7 @@ global:
   forget: &forget
     # Behavior
     # compact: true
+    host: {{ '{{ .Hostname }}' }}
     group-by: host
     path: false
     prune: false
