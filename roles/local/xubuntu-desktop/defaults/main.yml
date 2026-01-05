@@ -37,6 +37,7 @@ xubuntu_bookmarks: []
 # Keyboard shortcuts
 
 xubuntu_keyboard_shortcuts: []
+xubuntu_extra_keyboard_shortcuts: []
 xubuntu_window_manager_shortcuts: []
 xubuntu_remove_keyboard_shortcuts: []
 xubuntu_remove_window_manager_shortcuts: []

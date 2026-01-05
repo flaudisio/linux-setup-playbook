@@ -22,7 +22,7 @@
     value: "{{ item.cmd }}"
     value_type: string
     state: present
-  loop: "{{ xubuntu_keyboard_shortcuts }}"
+  loop: "{{ xubuntu_keyboard_shortcuts + xubuntu_extra_keyboard_shortcuts }}"
   loop_control:
     label: "{{ item.shortcut }} - {{ item.cmd }}"
   when: item.shortcut not in xubuntu_remove_keyboard_shortcuts
