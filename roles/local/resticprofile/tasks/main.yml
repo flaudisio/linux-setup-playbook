@@ -34,8 +34,8 @@
   ansible.builtin.file:
     path: "{{ resticprofile_log_dir }}"
     state: directory
-    owner: root
-    group: root
+    owner: "{{ resticprofile_log_owner }}"
+    group: "{{ resticprofile_log_group }}"
     mode: "0755"
   tags: resticprofile:install
 
@@ -53,8 +53,8 @@
   ansible.builtin.file:
     path: "{{ resticprofile_config_dir }}"
     state: directory
-    owner: root
-    group: root
+    owner: "{{ resticprofile_config_owner }}"
+    group: "{{ resticprofile_config_group }}"
     mode: "0755"
   tags: resticprofile:config
 
@@ -62,8 +62,8 @@
   ansible.builtin.template:
     src: "{{ tpl_src }}"
     dest: "{{ resticprofile_config_dir ~ '/' ~ tpl_dest }}"
-    owner: root
-    group: root
+    owner: "{{ resticprofile_config_owner }}"
+    group: "{{ resticprofile_config_group }}"
     mode: "{{ is_sensitive | ternary('0600', '0644') }}"
     lstrip_blocks: true
   no_log: "{{ is_sensitive }}"
@@ -81,8 +81,8 @@
   ansible.builtin.template:
     src: profiles.yaml.j2
     dest: "{{ resticprofile_config_file }}"
-    owner: root
-    group: root
+    owner: "{{ resticprofile_config_owner }}"
+    group: "{{ resticprofile_config_group }}"
     mode: "0644"
     lstrip_blocks: true
   when: resticprofile_config_inline != {}
@@ -94,6 +94,7 @@
   loop: "{{ resticprofile_enable_schedules }}"
   register: _rp_schedule_status
   changed_when: false
+  become: "{{ '/home' not in resticprofile_config_dir }}"
   tags: resticprofile:schedule
 
 - name: Configure enabled schedules
@@ -109,6 +110,7 @@
     new_schedule_stdout: "{{ _rp_new_schedule.stdout_lines }}"
     new_schedule_normalized: "{{ new_schedule_stdout | select('match', '.*Normalized form.*') | sort }}"
   when: item not in resticprofile_disable_schedules
+  become: "{{ '/home' not in resticprofile_config_dir }}"
   tags: resticprofile:schedule
 
 - name: Remove disabled schedules
@@ -118,4 +120,5 @@
   register: _rp_unschedule
   changed_when: >
     'no scheduled jobs found' not in _rp_unschedule.stdout
+  become: "{{ '/home' not in resticprofile_config_dir }}"
   tags: resticprofile:schedule
