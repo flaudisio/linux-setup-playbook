@@ -31,18 +31,27 @@
       ansible.builtin.shell: >
         bzip2 --decompress --stdout '{{ _archive_local_file }}' > '{{ restic_bin_path }}'
 
-    - name: Ensure binary file has the correct permissions
-      ansible.builtin.file:
-        path: "{{ restic_bin_path }}"
-        state: file
-        owner: root
-        group: root
-        mode: "0755"
-
     - name: Remove temporary directory
       ansible.builtin.file:
         path: "{{ _temp_dir.path }}"
         state: absent
+
+- name: Set binary file permissions
+  ansible.builtin.file:
+    path: "{{ restic_bin_path }}"
+    state: file
+    owner: "{{ restic_bin_owner }}"
+    group: "{{ restic_bin_group }}"
+    mode: "{{ restic_bin_mode }}"
+
+- name: Configure non-root user capabilities on binary file
+  community.general.capabilities:
+    path: "{{ restic_bin_path }}"
+    capability: cap_dac_read_search=+ep
+    state: "{{ (restic_configure_non_root_capabilities | bool) | ternary('present', 'absent') }}"
+  # Module is not idempotent, ignore changes for now
+  # Ref: https://github.com/ansible-collections/community.general/issues/4067
+  changed_when: false
 
 - name: Configure Bash completion
   ansible.builtin.command: >
