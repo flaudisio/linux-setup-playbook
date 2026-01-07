@@ -12,8 +12,6 @@ global:
   restic-stale-lock-age: 12h
   schedule-defaults:
     ignore-on-battery-less-than: 30
-    permission: system
-    after-network-online: true
     lock-wait: 15m
     log: {{ resticprofile_log_dir }}/{{ '{{ .Profile.Name }}' }}.log
 
@@ -34,7 +32,7 @@ global:
       - includes.txt
     run-after-fail:
       - >-
-        /home/flaudisio/.local/bin/notify-send-as-user.sh --expire-time 0 --icon dialog-error
+        notify-send --expire-time 0 --icon dialog-error
         "resticprofile backup error"
         "See execution logs in {{ resticprofile_log_dir }}/{{ '{{ .Profile.Name }}' }}.log"
       # - >-

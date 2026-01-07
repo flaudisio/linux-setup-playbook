@@ -9,6 +9,12 @@ restic_archive_url: >-
 restic_sha256sums_url: >-
   https://github.com/restic/restic/releases/download/v{{ restic_version }}/SHA256SUMS
 
+# Ref: https://restic.readthedocs.io/en/stable/080_examples.html#backing-up-your-system-without-running-restic-as-root
+restic_configure_non_root_capabilities: false
+
 restic_bin_path: /usr/local/bin/restic
+restic_bin_owner: root
+restic_bin_group: root
+restic_bin_mode: "0755"
 
 restic_configure_bash_completion: true

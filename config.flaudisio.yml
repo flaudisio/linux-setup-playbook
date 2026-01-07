@@ -56,8 +56,25 @@ dotfiles_post_commands:
   - cmd: pre-commit init-templatedir ~/.git-template
     creates: ~/.git-template
 
+# restic
+restic_configure_non_root_capabilities: true
+restic_bin_owner: root
+restic_bin_group: "{{ __current_user }}"
+restic_bin_mode: "0750"
+
 # resticprofile
 resticprofile_symlink_name: rp
+
+resticprofile_user: "{{ __current_user }}"
+
+resticprofile_log_dir: "{{ '~/.local/share/resticprofile/logs' | expanduser }}"
+
+resticprofile_log_owner: "{{ __current_user }}"
+resticprofile_log_group: "{{ __current_user }}"
+
+resticprofile_config_dir: "{{ '~/.config/resticprofile' | expanduser }}"
+resticprofile_config_owner: "{{ __current_user }}"
+resticprofile_config_group: "{{ __current_user }}"
 
 resticprofile_config_templates:
   - src: "{{ __templates_dir }}/resticprofile/.env.j2"
