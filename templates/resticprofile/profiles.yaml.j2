@@ -35,11 +35,6 @@ global:
         notify-send --expire-time 0 --icon dialog-error
         "resticprofile backup error"
         "See execution logs in {{ resticprofile_log_dir }}/{{ '{{ .Profile.Name }}' }}.log"
-      # - >-
-      #   curl --max-time 5 -X POST
-      #   "{{ vault_restic_gotify_host }}/message?token={{ vault_restic_gotify_client_key }}"
-      #   -F "title=resticprofile on {{ '{{ .Hostname }}' }}"
-      #   -F "message=${ERROR_MESSAGE}"$'\n\n'"${ERROR_STDERR}"
     send-after-fail:
       method: POST
       url: {{ vault_restic_gotify_host }}/message
