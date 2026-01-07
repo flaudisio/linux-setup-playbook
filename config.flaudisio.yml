@@ -279,6 +279,8 @@ xubuntu_remove_keyboard_shortcuts:
 
 xubuntu_keyboard_shortcuts:
   # Audio
+  - shortcut: <Super>1
+    cmd: manage-audio.sh use-headset
   - shortcut: <Primary><Super>Down
     cmd: amixer -q -M -D pulse sset Master 5%-
   - shortcut: <Primary><Super>Up
@@ -304,13 +306,15 @@ xubuntu_keyboard_shortcuts:
   # User session
   - shortcut: <Primary><Alt>Delete
     cmd: xfce4-session-logout
+  - shortcut: <Super>l
+    cmd: xflock4
   - shortcut: <Primary><Alt>l
     cmd: xflock4
   # Window Manager
   - shortcut: <Primary><Alt>Left
-    cmd: move-to-next-monitor
+    cmd: move-to-next-monitor.sh
   - shortcut: <Primary><Alt>Right
-    cmd: move-to-next-monitor
+    cmd: move-to-next-monitor.sh
   # Xfce tools
   - shortcut: <Super>F1
     cmd: xfce4-find-cursor
