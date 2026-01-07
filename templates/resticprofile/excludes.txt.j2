@@ -1,11 +1,24 @@
 # {{ ansible_managed  }}
 
+# Devices/mountpoints/temporary directories
+/cdrom
+/dev
+/media
+/mnt
+/proc
+/run
+/sys
+/tmp
+/var/tmp
+
+# Unwanted large files
 *.box
 *.img
 *.iso
 *.qcow2
 *.pyc
 
+# General tool caches
 .asdf/
 .aws-sam/
 .config/packer/plugins/
@@ -29,6 +42,7 @@
 node_modules/
 plugin-cache/
 
+# Ignored directories
 restic-ignore/
 restic-ignored/
 .restic-ignore/
@@ -92,6 +106,7 @@ restic-ignored/
 # Home - local
 /home/*/.local/.grit
 /home/*/.local/pipx
+/home/*/.local/share/claude
 /home/*/.local/share/data
 /home/*/.local/share/flatpak
 /home/*/.local/share/GitKrakenCLI
