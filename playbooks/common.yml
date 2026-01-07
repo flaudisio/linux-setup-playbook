@@ -49,8 +49,6 @@
     # Infrastructure & cloud tools
     - role: geerlingguy.docker
       tags: docker
-    - role: doppler
-      tags: doppler
     - role: session-manager-plugin
       tags: session-manager-plugin
 
