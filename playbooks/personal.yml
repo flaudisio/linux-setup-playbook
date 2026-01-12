@@ -13,8 +13,6 @@
 
   roles:
     - role: syncthing
-      when: configure_syncthing
       tags: syncthing
     - role: kvm
-      when: configure_kvm
       tags: kvm
