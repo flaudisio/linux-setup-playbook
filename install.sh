@@ -36,15 +36,18 @@ function main()
         _run git -C "$INSTALL_DIR" pull origin main
     fi
 
-    _msg "==> Installing mise-en-place"
+    if ! command -v mise > /dev/null ; then
+        _msg "==> Installing mise-en-place"
 
-    _run curl -f -sSL https://mise.run | bash
+        _run curl -f -sSL https://mise.run | bash
+    fi
 
-    _msg "==> Installing Ansible"
+    _msg "==> Installing Ansible and project dependencies"
 
     _run export PATH="${HOME}/.local/bin:${PATH}"
 
     _run mise -C "$INSTALL_DIR" trust --yes
+    _run mise -C "$INSTALL_DIR" install
     _run mise -C "$INSTALL_DIR" run install
     _msg
 
