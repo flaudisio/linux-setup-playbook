@@ -1,10 +1,15 @@
 ---
-# Ref: https://code.visualstudio.com/docs/setup/linux
+# Ref: https://code.visualstudio.com/docs/setup/linux#_install-vs-code-on-linux
+
+vscode_apt_repo_name: vscode
 
 vscode_apt_repo_key_url: https://packages.microsoft.com/keys/microsoft.asc
+vscode_apt_repo_key_file: /usr/share/keyrings/microsoft.asc
 
-vscode_apt_repo_key_file: /etc/apt/keyrings/microsoft.asc
-
-vscode_apt_repo_line: deb [arch=amd64,arm64,armhf signed-by={{ vscode_apt_repo_key_file }}] https://packages.microsoft.com/repos/code stable main
-
-vscode_apt_repo_file: vscode
+vscode_apt_repo_uri: https://packages.microsoft.com/repos/code
+vscode_apt_repo_suite: stable
+vscode_apt_repo_component: main
+vscode_apt_repo_architectures:
+  - amd64
+  - arm64
+  - armhf

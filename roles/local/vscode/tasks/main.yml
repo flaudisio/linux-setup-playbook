@@ -1,4 +1,14 @@
 ---
+- name: Ensure old APT sources are absent
+  community.general.file_remove:
+    path: /etc/apt/sources.list.d
+    pattern: vscode.list*
+
+- name: Ensure old APT keys are absent
+  community.general.file_remove:
+    path: /etc/apt/keyrings
+    pattern: microsoft.asc*
+
 - name: Install repository key
   ansible.builtin.get_url:
     url: "{{ vscode_apt_repo_key_url }}"
@@ -7,32 +17,30 @@
     owner: root
     group: root
     mode: "0644"
-  tags:
-    - vscode:repo
-    - vscode:install
 
 - name: Configure repository
-  ansible.builtin.apt_repository:
-    repo: "{{ vscode_apt_repo_line }}"
-    filename: "{{ vscode_apt_repo_file }}"
+  ansible.builtin.deb822_repository:
+    name: "{{ vscode_apt_repo_name }}"
+    types: deb
+    uris: "{{ vscode_apt_repo_uri }}"
+    suites: "{{ vscode_apt_repo_suite }}"
+    components: "{{ vscode_apt_repo_component }}"
+    architectures: "{{ vscode_apt_repo_architectures }}"
+    signed_by: "{{ vscode_apt_repo_key_file }}"
     state: present
-    update_cache: true
-  tags:
-    - vscode:repo
-    - vscode:install
+  notify: vscode - apt update
 
-- name: Setup debconf to avoid repository changes by the package itself
+- name: Flush handlers to update the APT cache
+  ansible.builtin.meta: flush_handlers
+
+- name: Setup debconf to avoid APT changes by the package
   ansible.builtin.debconf:
     name: code
     question: code/add-microsoft-repo
     vtype: boolean
     value: "false"
-  tags:
-    - vscode:repo
-    - vscode:install
 
-- name: Install packages
+- name: Install package
   ansible.builtin.apt:
     name: code
     state: present
-  tags: vscode:install
