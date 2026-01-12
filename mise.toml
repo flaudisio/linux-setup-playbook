@@ -1,15 +1,16 @@
 [tools]
 python = "3.12"
 shellcheck = "0.11"
+uv = "latest"
 
 [vars]
-PROJECT_NAME = "linux-setup-playbook"
+PROJECT_NAME = "{{ cwd | basename }}"
 VENV_DIR = "{{ env.HOME }}/.virtualenvs/{{ vars.PROJECT_NAME }}"
 COLLECTIONS_PATH = "collections"
 ROLES_PATH = "roles/public"
 
 [env]
-PATH = "{{ vars.VENV_DIR }}/bin:{{ env.PATH }}"
+_.python.venv = { path = "{{ vars.VENV_DIR }}", create = true }
 
 [tasks.pre-commit]
 description = "Run pre-commit"
@@ -31,13 +32,8 @@ run = [
 ]
 
 [tasks."install:ansible"]
-description = "Install Ansible and dependencies in a virtualenv"
-run = """
-  #!/usr/bin/env bash
-  set -e -x
-  [ -d '{{ vars.VENV_DIR }}' ] || python3 -m venv --clear --upgrade-deps '{{ vars.VENV_DIR }}'
-  pip install --upgrade pip -r requirements.txt
-"""
+description = "Install Ansible and project dependencies"
+run = "uv pip install -r requirements.txt"
 
 [tasks."install:galaxy"]
 description = "Install Galaxy dependencies from requirements files"
