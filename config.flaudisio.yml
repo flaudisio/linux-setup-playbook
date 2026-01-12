@@ -215,6 +215,7 @@ packages_apt_remove:
   - hexchat
   - motd-news-config
   - mousepad
+  - rhythmbox
   - sgt-launcher
   - sgt-puzzles
   - thunderbird
