@@ -337,8 +337,6 @@ xubuntu_keyboard_shortcuts:
     cmd: code {{ xubuntu_home_dir }}/notes
   - shortcut: <Super>t
     cmd: exo-open --launch TerminalEmulator
-  - shortcut: <Super>w
-    cmd: sensible-browser https://keep.google.com
 
 xubuntu_remove_window_manager_shortcuts:
   - <Alt>F7
