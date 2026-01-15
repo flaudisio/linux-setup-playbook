@@ -149,6 +149,7 @@ packages_apt_install:
   - htop
   - iotop
   - iptraf-ng
+  - iw
   - lm-sensors
   - lshw
   - lsof
