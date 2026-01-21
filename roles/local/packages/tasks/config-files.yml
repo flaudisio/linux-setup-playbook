@@ -10,7 +10,7 @@
     label: "{{ item.path | dirname }}"
   vars:
     expanded_path: "{{ item.path | expanduser }}"
-    path_in_home_dir: "{{ (expanded_path | regex_findall('^/home/') | length) > 0 }}"
+    path_in_home_dir: "{{ '/home/' in expanded_path }}"
   become: "{{ item.become | default(not path_in_home_dir) }}"
 
 - name: Ensure configuration files exist
@@ -25,5 +25,5 @@
     label: "{{ item.path }}"
   vars:
     expanded_path: "{{ item.path | expanduser }}"
-    path_in_home_dir: "{{ (expanded_path | regex_findall('^/home/') | length) > 0 }}"
+    path_in_home_dir: "{{ '/home/' in expanded_path }}"
   become: "{{ item.become | default(not path_in_home_dir) }}"
