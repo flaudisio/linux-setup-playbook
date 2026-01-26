@@ -12,6 +12,8 @@
     - "{{ playbook_dir }}/../vault.yml"
 
   roles:
+    - role: brave
+      tags: brave
     - role: syncthing
       tags: syncthing
     - role: kvm
