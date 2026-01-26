@@ -1,0 +1,34 @@
+---
+- name: Ensure old APT sources are absent
+  community.general.file_remove:
+    path: /etc/apt/sources.list.d
+    pattern: brave-browser-*
+
+- name: Install repository key
+  ansible.builtin.get_url:
+    url: "{{ brave_apt_repo_key_url }}"
+    dest: "{{ brave_apt_repo_key_file }}"
+    force: true
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configure repository
+  ansible.builtin.deb822_repository:
+    name: "{{ brave_apt_repo_name }}"
+    types: deb
+    uris: "{{ brave_apt_repo_uri }}"
+    suites: "{{ brave_apt_repo_suite }}"
+    components: "{{ brave_apt_repo_component }}"
+    architectures: "{{ brave_apt_repo_architectures }}"
+    signed_by: "{{ brave_apt_repo_key_file }}"
+    state: present
+  notify: brave - apt update
+
+- name: Flush handlers to update the APT cache
+  ansible.builtin.meta: flush_handlers
+
+- name: Install package
+  ansible.builtin.apt:
+    name: brave-browser
+    state: present
