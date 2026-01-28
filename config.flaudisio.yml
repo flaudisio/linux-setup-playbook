@@ -331,6 +331,8 @@ xubuntu_keyboard_shortcuts:
     cmd: xfce4-terminal --maximize
   - shortcut: <Super>KP_Enter
     cmd: xfce4-terminal --maximize
+  - shortcut: <Super>t
+    cmd: xfce4-terminal --maximize
   # Utilities
   - shortcut: <Super>e
     cmd: exo-open --launch FileManager
@@ -338,8 +340,6 @@ xubuntu_keyboard_shortcuts:
     cmd: keepassxc
   - shortcut: <Super>n
     cmd: code {{ xubuntu_home_dir }}/notes
-  - shortcut: <Super>t
-    cmd: exo-open --launch TerminalEmulator
 
 xubuntu_remove_window_manager_shortcuts:
   - <Alt>F7
