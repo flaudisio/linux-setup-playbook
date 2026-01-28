@@ -18,6 +18,10 @@ dotfiles_vim_plugins_dir: "{{ dotfiles_home }}/.vim/pack/plugins/start"
 #     update_repo: false
 dotfiles_vim_plugins: []
 
+# Extra files
+
+dotfiles_extra_files: []
+
 # dotfiles_post_commands:
 #   - example-cmd --foo
 #   - cmd: pre-commit init-templatedir ~/.git-template

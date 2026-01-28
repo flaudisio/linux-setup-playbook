@@ -1,11 +1,11 @@
 ---
 - name: Ensure directories of configuration files exist
   ansible.builtin.file:
-    path: "{{ item.path | expanduser | dirname }}"
+    path: "{{ expanded_path | dirname }}"
     state: directory
     owner: "{{ item.owner | default(omit) }}"
     group: "{{ item.group | default(omit) }}"
-  loop: "{{ packages_config_files }}"
+  loop: "{{ dotfiles_extra_files }}"
   loop_control:
     label: "{{ item.path | dirname }}"
   vars:
@@ -20,7 +20,7 @@
     owner: "{{ item.owner | default(omit) }}"
     group: "{{ item.group | default(omit) }}"
     mode: "{{ item.mode | default(omit) }}"
-  loop: "{{ packages_config_files }}"
+  loop: "{{ dotfiles_extra_files }}"
   loop_control:
     label: "{{ item.path }}"
   vars:

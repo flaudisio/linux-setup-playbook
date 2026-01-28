@@ -16,7 +16,3 @@ packages_snap_install: []
 packages_pipx_cli_venv: /opt/ansible-pipx
 packages_pipx_cli_version: ">= 1.8.0"
 packages_pipx_install: []
-
-# Configuration files
-
-packages_config_files: []

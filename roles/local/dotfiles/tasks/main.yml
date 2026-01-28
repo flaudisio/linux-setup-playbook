@@ -18,6 +18,10 @@
   become: false
   tags: dotfiles:vim-plugins
 
+- name: Include extra files tasks
+  ansible.builtin.import_tasks: extra-files.yml
+  tags: dotfiles:extra-files
+
 - name: Run post commands
   ansible.builtin.shell:
     cmd: "{{ item.cmd | default(item) }}"
