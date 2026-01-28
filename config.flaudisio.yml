@@ -10,11 +10,6 @@ __templates_dir: "{{ playbook_dir }}/../templates"
 # Tasks configuration
 # ------------------------------------------------------------------------------
 
-# base
-base_alternatives:
-  - name: editor
-    path: /usr/bin/vim.basic
-
 # ubuntu-pro
 ubuntu_pro_enabled: true
 ubuntu_pro_token: "{{ vault_ubuntu_pro_token }}"
@@ -24,104 +19,8 @@ ubuntu_pro_enable_services:
   - esm-apps
   - esm-infra
 
-# ulauncher
-ulauncher_config:
-  hotkey-show-app: <Alt>F1
-  show-indicator-icon: false
-  theme-name: dark
-
-# git
-git_repos:
-  - repo: https://github.com/flaudisio/scripts.git
-    dest: ~/projects/flaudisio/scripts
-    version: main
-    update_dest: true
-    scripts:
-      - pre-commit install
-      - cmd: ./install.sh
-        changed_stdout: "' -> '"  # 'ln' output
-
-# dotfiles
-dotfiles_repo_local_dest: ~/projects/flaudisio/dotfiles
-
-dotfiles_extra_dirs:
-  - ~/.bashrc.d
-
-dotfiles_vim_plugins:
-  - https://github.com/editorconfig/editorconfig-vim.git
-  - https://github.com/hashivim/vim-terraform.git
-
-dotfiles_post_commands:
-  # Ref: https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories
-  - cmd: pre-commit init-templatedir ~/.git-template
-    creates: ~/.git-template
-
-# restic
-restic_configure_non_root_capabilities: true
-restic_bin_owner: root
-restic_bin_group: "{{ __current_user }}"
-restic_bin_mode: "0750"
-
-# resticprofile
-resticprofile_symlink_name: rp
-
-resticprofile_user: "{{ __current_user }}"
-
-resticprofile_log_dir: "{{ '~/.local/share/resticprofile/logs' | expanduser }}"
-
-resticprofile_log_owner: "{{ __current_user }}"
-resticprofile_log_group: "{{ __current_user }}"
-
-resticprofile_config_dir: "{{ '~/.config/resticprofile' | expanduser }}"
-resticprofile_config_owner: "{{ __current_user }}"
-resticprofile_config_group: "{{ __current_user }}"
-
-resticprofile_config_templates:
-  - src: "{{ __templates_dir }}/resticprofile/.env.j2"
-    sensitive: true
-  - src: "{{ __templates_dir }}/resticprofile/repo-password.txt.j2"
-    sensitive: true
-  - "{{ __templates_dir }}/resticprofile/excludes.txt.j2"
-  - "{{ __templates_dir }}/resticprofile/includes.txt.j2"
-  - "{{ __templates_dir }}/resticprofile/send-after-fail.body.json.j2"
-  - "{{ __templates_dir }}/resticprofile/systemd-working-directory.conf.j2"
-  - "{{ __templates_dir }}/resticprofile/profiles.yaml.j2"
-
-__rp_default_profile: main
-
-resticprofile_enable_schedules:
-  - "{{ __rp_default_profile }}"
-
-# firefox
-firefox_set_as_default_browser: true
-
-# mise
-mise_enable_upgrade: false
-mise_bashrc_file: ~/.bashrc.d/mise.bash
-mise_activate_command: mise activate bash --shims
-
-# docker
-docker_users:
-  - "{{ __current_user }}"
-
-docker_daemon_options:
-  # Change the default IPAM config to avoid overlapping production networks that use the 172.16/12 range
-  # Ref: https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
-  bip: 192.168.243.1/24
-  default-address-pools:
-    # Ref: ipcalc-ng 192.168.244.0/22 -S 27
-    - base: 192.168.244.0/22
-      size: 27
-
-# kvm
-kvm_install_server_packages: true
-kvm_install_virt_manager: true
-kvm_install_client_utilities: true
-
-kvm_users:
-  - "{{ __current_user }}"
-
-kvm_disable_libvirt_qemu_security_driver: true
+# packages - snap
+packages_snap_remove_snapd: true
 
 # packages - APT
 packages_apt_install:
@@ -226,9 +125,6 @@ packages_apt_remove:
 
 packages_apt_autoremove: true
 
-# packages - snap
-packages_snap_remove_snapd: true
-
 # packages - pipx
 packages_pipx_install:
   - name: pre-commit
@@ -237,8 +133,30 @@ packages_pipx_install:
     state: latest
     global: true
 
-# packages - config files
-packages_config_files:
+# git
+git_repos:
+  - repo: https://github.com/flaudisio/scripts.git
+    dest: ~/projects/flaudisio/scripts
+    version: main
+    update_dest: true
+    scripts:
+      - pre-commit install
+      - cmd: ./install.sh
+        changed_stdout: "' -> '"  # 'ln' output
+
+# base
+base_alternatives:
+  - name: editor
+    path: /usr/bin/vim.basic
+
+# dotfiles
+dotfiles_repo_local_dest: ~/projects/flaudisio/dotfiles
+
+dotfiles_vim_plugins:
+  - https://github.com/editorconfig/editorconfig-vim.git
+  - https://github.com/hashivim/vim-terraform.git
+
+dotfiles_extra_files:
   - path: ~/.config/flameshot/flameshot.ini
     content: |
       [General]
@@ -247,6 +165,90 @@ packages_config_files:
       drawColor=#ff0000
       drawThickness=3
       savePath={{ ("~/" + xubuntu_xdg_download_dir) | expanduser }}
+  - path: ~/.local/share/applications/com.google.Chrome.desktop
+    content: |
+      [Desktop Entry]
+      Version=1.0
+      Name=Google Chrome
+      Type=Application
+      NoDisplay=true
+
+dotfiles_post_commands:
+  # Ref: https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories
+  - cmd: pre-commit init-templatedir ~/.git-template
+    creates: ~/.git-template
+
+# mise
+mise_enable_upgrade: false
+mise_bashrc_file: ~/.bashrc.d/mise.bash
+mise_activate_command: mise activate bash --shims
+
+# firefox
+firefox_set_as_default_browser: true
+
+# ulauncher
+ulauncher_config:
+  hotkey-show-app: <Alt>F1
+  show-indicator-icon: false
+  theme-name: dark
+
+# restic
+restic_configure_non_root_capabilities: true
+restic_bin_owner: root
+restic_bin_group: "{{ __current_user }}"
+restic_bin_mode: "0750"
+
+# resticprofile
+resticprofile_symlink_name: rp
+
+resticprofile_user: "{{ __current_user }}"
+
+resticprofile_log_dir: "{{ '~/.local/share/resticprofile/logs' | expanduser }}"
+resticprofile_log_owner: "{{ __current_user }}"
+resticprofile_log_group: "{{ __current_user }}"
+
+resticprofile_config_dir: "{{ '~/.config/resticprofile' | expanduser }}"
+resticprofile_config_owner: "{{ __current_user }}"
+resticprofile_config_group: "{{ __current_user }}"
+
+resticprofile_config_templates:
+  - src: "{{ __templates_dir }}/resticprofile/.env.j2"
+    sensitive: true
+  - src: "{{ __templates_dir }}/resticprofile/repo-password.txt.j2"
+    sensitive: true
+  - "{{ __templates_dir }}/resticprofile/excludes.txt.j2"
+  - "{{ __templates_dir }}/resticprofile/includes.txt.j2"
+  - "{{ __templates_dir }}/resticprofile/send-after-fail.body.json.j2"
+  - "{{ __templates_dir }}/resticprofile/systemd-working-directory.conf.j2"
+  - "{{ __templates_dir }}/resticprofile/profiles.yaml.j2"
+
+__rp_default_profile: main
+
+resticprofile_enable_schedules:
+  - "{{ __rp_default_profile }}"
+
+# docker
+docker_users:
+  - "{{ __current_user }}"
+
+docker_daemon_options:
+  # Change the default IPAM config to avoid overlapping production networks that use the 172.16/12 range
+  # Ref: https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
+  bip: 192.168.243.1/24
+  default-address-pools:
+    # Ref: ipcalc-ng 192.168.244.0/22 -S 27
+    - base: 192.168.244.0/22
+      size: 27
+
+# kvm
+kvm_install_server_packages: true
+kvm_install_virt_manager: true
+kvm_install_client_utilities: true
+
+kvm_users:
+  - "{{ __current_user }}"
+
+kvm_disable_libvirt_qemu_security_driver: true
 
 # xubuntu - autostart
 xubuntu_autostart_disable_apps:

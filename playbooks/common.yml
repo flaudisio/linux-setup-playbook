@@ -9,34 +9,34 @@
     - "{{ playbook_dir }}/../vault.yml"
 
   roles:
-    # OS configuration & base utilities
-    - role: base-system
-      tags: base-system
+    # Core packages & system/user configuration
     - role: ubuntu-pro
       tags: ubuntu-pro
     - role: packages
       tags: packages
     - role: git
       tags: git
+    - role: base-system
+      tags: base-system
+    - role: dotfiles
+      tags: dotfiles
+
+    # Base utilities
     - role: mise
       tags: mise
     - role: bat
       tags: bat
+    - role: firefox
+      tags: firefox
+    - role: chrome
+      tags: chrome
 
-    # Desktop & base configuration
+    # Desktop UI/UX
     - role: xubuntu-desktop
       tags: xubuntu
       when: lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu'
     - role: ulauncher
       tags: ulauncher
-    - role: dotfiles
-      tags: dotfiles
-
-    # Utilities
-    - role: firefox
-      tags: firefox
-    - role: chrome
-      tags: chrome
 
     # Backup & file sharing
     - role: rclone
