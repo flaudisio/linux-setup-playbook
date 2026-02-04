@@ -489,7 +489,7 @@ xubuntu_xfce4_terminal_settings:
     value: "false"
     value_type: bool
   - property: /font-name
-    value: DejaVu Sans Mono 11
+    value: JetBrains Mono 11
     value_type: string
   - property: /misc-borders-default
     value: "false"
