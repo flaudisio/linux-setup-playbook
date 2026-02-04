@@ -113,14 +113,20 @@ packages_apt_remove:
   - gnome-software-plugin-snap
   - gnumeric
   - hexchat
+  - libreoffice-draw
+  - libreoffice-impress
+  - libreoffice-math
   - motd-news-config
   - mousepad
+  - parole
   - rhythmbox
   - sgt-launcher
   - sgt-puzzles
+  - simple-scan
   - thunderbird
   - unattended-upgrades
   - xfburn
+  - xfce4-dict
   - xul-ext-ubufox
 
 packages_apt_autoremove: true
