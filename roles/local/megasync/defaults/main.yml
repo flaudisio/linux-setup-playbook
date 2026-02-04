@@ -1,0 +1,7 @@
+---
+# Ref: https://mega.io/desktop#download
+
+megasync_package_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
+
+megasync_package_url: >-
+  https://mega.nz/linux/repo/xUbuntu_{{ ansible_facts.distribution_version }}/{{ megasync_package_arch }}/megasync-xUbuntu_{{ ansible_facts.distribution_version }}_{{ megasync_package_arch }}.deb
