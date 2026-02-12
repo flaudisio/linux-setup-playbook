@@ -163,6 +163,13 @@ dotfiles_vim_plugins:
   - https://github.com/hashivim/vim-terraform.git
 
 dotfiles_extra_files:
+  # Avoid conflicts in xfce4-panel's Status Tray plugin
+  # Ref: https://gitlab.xfce.org/xfce/xfce4-panel/-/issues/599#note_102686
+  - path: ~/.config/autostart/ayatana-indicator-application.desktop
+    content: |
+      [Desktop Entry]
+      Hidden=true
+  # Flameshot config
   - path: ~/.config/flameshot/flameshot.ini
     content: |
       [General]
@@ -171,6 +178,7 @@ dotfiles_extra_files:
       drawColor=#ff0000
       drawThickness=3
       savePath={{ ("~/" + xubuntu_xdg_download_dir) | expanduser }}
+  # Fix duplicate Chrome icon in menus (and Ulauncher)
   - path: ~/.local/share/applications/com.google.Chrome.desktop
     content: |
       [Desktop Entry]
