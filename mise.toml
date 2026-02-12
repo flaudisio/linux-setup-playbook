@@ -4,7 +4,7 @@ shellcheck = "0.11"
 uv = "latest"
 
 [vars]
-PROJECT_NAME = "{{ cwd | basename }}"
+PROJECT_NAME = "linux-setup-playbook"
 VENV_DIR = "{{ env.HOME }}/.virtualenvs/{{ vars.PROJECT_NAME }}"
 COLLECTIONS_PATH = "collections"
 ROLES_PATH = "roles/public"
