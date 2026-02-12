@@ -1,4 +1,12 @@
 ---
+- name: Include fonts tasks
+  ansible.builtin.import_tasks: fonts.yml
+  tags: xubuntu:fonts
+
+- name: Include theme tasks
+  ansible.builtin.import_tasks: theme.yml
+  tags: xubuntu:theme
+
 - name: Include autostart tasks
   ansible.builtin.import_tasks: autostart.yml
   become: false
@@ -18,14 +26,6 @@
   ansible.builtin.import_tasks: keyboard-shortcuts.yml
   become: false
   tags: xubuntu:keyboard-shortcuts
-
-- name: Include theme tasks
-  ansible.builtin.import_tasks: theme.yml
-  tags: xubuntu:theme
-
-- name: Include fonts tasks
-  ansible.builtin.import_tasks: fonts.yml
-  tags: xubuntu:fonts
 
 - name: Apply Thunar settings
   community.general.xfconf:

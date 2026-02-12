@@ -5,6 +5,28 @@ xubuntu_home_dir: "{{ '~' | expanduser }}"
 xubuntu_config_dir: "{{ xubuntu_home_dir }}/.config"
 xubuntu_local_fonts_dir: "{{ xubuntu_home_dir }}/.local/share/fonts"
 
+# Fonts
+
+xubuntu_fonts_packages: []
+
+# xubuntu_fonts_archives:
+#   - name: ExampleFont
+#     url: https://github.com/example/example-font/releases/download/v1.0/ExampleFont-1.0.zip
+#     include_files:
+#       - fonts/*
+xubuntu_fonts_archives: []
+
+xubuntu_system_default_font: ""
+xubuntu_system_monospace_font: ""
+xubuntu_window_title_font: ""
+
+# Theme
+
+xubuntu_theme_packages: []
+
+xubuntu_system_theme: ""
+xubuntu_cursor_theme: ""
+
 # Autostart
 
 xubuntu_autostart_dir: "{{ xubuntu_config_dir }}/autostart"
@@ -41,28 +63,6 @@ xubuntu_extra_keyboard_shortcuts: []
 xubuntu_window_manager_shortcuts: []
 xubuntu_remove_keyboard_shortcuts: []
 xubuntu_remove_window_manager_shortcuts: []
-
-# Theme
-
-xubuntu_theme_packages: []
-
-xubuntu_system_theme: ""
-xubuntu_cursor_theme: ""
-
-# Fonts
-
-xubuntu_fonts_packages: []
-
-# xubuntu_fonts_archives:
-#   - name: ExampleFont
-#     url: https://github.com/example/example-font/releases/download/v1.0/ExampleFont-1.0.zip
-#     include_files:
-#       - fonts/*
-xubuntu_fonts_archives: []
-
-xubuntu_system_default_font: ""
-xubuntu_system_monospace_font: ""
-xubuntu_window_title_font: ""
 
 # Thunar
 
