@@ -455,6 +455,12 @@ xubuntu_xfce4_terminal_settings:
   - property: /background-mode
     value: TERMINAL_BACKGROUND_SOLID
     value_type: string
+  - property: /cell-height-scale
+    value: "1.100000"
+    value_type: double
+  - property: /cell-width-scale
+    value: "1.000000"
+    value_type: double
   - property: /color-background
     value: "#000000"
     value_type: string
