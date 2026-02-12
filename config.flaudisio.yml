@@ -256,6 +256,30 @@ kvm_users:
 
 kvm_disable_libvirt_qemu_security_driver: true
 
+# xubuntu - fonts
+xubuntu_fonts_packages:
+  - fonts-dejavu-core
+  - fonts-noto-core
+  - fonts-noto-mono
+
+xubuntu_fonts_archives:
+  - name: JetBrainsMono
+    url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip
+    include_files:
+      - fonts/*
+
+xubuntu_system_default_font: Noto Sans 9
+xubuntu_system_monospace_font: DejaVu Sans Mono 10
+xubuntu_window_title_font: Noto Sans Bold 9
+
+# xubuntu - theme
+xubuntu_theme_packages:
+  - greybird-gtk-theme
+  - oxygen-cursor-theme
+
+xubuntu_system_theme: Greybird-dark
+xubuntu_cursor_theme: oxy-zion
+
 # xubuntu - autostart
 xubuntu_autostart_disable_apps:
   - blueman
@@ -374,30 +398,6 @@ xubuntu_window_manager_shortcuts:
     cmd: hide_window_key
   - shortcut: <Super>Up
     cmd: maximize_window_key
-
-# xubuntu - theme
-xubuntu_theme_packages:
-  - greybird-gtk-theme
-  - oxygen-cursor-theme
-
-xubuntu_system_theme: Greybird-dark
-xubuntu_cursor_theme: oxy-zion
-
-# xubuntu - fonts
-xubuntu_fonts_packages:
-  - fonts-dejavu-core
-  - fonts-noto-core
-  - fonts-noto-mono
-
-xubuntu_fonts_archives:
-  - name: JetBrainsMono
-    url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip
-    include_files:
-      - fonts/*
-
-xubuntu_system_default_font: Noto Sans 9
-xubuntu_system_monospace_font: DejaVu Sans Mono 10
-xubuntu_window_title_font: Noto Sans Bold 9
 
 # xubuntu - Thunar
 xubuntu_thunar_settings:
