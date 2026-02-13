@@ -305,6 +305,7 @@ xubuntu_xdg_videos_dir: library/Videos
 # xubuntu - bookmarks
 xubuntu_bookmarks:
   - ~/{{ xubuntu_xdg_download_dir }}
+  - ~/arquivos
   - ~/projects
 
 # xubuntu - keyboard shortcuts
