@@ -509,6 +509,9 @@ xubuntu_xfce4_terminal_settings:
   - property: /misc-borders-default
     value: "false"
     value_type: bool
+  - property: /misc-default-geometry
+    value: 165x40
+    value_type: string
   - property: /misc-menubar-default
     value: "false"
     value_type: bool
