@@ -1,11 +1,11 @@
 ---
-- name: Gather package facts
-  ansible.builtin.package_facts:
-    manager: auto
-  when: ansible_facts.packages is not defined
+- name: Get the currently installed version
+  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show discord || true
+  register: _check_installed_version
+  changed_when: false
 
 - name: Run installation tasks
-  when: discord_version not in ansible_facts.packages["discord"] | default([]) | map(attribute="version")
+  when: discord_version != _check_installed_version.stdout
   block:
     - name: Fetch Discord download URL
       ansible.builtin.uri:
@@ -16,16 +16,30 @@
       retries: 2
       delay: 3
 
-    - name: Set package URL for the provided version
-      ansible.builtin.set_fact:
-        # (Hacky) way to reuse Discord's download URL structure
-        discord_package_url: "{{ _api_uri.url | regex_replace('[0-9]+\\.[0-9]+\\.[0-9]+', discord_version) }}"
-      when: discord_version != "latest"
-
-    - name: Set package URL for the latest version
+    - name: Set variables for the latest version
       ansible.builtin.set_fact:
         discord_package_url: "{{ _api_uri.url }}"
+        # Extract latest version from URL
+        discord_target_version: "{{
+          _api_uri.url | regex_search('discord-([0-9]+\\.[0-9]+\\.[0-9]+)\\.deb$', '\\1') | default([''], true) | first
+        }}"
       when: discord_version == "latest"
+
+    - name: Set variables for non-latest version
+      ansible.builtin.set_fact:
+        # Reuse download URL structure
+        discord_package_url: "{{ _api_uri.url | regex_replace('[0-9]+\\.[0-9]+\\.[0-9]+', discord_version) }}"
+        discord_target_version: "{{ discord_version }}"
+      when: discord_version != "latest"
+
+    - name: Show current variables configuration
+      ansible.builtin.debug:
+        msg: |
+          Provided version:  {{ discord_version }}
+          Installed version: {{ _check_installed_version.stdout }}
+          Target version:    {{ discord_target_version }}
+          Package URL:       {{ discord_package_url }}
+      when: ansible_verbosity >= 2
 
     - name: Download package
       ansible.builtin.get_url:
@@ -35,8 +49,10 @@
       delay: 3
       register: _download_result
       until: _download_result is succeeded
+      when: _check_installed_version.stdout != discord_target_version
 
     - name: Install package
       ansible.builtin.apt:
         deb: /tmp/discord.deb
         state: present
+      when: _check_installed_version.stdout != discord_target_version
