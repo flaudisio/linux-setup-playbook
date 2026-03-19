@@ -27,7 +27,16 @@
         discord_package_url: "{{ _api_uri.url }}"
       when: discord_version == "latest"
 
+    - name: Download package
+      ansible.builtin.get_url:
+        url: "{{ discord_package_url }}"
+        dest: /tmp/discord.deb
+      retries: 2
+      delay: 3
+      register: _download_result
+      until: _download_result is succeeded
+
     - name: Install package
       ansible.builtin.apt:
-        deb: "{{ discord_package_url }}"
+        deb: /tmp/discord.deb
         state: present
