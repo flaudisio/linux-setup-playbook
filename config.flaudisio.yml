@@ -160,6 +160,7 @@ dotfiles_repo_local_dest: ~/projects/flaudisio/dotfiles
 
 dotfiles_vim_plugins:
   - https://github.com/editorconfig/editorconfig-vim.git
+  - https://github.com/grafana/vim-alloy.git
   - https://github.com/hashivim/vim-terraform.git
 
 dotfiles_extra_files:
