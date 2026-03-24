@@ -65,20 +65,20 @@ run = [
 description = "Configure Ansible Vault password"
 run = "doppler secrets get VAULT_PASSWORD --project {{ vars.PROJECT_NAME }} --plain | ./scripts/vault-keyring.sh --debug"
 
-[tasks."vault:download-vars"]
+[tasks."vault:download"]
 description = "Create the variables file containing Vault secrets"
 run = [
   "doppler secrets get VAULT_YAML --project {{ vars.PROJECT_NAME }} --plain > vault.yml",
   "chmod 600 vault.yml",
 ]
 
+[tasks."vault:upload"]
+description = "Upload the variables file to the cloud"
+run = "cat vault.yml | doppler secrets set VAULT_YAML --project {{ vars.PROJECT_NAME }} --silent"
+
 [tasks."vault:setup"]
 description = "Setup the repository to use Ansible Vault"
 run = [
   "mise run vault:password",
-  "mise run vault:download-vars",
+  "mise run vault:download",
 ]
-
-[tasks."vault:upload-vars"]
-description = "Upload the variables file to the cloud"
-run = "cat vault.yml | doppler secrets set VAULT_YAML --project {{ vars.PROJECT_NAME }} --silent"
