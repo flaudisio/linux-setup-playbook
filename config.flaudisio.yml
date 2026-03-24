@@ -3,6 +3,8 @@
 # Helper variables
 # ------------------------------------------------------------------------------
 
+ansible_managed: Managed by Ansible
+
 __current_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
 __templates_dir: "{{ playbook_dir }}/../templates"
 
