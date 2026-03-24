@@ -30,22 +30,12 @@ run = [
   "git clean -fdx -- '{{ vars.COLLECTIONS_PATH }}' '{{ vars.ROLES_PATH }}'",
 ]
 
-[tasks."install:ansible"]
-description = "Install Ansible and project dependencies"
-run = "uv pip install -r requirements.txt"
-
-[tasks."install:galaxy"]
-description = "Install Galaxy dependencies from requirements files"
+[tasks.install]
+description = "Install dependencies"
 run = [
+  "uv pip install -r requirements.txt",
   "ansible-galaxy collection install --upgrade --requirements-file requirements.yml --collections-path '{{ vars.COLLECTIONS_PATH }}'",
   "ansible-galaxy role install --role-file requirements.yml --roles-path '{{ vars.ROLES_PATH }}'",
-]
-
-[tasks.install]
-description = "Run all installation tasks"
-run = [
-  "mise run install:ansible",
-  "mise run install:galaxy",
 ]
 
 [tasks.venv-activate]
