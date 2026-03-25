@@ -164,12 +164,6 @@ dotfiles_vim_plugins:
   - https://github.com/hashivim/vim-terraform.git
 
 dotfiles_extra_files:
-  # Avoid conflicts in xfce4-panel's Status Tray plugin
-  # Ref: https://gitlab.xfce.org/xfce/xfce4-panel/-/issues/599#note_102686
-  - path: ~/.config/autostart/ayatana-indicator-application.desktop
-    content: |
-      [Desktop Entry]
-      Hidden=true
   # Flameshot config
   - path: ~/.config/flameshot/flameshot.ini
     content: |
@@ -293,6 +287,9 @@ xubuntu_cursor_theme: oxy-zion
 xubuntu_autostart_disable_apps:
   - blueman
   - update-notifier
+  # Avoid conflicts in xfce4-panel's Status Tray plugin
+  # Ref: https://gitlab.xfce.org/xfce/xfce4-panel/-/issues/599#note_102686
+  - ayatana-indicator-application
 
 # xubuntu - XDG user dirs
 xubuntu_xdg_documents_dir: library/Documents
