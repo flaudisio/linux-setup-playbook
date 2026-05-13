@@ -12,7 +12,7 @@
     src: "{{ resticprofile_dl_url }}"
     dest: "{{ resticprofile_bin_path | dirname }}"
     include:
-      - resticprofile  # Extract only the binary
+      - resticprofile
     owner: root
     group: root
     mode: "0755"

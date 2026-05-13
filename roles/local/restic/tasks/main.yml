@@ -44,7 +44,7 @@
     group: "{{ restic_bin_group }}"
     mode: "{{ restic_bin_mode }}"
 
-- name: Configure non-root user capabilities on binary file
+- name: Set binary file capabilities
   community.general.capabilities:
     path: "{{ restic_bin_path }}"
     capability: cap_dac_read_search=+ep
