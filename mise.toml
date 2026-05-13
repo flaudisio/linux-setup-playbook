@@ -5,7 +5,7 @@ uv = "latest"
 
 [vars]
 PROJECT_NAME = "{{ config_root | basename }}"
-VENV_DIR = "{{ env.HOME }}/.virtualenvs/{{ vars.PROJECT_NAME }}"
+VENV_DIR = ".venv"
 COLLECTIONS_PATH = "collections"
 ROLES_PATH = "roles/public"
 
@@ -31,22 +31,13 @@ run = [
   "git clean -fdx -- '{{ vars.COLLECTIONS_PATH }}' '{{ vars.ROLES_PATH }}'",
 ]
 
-[tasks."install:ansible"]
-description = "Install Ansible and project dependencies"
-run = "uv pip install -r requirements.txt"
-
-[tasks."install:galaxy"]
-description = "Install Galaxy dependencies from requirements files"
+[tasks.install]
+description = "Install dependencies"
+alias = "i"
 run = [
+  "uv pip install -r requirements.txt",
   "ansible-galaxy collection install --upgrade --requirements-file requirements.yml --collections-path '{{ vars.COLLECTIONS_PATH }}'",
   "ansible-galaxy role install --role-file requirements.yml --roles-path '{{ vars.ROLES_PATH }}'",
-]
-
-[tasks.install]
-description = "Run all installation tasks"
-run = [
-  "mise run install:ansible",
-  "mise run install:galaxy",
 ]
 
 [tasks.venv-activate]
@@ -66,20 +57,20 @@ run = [
 description = "Configure Ansible Vault password"
 run = "doppler secrets get VAULT_PASSWORD --project {{ vars.PROJECT_NAME }} --plain | ./scripts/vault-keyring.sh --debug"
 
-[tasks."vault:download-vars"]
+[tasks."vault:download"]
 description = "Create the variables file containing Vault secrets"
 run = [
   "doppler secrets get VAULT_YAML --project {{ vars.PROJECT_NAME }} --plain > vault.yml",
   "chmod 600 vault.yml",
 ]
 
+[tasks."vault:upload"]
+description = "Upload the variables file to the cloud"
+run = "cat vault.yml | doppler secrets set VAULT_YAML --project {{ vars.PROJECT_NAME }} --silent"
+
 [tasks."vault:setup"]
 description = "Setup the repository to use Ansible Vault"
 run = [
   "mise run vault:password",
-  "mise run vault:download-vars",
+  "mise run vault:download",
 ]
-
-[tasks."vault:upload-vars"]
-description = "Upload the variables file to the cloud"
-run = "cat vault.yml | doppler secrets set VAULT_YAML --project {{ vars.PROJECT_NAME }} --silent"
