@@ -99,7 +99,6 @@ packages_apt_install:
   - printer-driver-cups-pdf
   - rename
   - sqlite3
-  - transmission-qt
   - unar
   - unrar
   - unzip

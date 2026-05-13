@@ -9,3 +9,15 @@
     deb: "{{ chrome_package_url }}"
     state: present
   when: "'google-chrome-stable' not in ansible_facts.packages"
+
+- name: Set Chrome as default browser in Alternatives
+  community.general.alternatives:
+    name: "{{ item }}"
+    link: /usr/bin/{{ item }}
+    path: /usr/bin/google-chrome-stable
+    priority: 100
+    state: selected
+  loop:
+    - gnome-www-browser
+    - x-www-browser
+  when: chrome_set_as_default_browser | bool

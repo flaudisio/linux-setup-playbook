@@ -6,6 +6,13 @@ packages_apt_remove: []
 packages_apt_purge: true
 packages_apt_autoremove: false
 
+# packages_apt_pin_versions:
+#   - package: alloy
+#     version: 1.16.1
+#   - package: nginx
+#     version: 1.24.0-*
+packages_apt_pin_versions: []
+
 # Snap
 
 packages_snap_remove_snapd: false

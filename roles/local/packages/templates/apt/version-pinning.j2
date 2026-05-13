@@ -1,0 +1,7 @@
+{% for item in packages_apt_pin_versions %}
+Package: {{ item.package }}
+Pin: version {{ item.version }}
+Pin-Priority: 700
+{# Empty line for better readability #}
+
+{% endfor %}

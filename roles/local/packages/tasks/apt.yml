@@ -24,3 +24,19 @@
     purge: "{{ packages_apt_purge }}"
   when: packages_apt_autoremove | bool
   tags: packages:apt:autoremove
+
+- name: Configure version pinnings
+  ansible.builtin.template:
+    src: apt/version-pinning.j2
+    dest: /etc/apt/preferences.d/ansible-version-pinning
+    owner: root
+    group: root
+    mode: "0644"
+    lstrip_blocks: true
+  when: packages_apt_pin_versions | length > 0
+
+- name: Ensure version pinning configuration is absent
+  ansible.builtin.file:
+    path: /etc/apt/preferences.d/ansible-version-pinning
+    state: absent
+  when: packages_apt_pin_versions | length == 0
