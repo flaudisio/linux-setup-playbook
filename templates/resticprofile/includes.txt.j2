@@ -4,3 +4,7 @@
 /home
 /root
 /usr/local/bin
+
+{% for dir in __rp_extra_backup_dirs | default([]) %}
+{{ dir }}
+{% endfor %}
