@@ -55,8 +55,6 @@
     # IDEs & development tools
     - role: vscode
       tags: vscode
-    - role: q
-      tags: q
 
     # Misc. applications
     - role: discord
