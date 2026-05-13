@@ -6,13 +6,12 @@ git_extra_packages:
   - qgit
   - tig
 
-git_open_version: 3.1.0
+git_open_version: 41ebfceb
 
-git_open_dl_url: https://raw.githubusercontent.com/paulirish/git-open/v{{ git_open_version }}/git-open
+git_open_dl_url: https://raw.githubusercontent.com/paulirish/git-open/{{ git_open_version }}/git-open
 
 git_open_bin_path: /usr/local/bin/git-open
 
-# Example:
 # git_config: |
 #   [user]
 #     name = Example User
