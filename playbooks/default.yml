@@ -11,13 +11,11 @@
       tags: packages
     - role: git
       tags: git
+    - role: mise
+      tags: mise
     - role: chrome
       tags: chrome
     - role: geerlingguy.docker
       tags: docker
-    - role: mise
-      tags: mise
-    - role: bat
-      tags: bat
     - role: vscode
       tags: vscode
