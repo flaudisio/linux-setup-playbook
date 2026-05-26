@@ -52,9 +52,11 @@
     - role: session-manager-plugin
       tags: session-manager-plugin
 
-    # IDEs & development tools
+    # Development tools
     - role: vscode
       tags: vscode
+    - role: opencode
+      tags: opencode
 
     # Misc. applications
     - role: discord

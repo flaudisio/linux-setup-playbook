@@ -1,0 +1,38 @@
+---
+- name: Set variable with expanded path
+  ansible.builtin.set_fact:
+    _opencode_install_path: "{{ opencode_install_path | expanduser }}"
+
+- name: Check if version {{ opencode_version }} is installed
+  ansible.builtin.command: >
+    {{ _opencode_install_path }} --version
+  register: _check_version
+  changed_when: false
+  failed_when: false
+  become: "{{ opencode_install_become }}"
+
+- name: Ensure bin directory exists
+  ansible.builtin.file:
+    path: "{{ _opencode_install_path | dirname }}"
+    state: directory
+    mode: "0755"
+  become: "{{ opencode_install_become }}"
+  when: >
+    _check_version.rc != 0
+    or (opencode_enable_upgrade and opencode_version not in _check_version.stdout)
+
+- name: Install binary
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ opencode_archive_url }}"
+    dest: "{{ opencode_install_path | dirname }}"
+    include:
+      - opencode
+    mode: "0755"
+  become: "{{ opencode_install_become }}"
+  when: >
+    not ansible_check_mode
+    and (
+      _check_version.rc != 0
+      or (opencode_enable_upgrade and opencode_version not in _check_version.stdout)
+    )
