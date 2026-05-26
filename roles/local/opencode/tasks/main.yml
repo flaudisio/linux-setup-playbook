@@ -36,3 +36,11 @@
       _check_version.rc != 0
       or (opencode_enable_upgrade and opencode_version not in _check_version.stdout)
     )
+
+- name: Create symlink to binary
+  ansible.builtin.file:
+    src: "{{ opencode_install_path }}"
+    dest: "{{ opencode_symlink_path | expanduser }}"
+    state: link
+  become: "{{ opencode_install_become }}"
+  when: opencode_symlink_path != ""

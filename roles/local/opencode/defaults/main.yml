@@ -9,3 +9,5 @@ opencode_archive_url: >-
 opencode_install_path: ~/.opencode/bin/opencode
 opencode_install_become: false
 opencode_enable_upgrade: false
+
+opencode_symlink_path: ~/.local/bin/opencode
