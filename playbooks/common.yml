@@ -53,6 +53,8 @@
       tags: session-manager-plugin
 
     # Development tools
+    - role: ghostty
+      tags: ghostty
     - role: vscode
       tags: vscode
     - role: opencode
