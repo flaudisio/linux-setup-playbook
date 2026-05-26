@@ -33,7 +33,7 @@ global:
       - >-
         notify-send --expire-time 0 --icon dialog-error
         "resticprofile backup error"
-        "See execution logs in {{ resticprofile_log_dir }}/{{ '{{ .Profile.Name }}' }}.log"
+        "See execution logs with 'journalctl --user -u resticprofile-backup@profile-{{ '{{ .Profile.Name }}' }}.service'"
     send-after-fail:
       method: POST
       url: {{ vault_restic_gotify_host }}/message
