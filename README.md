@@ -9,10 +9,10 @@ flavor running the same version.
 
 ## Prerequisites
 
+- [mise-en-place](https://mise.jdx.dev/installing-mise.html)
 - Git
-- Python [venv](https://docs.python.org/3/library/venv.html) module
 
-The installation steps below take care of bootstrapping a default (X)Ubuntu installation.
+The installation steps below take care of bootstrapping a vanilla (X)Ubuntu installation.
 
 ## Installation
 
@@ -26,9 +26,9 @@ wget -q -O - https://raw.githubusercontent.com/flaudisio/linux-setup-playbook/re
 
 The script will:
 
-- Install Git and Python's [venv](https://docs.python.org/3/library/venv.html) module package (`python3-venv`)
+- Install Git
 - Clone this repository
-- Install Ansible in a virtualenv and download the required collections/roles to the cloned folder
+- Install Ansible (in a virtualenv) and collections/roles used by this repository
 
 ## Overriding defaults
 
@@ -46,16 +46,20 @@ packages_apt_install:
 
 packages_pipx_install:
   - pre-commit
+  - name: ps-mem
+    global: true
 
-# Clear the custom Docker daemon options by setting an empty object
-docker_daemon_options: {}
+# Customize Docker daemon options
+docker_daemon_options:
+  bip: 192.168.243.1/24
+  default-address-pools:
+    - base: 192.168.244.0/22
+      size: 27
 ```
 
-For all available options, see the roles' variable files in the [local roles](roles/local) folder.
+For all available options, see roles' variable files in the [local](roles/local) folder.
 
 ## Running the playbook
-
-Run the `setup` playbook:
 
 ```bash
 cd ~/.local/share/linux-setup-playbook

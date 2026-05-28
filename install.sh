@@ -23,7 +23,7 @@ function main()
     _msg "==> Installing dependencies"
 
     _run sudo apt-get update -q
-    _run sudo apt-get install -q -y curl git python3-pip python3-venv
+    _run sudo apt-get install -q -y curl git
 
     if [[ ! -d "$INSTALL_DIR" ]] ; then
         _msg "==> Cloning repository"
