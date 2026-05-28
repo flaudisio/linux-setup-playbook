@@ -3,8 +3,8 @@
   hosts: all
 
   vars_files:
-    - config.default.yml
-    - config.yml
+    - "{{ playbook_dir }}/../config.default.yml"
+    - "{{ playbook_dir }}/../config.yml"
 
   roles:
     - role: packages
