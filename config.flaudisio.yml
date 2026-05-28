@@ -42,6 +42,7 @@ packages_apt_install:
   - gedit
   - gedit-plugins
   - jq
+  - ripgrep
   - vim
   # Sysadmin
   - arping
