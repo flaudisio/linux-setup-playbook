@@ -59,7 +59,7 @@ Use the following commands to run the playbook:
 
 cd $INSTALL_DIR
 
-./run.sh main.yml --list-tasks
+./run playbooks/default.yml --list-tasks
 --------------------------------------------------
 EOM
 }

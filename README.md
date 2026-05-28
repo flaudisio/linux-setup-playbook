@@ -60,12 +60,12 @@ Run the `setup` playbook:
 ```bash
 cd ~/.local/share/linux-setup-playbook
 
-./run.sh playbooks/default.yml
+./run playbooks/default.yml
 ```
 
-The [run.sh](run.sh) script is a tiny wrapper for the `ansible-playbook` command. By default it uses
-the `--become --ask-become-pass` arguments, so your user must be able to use `sudo` (which is default
-on clean Ubuntu installations).
+The [run](run) helper is a tiny wrapper for the `ansible-playbook` command. By default it uses the
+`--become --ask-become-pass` arguments, so your user must be able to use `sudo` (which is default on
+clean Ubuntu installations).
 
 ## Running specific tasks
 
@@ -75,10 +75,11 @@ mode and so on.
 Example:
 
 ```bash
-./run.sh playbooks/default.yml --list-tasks
-./run.sh playbooks/default.yml -t packages
-./run.sh playbooks/default.yml -t packages --diff --check
-./run.sh playbooks/default.yml -t git -t chrome
+./run --help
+./run playbooks/default.yml --list-tasks
+./run playbooks/default.yml -t packages
+./run playbooks/default.yml -t packages --diff --check
+./run playbooks/default.yml -t git -t chrome
 ```
 
 ## Thanks

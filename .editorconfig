@@ -23,6 +23,9 @@ indent_size = 4
 indent_size = 4
 indent_style = tab
 
+[run]
+indent_size = 4
+
 # Note: shell configuration is used by shfmt
 # TODO: add pre-commit hook for shfmt
 [*.sh]
