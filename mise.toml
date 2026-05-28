@@ -40,11 +40,6 @@ run = [
   "ansible-galaxy role install --role-file requirements.yml --roles-path '{{ vars.ROLES_PATH }}'",
 ]
 
-[tasks.venv-activate]
-description = "Print the virtualenv activation command"
-run = "echo source '{{ vars.VENV_DIR }}/bin/activate'"
-quiet = true
-
 [tasks.show-env]
 description = "Print information about the environment"
 run = [
