@@ -13,7 +13,7 @@ if [[ "$1" != ansible* ]] ; then
 fi
 
 if ! command -v ansible > /dev/null ; then
-    eval "$( mise run venv-activate )"
+    CMD=( mise exec -- "${CMD[@]}" )
 fi
 
 echo "+ ${CMD[*]}" >&2
