@@ -190,7 +190,6 @@ dotfiles_post_commands:
     creates: ~/.git-template
 
 # mise
-mise_enable_upgrade: false
 mise_bashrc_file: ~/.bashrc.d/mise.bash
 mise_activate_command: mise activate bash --shims
 

@@ -1,28 +1,32 @@
 ---
-- name: Check if version {{ mise_version }} is installed
-  ansible.builtin.shell: >
-    {{ mise_install_path }} version || true
-  register: _check_version
-  changed_when: false
-  become: "{{ mise_install_become }}"
-  tags: mise:install
-
-- name: Install binary
+- name: Install repository key
   ansible.builtin.get_url:
-    url: "{{ mise_bin_dl_url }}"
-    dest: "{{ mise_install_path | expanduser }}"
-    checksum: sha256:{{ mise_sha256sums_url }}
-    owner: "{{ mise_install_become | ternary('root', omit) }}"
-    group: "{{ mise_install_become | ternary('root', omit) }}"
-    mode: "0755"
-  become: "{{ mise_install_become }}"
-  when: >
-    not ansible_check_mode
-    and (
-      _check_version.stdout == ""
-      or (mise_enable_upgrade and (mise_version ~ " ") not in _check_version.stdout)
-    )
-  tags: mise:install
+    url: "{{ mise_apt_repo_key_url }}"
+    dest: "{{ mise_apt_repo_key_file }}"
+    force: true
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configure repository
+  ansible.builtin.deb822_repository:
+    name: "{{ mise_apt_repo_name }}"
+    types: deb
+    uris: "{{ mise_apt_repo_uri }}"
+    suites: "{{ mise_apt_repo_suite }}"
+    components: "{{ mise_apt_repo_component }}"
+    architectures: "{{ mise_apt_repo_architectures }}"
+    signed_by: "{{ mise_apt_repo_key_file }}"
+    state: present
+  notify: mise - apt update
+
+- name: Flush handlers to update the APT cache
+  ansible.builtin.meta: flush_handlers
+
+- name: Install package
+  ansible.builtin.apt:
+    name: mise
+    state: present
 
 - name: Configure .bashrc
   ansible.builtin.blockinfile:
@@ -36,23 +40,20 @@
     backup: false
     state: "{{ mise_configure_bashrc | bool | ternary('present', 'absent') }}"
   become: "{{ mise_bashrc_become }}"
-  tags: mise:bashrc
 
 - name: Install usage tool
   ansible.builtin.command: >
-    {{ mise_install_path }} use --global usage
+    mise use --global usage
   register: _install_usage
   changed_when: "'Installed' in _install_usage.stdout"
   when:
     - mise_configure_bashrc | bool
     - mise_configure_bash_completion | bool
-  tags: mise:completion
 
 - name: Configure Bash completion
   ansible.builtin.shell: >
-    {{ mise_install_path }} completion bash --include-bash-completion-lib > /etc/bash_completion.d/mise
+    mise completion bash --include-bash-completion-lib > /etc/bash_completion.d/mise
   changed_when: false
   when:
     - mise_configure_bashrc | bool
     - mise_configure_bash_completion | bool
-  tags: mise:completion

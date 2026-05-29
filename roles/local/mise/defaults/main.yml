@@ -1,17 +1,17 @@
 ---
-# Ref: https://mise.jdx.dev/installing-mise.html#github-releases
+# Ref: https://mise.jdx.dev/installing-mise.html#apt
 
-mise_version: 2026.5.7
+mise_apt_repo_name: mise
 
-mise_bin_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'x64' }}"
+mise_apt_repo_key_url: https://mise.en.dev/gpg-key.pub
+mise_apt_repo_key_file: /etc/apt/keyrings/mise-archive-keyring.asc
 
-mise_bin_dl_url: https://github.com/jdx/mise/releases/download/v{{ mise_version }}/mise-v{{ mise_version }}-linux-{{ mise_bin_dl_arch }}
-
-mise_sha256sums_url: https://github.com/jdx/mise/releases/download/v{{ mise_version }}/SHASUMS256.txt
-
-mise_enable_upgrade: true
-mise_install_path: ~/.local/bin/mise
-mise_install_become: false
+mise_apt_repo_uri: https://mise.en.dev/deb
+mise_apt_repo_suite: stable
+mise_apt_repo_component: main
+mise_apt_repo_architectures:
+  - amd64
+  - arm64
 
 mise_configure_bashrc: true
 mise_bashrc_file: ~/.bashrc
