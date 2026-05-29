@@ -1,4 +1,7 @@
 ---
+- name: Load OS-specific variables
+  ansible.builtin.include_vars: "{{ ansible_facts['distribution'] }}-{{ ansible_facts['distribution_version'] }}.yml"
+
 - name: Install repository key
   ansible.builtin.get_url:
     url: "{{ mise_apt_repo_key_url }}"
@@ -10,12 +13,11 @@
 
 - name: Configure repository
   ansible.builtin.deb822_repository:
-    name: "{{ mise_apt_repo_name }}"
+    name: mise
     types: deb
     uris: "{{ mise_apt_repo_uri }}"
     suites: "{{ mise_apt_repo_suite }}"
     components: "{{ mise_apt_repo_component }}"
-    architectures: "{{ mise_apt_repo_architectures }}"
     signed_by: "{{ mise_apt_repo_key_file }}"
     state: present
   notify: mise - apt update

@@ -1,0 +1,10 @@
+---
+# Ref:
+# - https://mise.jdx.dev/installing-mise.html#apt
+# - https://launchpad.net/~jdxcode/+archive/ubuntu/mise
+mise_apt_repo_key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x38a097c0cce691795e4b15be23997d3eee1edc52
+mise_apt_repo_key_file: /etc/apt/keyrings/mise-ppa-keyring.asc
+
+mise_apt_repo_uri: https://ppa.launchpadcontent.net/jdxcode/mise/ubuntu
+mise_apt_repo_suite: "{{ ansible_facts['distribution_release'] }}"
+mise_apt_repo_component: main

@@ -1,18 +1,4 @@
 ---
-# Ref: https://mise.jdx.dev/installing-mise.html#apt
-
-mise_apt_repo_name: mise
-
-mise_apt_repo_key_url: https://mise.en.dev/gpg-key.pub
-mise_apt_repo_key_file: /etc/apt/keyrings/mise-archive-keyring.asc
-
-mise_apt_repo_uri: https://mise.en.dev/deb
-mise_apt_repo_suite: stable
-mise_apt_repo_component: main
-mise_apt_repo_architectures:
-  - amd64
-  - arm64
-
 mise_configure_bashrc: true
 mise_bashrc_file: ~/.bashrc
 mise_bashrc_become: false

@@ -1,0 +1,8 @@
+---
+# Ref: https://mise.jdx.dev/installing-mise.html#apt
+mise_apt_repo_key_url: https://mise.en.dev/gpg-key.pub
+mise_apt_repo_key_file: /etc/apt/keyrings/mise-archive-keyring.asc
+
+mise_apt_repo_uri: https://mise.en.dev/deb
+mise_apt_repo_suite: stable
+mise_apt_repo_component: main
