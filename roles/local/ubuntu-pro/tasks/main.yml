@@ -2,7 +2,7 @@
 - name: Ensure running on Ubuntu LTS
   ansible.builtin.assert:
     that:
-      - ansible_facts['distribution'] == "Ubuntu"
+      - ansible_facts["distribution"] == "Ubuntu"
       - "'LTS' in ansible_facts['lsb']['description']"
     quiet: true
     success_msg: Running on {{ ansible_facts['lsb']['description'] }}

@@ -8,7 +8,7 @@
   ansible.builtin.apt:
     deb: "{{ ghostty_pkg_url }}"
     state: present
-  when: ghostty_pkg_version not in ansible_facts['packages']['ghostty'] | default([]) | map(attribute="version")
+  when: ghostty_pkg_version not in ansible_facts['packages']['ghostty'] | default([]) | map(attribute='version')
 
 - name: Ensure configuration directory exists
   ansible.builtin.file:

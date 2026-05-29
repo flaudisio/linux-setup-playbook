@@ -8,7 +8,7 @@
   ansible.builtin.apt:
     deb: "{{ rclone_package_url }}"
     state: present
-  when: rclone_version not in ansible_facts['packages']['rclone'] | default([]) | map(attribute="version")
+  when: rclone_version not in ansible_facts['packages']['rclone'] | default([]) | map(attribute='version')
 
 - name: Configure Bash completion
   ansible.builtin.command: >
