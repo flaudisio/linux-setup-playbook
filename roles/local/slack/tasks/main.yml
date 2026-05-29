@@ -2,10 +2,10 @@
 - name: Gather package facts
   ansible.builtin.package_facts:
     manager: auto
-  when: ansible_facts.packages is not defined
+  when: ansible_facts['packages'] is not defined
 
 - name: Run installation tasks
-  when: "'slack-desktop' not in ansible_facts.packages"
+  when: "'slack-desktop' not in ansible_facts['packages']"
   block:
     # Because the Packagecloud API requires authentication, we scrape the search
     # website page to find out the latest .deb package available

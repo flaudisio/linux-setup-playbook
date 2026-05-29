@@ -2,10 +2,10 @@
 - name: Ensure running on Ubuntu LTS
   ansible.builtin.assert:
     that:
-      - ansible_facts.distribution == "Ubuntu"
-      - "'LTS' in ansible_facts.lsb.description"
+      - ansible_facts['distribution'] == "Ubuntu"
+      - "'LTS' in ansible_facts['lsb']['description']"
     quiet: true
-    success_msg: Running on {{ ansible_facts.lsb.description }}
+    success_msg: Running on {{ ansible_facts['lsb']['description'] }}
     fail_msg: This machine is not running an Ubuntu LTS release.
   tags:
     - ubuntu-pro:attach

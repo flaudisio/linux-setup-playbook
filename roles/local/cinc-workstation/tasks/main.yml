@@ -29,7 +29,7 @@
         _package_get_url_checksum: sha256:{{ _package_info['sha256'] }}
       vars:
         # yamllint disable-line rule:line-length
-        _package_info: "{{ _cinc_uri.json[ansible_facts.distribution | lower][ansible_facts.distribution_version][ansible_facts.architecture] }}"
+        _package_info: "{{ _cinc_uri.json[ansible_facts['distribution'] | lower][ansible_facts['distribution_version']][ansible_facts['architecture']] }}"
       when: cinc_workstation_package_url == ""
 
     - name: Set helper variables (direct URL)

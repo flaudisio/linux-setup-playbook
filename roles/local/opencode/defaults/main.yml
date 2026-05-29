@@ -1,7 +1,7 @@
 ---
 opencode_version: 1.15.10
 
-opencode_dl_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'x64' }}"
+opencode_dl_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'x64' }}"
 
 opencode_archive_url: >-
   https://github.com/anomalyco/opencode/releases/download/v{{ opencode_version }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz

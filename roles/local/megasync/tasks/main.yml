@@ -2,10 +2,10 @@
 - name: Gather package facts
   ansible.builtin.package_facts:
     manager: auto
-  when: ansible_facts.packages is not defined
+  when: ansible_facts['packages'] is not defined
 
 - name: Install package
   ansible.builtin.apt:
     deb: "{{ megasync_package_url }}"
     state: present
-  when: "'megasync' not in ansible_facts.packages"
+  when: "'megasync' not in ansible_facts['packages']"

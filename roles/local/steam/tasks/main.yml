@@ -2,10 +2,10 @@
 - name: Gather package facts
   ansible.builtin.package_facts:
     manager: auto
-  when: ansible_facts.packages is not defined
+  when: ansible_facts['packages'] is not defined
 
 - name: Install package
   ansible.builtin.apt:
     deb: "{{ steam_package_url }}"
     state: present
-  when: "'steam-launcher' not in ansible_facts.packages"
+  when: "'steam-launcher' not in ansible_facts['packages']"

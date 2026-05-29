@@ -2,13 +2,13 @@
 - name: Gather package facts
   ansible.builtin.package_facts:
     manager: auto
-  when: ansible_facts.packages is not defined
+  when: ansible_facts['packages'] is not defined
 
 - name: Install package
   ansible.builtin.apt:
     deb: "{{ ulauncher_package_url }}"
     state: present
-  when: ulauncher_version not in ansible_facts.packages["ulauncher"] | default([]) | map(attribute="version")
+  when: ulauncher_version not in ansible_facts['packages']['ulauncher'] | default([]) | map(attribute="version")
 
 - name: Ensure configuration directory exists
   ansible.builtin.file:
