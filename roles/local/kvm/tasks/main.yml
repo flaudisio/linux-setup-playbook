@@ -7,10 +7,13 @@
   failed_when: _check_cpuinfo.rc >= 2
   tags: kvm:install
 
-- name: Fail if processor does not support virtualization
-  ansible.builtin.fail:
-    msg: The machine processor does not support virtualization.
-  when: _check_cpuinfo.rc != 0
+- name: Check if processor supports virtualization
+  ansible.builtin.assert:
+    that:
+      - _check_cpuinfo.rc == 0
+    quiet: true
+    fail_msg: |
+      The machine processor does not support virtualization.
   tags: kvm:install
 
 - name: Install server packages
