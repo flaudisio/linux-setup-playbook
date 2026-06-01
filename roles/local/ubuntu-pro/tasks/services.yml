@@ -2,8 +2,8 @@
 - name: Fetch current service status
   ansible.builtin.command: >
     pro status --format json
-  changed_when: false
   register: _pro_status
+  changed_when: false
 
 - name: Set variable for enabled services
   ansible.builtin.set_fact:

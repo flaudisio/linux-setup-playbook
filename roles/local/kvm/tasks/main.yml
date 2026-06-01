@@ -1,15 +1,16 @@
 ---
 - name: Check if processor supports virtualization
-  ansible.builtin.shell: >
-    grep -E --count '(vmx|svm)' /proc/cpuinfo || true
-  changed_when: false
+  ansible.builtin.command: >
+    grep -q -E '(vmx|svm)' /proc/cpuinfo
   register: _check_cpuinfo
+  changed_when: false
+  failed_when: _check_cpuinfo.rc >= 2
   tags: kvm:install
 
 - name: Fail if processor does not support virtualization
   ansible.builtin.fail:
     msg: The machine processor does not support virtualization.
-  when: _check_cpuinfo.stdout == "0"
+  when: _check_cpuinfo.rc != 0
   tags: kvm:install
 
 - name: Install server packages

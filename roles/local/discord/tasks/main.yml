@@ -1,8 +1,9 @@
 ---
 - name: Get the currently installed version
-  ansible.builtin.shell: dpkg-query --showformat='${Version}' --show discord || true
+  ansible.builtin.command: dpkg-query --showformat='${Version}' --show discord
   register: _check_installed_version
   changed_when: false
+  failed_when: false
 
 - name: Run installation tasks
   when: discord_version != _check_installed_version.stdout

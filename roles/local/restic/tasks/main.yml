@@ -1,9 +1,10 @@
 ---
 - name: Check if version {{ restic_version }} is installed
-  ansible.builtin.shell: >
-    {{ restic_bin_path }} version || true
+  ansible.builtin.command: >
+    {{ restic_bin_path }} version
   register: _check_version
   changed_when: false
+  failed_when: false
 
 - name: Run installation tasks
   when:

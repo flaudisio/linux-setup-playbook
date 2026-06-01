@@ -1,8 +1,9 @@
 ---
 - name: Check if version {{ cinc_workstation_version }} is installed
-  ansible.builtin.shell: cinc --version || true
+  ansible.builtin.command: cinc --version
   register: _check_version
   changed_when: false
+  failed_when: false
 
 - name: Run installation tasks
   when:

@@ -1,9 +1,10 @@
 ---
 - name: Check if version {{ resticprofile_version }} is installed
-  ansible.builtin.shell: >
-    {{ resticprofile_bin_path }} version || true
+  ansible.builtin.command: >
+    {{ resticprofile_bin_path }} version
   register: _check_version
   changed_when: false
+  failed_when: false
   tags: resticprofile:install
 
 - name: Install binary
