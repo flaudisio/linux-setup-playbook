@@ -8,7 +8,7 @@ bat_package_url: >-
 
 bat_config_file: /etc/bat/config
 bat_config_owner: root
-bat_config_group: root
+bat_config_group: "{{ bat_config_owner }}"
 bat_config_mode: "0644"
 
 bat_config_content: ""
