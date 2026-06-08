@@ -65,7 +65,7 @@
     dest: "{{ resticprofile_config_dir ~ '/' ~ tpl_dest }}"
     owner: "{{ resticprofile_config_owner }}"
     group: "{{ resticprofile_config_group }}"
-    mode: "{{ is_sensitive | ternary('0600', '0644') }}"
+    mode: "{{ is_sensitive | ternary('0640', '0644') }}"
     lstrip_blocks: true
   no_log: "{{ is_sensitive }}"
   loop: "{{ resticprofile_config_templates }}"
