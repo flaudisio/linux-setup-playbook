@@ -16,13 +16,14 @@ global:
   systemd-timer-template: systemd-timer.tmpl
 
 .base:
+  # Use a fixed base/working directory to prevent Mise trust errors
+  # (e.g. 'config files in /working/dir/mise.toml are not trusted')
+  base-dir: /
   lock: /tmp/resticprofile.{{ '{{ .Profile.Name }}' }}.lock
   force-inactive-lock: true
   compression: max
   verbose: true
   password-file: repo-password.txt
-  systemd-drop-in-files:
-    - systemd-working-directory.conf
   backup:
     host: {{ '{{ .Hostname }}' }}
     exclude-caches: true
