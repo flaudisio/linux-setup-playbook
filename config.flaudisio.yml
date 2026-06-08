@@ -230,6 +230,7 @@ resticprofile_config_templates:
   - "{{ __templates_dir }}/resticprofile/includes.txt.j2"
   - "{{ __templates_dir }}/resticprofile/send-after-fail.body.json.j2"
   - "{{ __templates_dir }}/resticprofile/systemd-working-directory.conf.j2"
+  - "{{ __templates_dir }}/resticprofile/systemd-timer.tmpl.j2"
   - "{{ __templates_dir }}/resticprofile/profiles.yaml.j2"
 
 __rp_default_profile: main

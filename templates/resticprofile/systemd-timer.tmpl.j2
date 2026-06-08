@@ -1,0 +1,18 @@
+# {{ ansible_managed  }}
+# Based on https://creativeprojects.github.io/resticprofile/schedules/systemd/#default-timer-file
+{% raw -%}
+[Unit]
+Description={{ .TimerDescription }}
+
+[Timer]
+{{ range .OnCalendar -}}
+OnCalendar={{ . }}
+{{ end -}}
+Unit={{ .SystemdProfile }}
+
+# Prevent triggering immediately upon system boot
+Persistent=false
+
+[Install]
+WantedBy=timers.target
+{% endraw %}

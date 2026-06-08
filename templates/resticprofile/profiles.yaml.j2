@@ -13,6 +13,7 @@ global:
   schedule-defaults:
     ignore-on-battery-less-than: 30
     lock-wait: 15m
+  systemd-timer-template: systemd-timer.tmpl
 
 .base:
   lock: /tmp/resticprofile.{{ '{{ .Profile.Name }}' }}.lock
