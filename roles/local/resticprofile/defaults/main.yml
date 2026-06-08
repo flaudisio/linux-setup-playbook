@@ -18,6 +18,7 @@ resticprofile_config_dir: /etc/resticprofile
 resticprofile_config_file: "{{ resticprofile_config_dir }}/profiles.yaml"
 resticprofile_config_owner: root
 resticprofile_config_group: "{{ resticprofile_config_owner }}"
+resticprofile_config_sensitive: false
 resticprofile_config_inline: {}
 resticprofile_config_templates: []
 

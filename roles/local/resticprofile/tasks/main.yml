@@ -56,7 +56,7 @@
     state: directory
     owner: "{{ resticprofile_config_owner }}"
     group: "{{ resticprofile_config_group }}"
-    mode: "0755"
+    mode: "{{ resticprofile_config_sensitive | bool | ternary('0750', '0755') }}"
   tags: resticprofile:config
 
 - name: Render config templates
@@ -78,13 +78,13 @@
     is_sensitive: "{{ item.sensitive | default(false) }}"
   tags: resticprofile:config
 
-- name: Create config file using inline variable
+- name: Render inline config
   ansible.builtin.template:
     src: profiles.yaml.j2
     dest: "{{ resticprofile_config_file }}"
     owner: "{{ resticprofile_config_owner }}"
     group: "{{ resticprofile_config_group }}"
-    mode: "0644"
+    mode: "{{ resticprofile_config_sensitive | bool | ternary('0640', '0644') }}"
     lstrip_blocks: true
   when: resticprofile_config_inline != {}
   tags: resticprofile:config
