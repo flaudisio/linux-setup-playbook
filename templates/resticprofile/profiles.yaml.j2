@@ -17,7 +17,7 @@ global:
   systemd-timer-template: systemd-timer.tmpl
 
 .base:
-  # Use a fixed base/working directory to prevent Mise trust errors
+  # Run from root directory to prevent Mise trust errors
   # (e.g. 'config files in /working/dir/mise.toml are not trusted')
   base-dir: /
   lock: /tmp/resticprofile.{{ '{{ .Profile.Name }}' }}.lock

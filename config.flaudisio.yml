@@ -227,7 +227,7 @@ resticprofile_config_templates:
 __rp_default_profile: main
 
 resticprofile_enable_schedules:
-  - "{{ __rp_default_profile }}"
+  - default
 
 # docker
 docker_users:
