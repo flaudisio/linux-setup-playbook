@@ -32,19 +32,17 @@ global:
     files-from:
       - includes.txt
     run-after-fail:
-      - >-
-        notify-send --expire-time 0 --icon dialog-error
-        "resticprofile backup error"
-        "See execution logs with 'journalctl --user -u resticprofile-backup@profile-{{ '{{ .Profile.Name }}' }}.service'"
-    send-after-fail:
-      method: POST
-      url: {{ vault_restic_gotify_host }}/message
-      body-template: send-after-fail.body.json
-      headers:
-        - name: Content-Type
-          value: application/json
-        - name: X-Gotify-Key
-          value: "{{ vault_restic_gotify_client_key }}"
+      - |
+        notify-send --expire-time 0 --icon dialog-error \
+          "resticprofile backup error" \
+          "See execution logs with 'journalctl --user -u resticprofile-backup@profile-{{ '{{ .Profile.Name }}' }}.service'"
+      - |
+        jq -n --arg message "Error: $ERROR"$'\n\n'"$ERROR_STDERR" \
+          '{"title": "resticprofile on {{ '{{ .Hostname }}' }}", "message": $message}' \
+          | curl -X POST "{{ vault_restic_gotify_host }}/message" \
+              -H "Content-Type: application/json" \
+              -H "X-Gotify-Key: $GOTIFY_TOKEN" \
+              -d @-
   forget: &forget
     # Behavior
     # compact: true
@@ -101,9 +99,14 @@ work:
 work-aws:
   inherit: .base
   repository: s3:s3.us-east-1.amazonaws.com/{{ vault_restic_aws_bucket_name }}/{{ vault_restic_aws_bucket_prefix }}
+  env-file:
+    - .env
   env:
     AWS_PROFILE: {{ vault_restic_aws_profile }}
     AWS_REGION: us-east-1
+    AWS_ACCESS_KEY_ID: ""
+    AWS_SECRET_ACCESS_KEY: ""
+    AWS_SESSION_TOKEN: ""
   run-before:
     - {{ vault_restic_aws_run_before_script }}
   backup:

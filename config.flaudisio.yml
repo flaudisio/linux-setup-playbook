@@ -228,7 +228,6 @@ resticprofile_config_templates:
     sensitive: true
   - "{{ __templates_dir }}/resticprofile/excludes.txt.j2"
   - "{{ __templates_dir }}/resticprofile/includes.txt.j2"
-  - "{{ __templates_dir }}/resticprofile/send-after-fail.body.json.j2"
   - "{{ __templates_dir }}/resticprofile/systemd-timer.tmpl.j2"
   - "{{ __templates_dir }}/resticprofile/profiles.yaml.j2"
 
