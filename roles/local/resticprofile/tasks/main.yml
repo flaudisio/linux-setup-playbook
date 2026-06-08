@@ -91,16 +91,15 @@
 
 - name: Fetch schedule status
   ansible.builtin.command: >
-    {{ resticprofile_bin_path }} --name '{{ item }}' status
+    {{ resticprofile_bin_path }} --config '{{ resticprofile_config_file }}' --name '{{ item }}' status
   loop: "{{ resticprofile_enable_schedules }}"
   register: _rp_schedule_status
   changed_when: false
-  become: "{{ resticprofile_config_owner == 'root' }}"
   tags: resticprofile:schedule
 
 - name: Configure enabled schedules
   ansible.builtin.command: >
-    {{ resticprofile_bin_path }} --name '{{ item }}' schedule
+    {{ resticprofile_bin_path }} --config '{{ resticprofile_config_file }}' --name '{{ item }}' schedule
   loop: "{{ resticprofile_enable_schedules }}"
   register: _rp_new_schedule
   changed_when: >
@@ -111,15 +110,13 @@
     new_schedule_stdout: "{{ _rp_new_schedule.stdout_lines }}"
     new_schedule_normalized: "{{ new_schedule_stdout | select('match', '.*Normalized form.*') | sort }}"
   when: item not in resticprofile_disable_schedules
-  become: "{{ resticprofile_config_owner == 'root' }}"
   tags: resticprofile:schedule
 
 - name: Remove disabled schedules
   ansible.builtin.command: >
-    {{ resticprofile_bin_path }} --name '{{ item }}' unschedule
+    {{ resticprofile_bin_path }} --config '{{ resticprofile_config_file }}' --name '{{ item }}' unschedule
   loop: "{{ resticprofile_disable_schedules }}"
   register: _rp_unschedule
   changed_when: >
     'no scheduled jobs found' not in _rp_unschedule.stdout
-  become: "{{ resticprofile_config_owner == 'root' }}"
   tags: resticprofile:schedule
