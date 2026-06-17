@@ -85,8 +85,15 @@ main:
   env-file:
     - .env
   backup:
-    # Tip: systemd-analyze calendar --iterations 3 '*:40'
     schedule: "*:50"
+
+main-backblaze:
+  inherit: .base
+  repository: s3:s3.us-west-002.backblazeb2.com/{{ vault_restic_backblaze_bucket_name }}/repos/main
+  env-file:
+    - .env
+  backup:
+    schedule: "*:40"
 
 work:
   inherit: .base
@@ -94,7 +101,6 @@ work:
   env-file:
     - .env
   backup:
-    # Tip: systemd-analyze calendar --iterations 3 '*:40'
     schedule: "*:50"
 
 work-aws:
@@ -111,14 +117,4 @@ work-aws:
   run-before:
     - {{ vault_restic_aws_run_before_script }}
   backup:
-    # Tip: systemd-analyze calendar --iterations 3 '*:40'
-    schedule: "*:40"
-
-backblaze:
-  inherit: .base
-  repository: s3:s3.us-west-002.backblazeb2.com/{{ vault_restic_backblaze_bucket_name }}/{{ '{{ .Hostname }}' }}
-  env-file:
-    - .env
-  backup:
-    # Tip: systemd-analyze calendar --iterations 3 '*:40'
     schedule: "*:40"
