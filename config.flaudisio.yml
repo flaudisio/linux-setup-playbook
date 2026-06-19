@@ -159,6 +159,7 @@ base_alternatives:
 
 # dotfiles
 dotfiles_repo_local_dest: ~/projects/flaudisio/dotfiles
+dotfiles_repo_update: false
 
 dotfiles_vim_plugins:
   - https://github.com/editorconfig/editorconfig-vim.git
