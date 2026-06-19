@@ -141,6 +141,11 @@ packages_pipx_install:
     state: latest
     global: true
 
+packages_post_commands:
+  # Ref: https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories
+  - cmd: pre-commit init-templatedir ~/.git-template
+    creates: ~/.git-template
+
 # git
 git_repos:
   - repo: https://github.com/flaudisio/scripts.git
@@ -184,11 +189,6 @@ dotfiles_extra_files:
       Name=Google Chrome
       Type=Application
       NoDisplay=true
-
-dotfiles_post_commands:
-  # Ref: https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories
-  - cmd: pre-commit init-templatedir ~/.git-template
-    creates: ~/.git-template
 
 # mise
 mise_bashrc_file: ~/.bashrc.d/mise.bash
