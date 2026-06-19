@@ -23,3 +23,11 @@ packages_snap_install: []
 packages_pipx_cli_venv: /var/local/pipx
 packages_pipx_cli_version: ">= 1.14.0"
 packages_pipx_install: []
+
+# Common
+
+# packages_post_commands:
+#   - mkdir /etc/example
+#   - cmd: pre-commit init-templatedir ~/.git-template
+#     creates: ~/.git-template
+packages_post_commands: []
