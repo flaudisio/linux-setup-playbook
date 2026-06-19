@@ -16,12 +16,16 @@ dotfiles_vim_plugins_dir: "{{ dotfiles_home }}/.vim/pack/plugins/start"
 #     update_repo: false
 dotfiles_vim_plugins: []
 
-# Extra files
-
+# dotfiles_extra_files:
+#   - path: ~/.config/example/config.ini
+#     content: |
+#       [config]
+#       foo=bar
+#       example=true
 dotfiles_extra_files: []
 
 # dotfiles_post_commands:
-#   - example-cmd --foo
+#   - mkdir /etc/example
 #   - cmd: pre-commit init-templatedir ~/.git-template
 #     creates: ~/.git-template
 dotfiles_post_commands: []

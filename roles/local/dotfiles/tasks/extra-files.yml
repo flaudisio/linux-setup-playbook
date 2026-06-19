@@ -1,5 +1,5 @@
 ---
-- name: Ensure directories of configuration files exist
+- name: Ensure directories of extra files exist
   ansible.builtin.file:
     path: "{{ expanded_path | dirname }}"
     state: directory
@@ -13,7 +13,7 @@
     path_in_home_dir: "{{ '/home/' in expanded_path }}"
   become: "{{ item.become | default(not path_in_home_dir) }}"
 
-- name: Ensure configuration files exist
+- name: Ensure extra files exist
   ansible.builtin.copy:
     content: "{{ item.content }}"
     dest: "{{ expanded_path }}"
