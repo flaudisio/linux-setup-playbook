@@ -1,5 +1,5 @@
 [tools]
-python = "3.13.13"
+python = "3.13.14"
 shellcheck = "0.11"
 uv = "latest"
 
