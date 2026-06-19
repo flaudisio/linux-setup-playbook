@@ -580,4 +580,5 @@ xubuntu_xfconf_settings:
     value_type: string
 
 # xubuntu - default apps
-xubuntu_default_web_browser: firefox
+# Use the default system browser (e.g. configured by Firefox role)
+xubuntu_default_web_browser: debian-sensible-browser
