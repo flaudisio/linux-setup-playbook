@@ -11,19 +11,14 @@
   register: _gh_release
   when: opencode_version == "latest"
 
-- name: Set target version and URL for latest
+- name: Set target version
   ansible.builtin.set_fact:
-    _target_version: "{{ _gh_release.json.tag_name | regex_replace('^v', '') }}"
-    # yamllint disable-line rule:line-length
-    _target_url: https://github.com/anomalyco/opencode/releases/download/{{ _gh_release.json.tag_name }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
-  when: opencode_version == "latest"
+    _target_version: "{{ opencode_version if opencode_version != 'latest' else (_gh_release.json.tag_name | regex_replace('^v', '')) }}"
 
-- name: Set target version and URL for pinned version
+- name: Set target URL
   ansible.builtin.set_fact:
-    _target_version: "{{ opencode_version }}"
     # yamllint disable-line rule:line-length
-    _target_url: https://github.com/anomalyco/opencode/releases/download/v{{ opencode_version }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
-  when: opencode_version != "latest"
+    _target_url: https://github.com/anomalyco/opencode/releases/download/v{{ _target_version }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
 
 - name: Check if version {{ _target_version }} is installed
   ansible.builtin.command: >
