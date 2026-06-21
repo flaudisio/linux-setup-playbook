@@ -1,13 +1,9 @@
 ---
-opencode_version: 1.15.10
+opencode_version: latest  # or specific version, e.g. '1.17.9'
 
 opencode_dl_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'x64' }}"
 
-opencode_archive_url: >-
-  https://github.com/anomalyco/opencode/releases/download/v{{ opencode_version }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
-
 opencode_install_path: ~/.opencode/bin/opencode
 opencode_install_become: false
-opencode_enable_upgrade: false
 
 opencode_symlink_path: ~/.local/bin/opencode

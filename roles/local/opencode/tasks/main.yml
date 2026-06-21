@@ -3,7 +3,29 @@
   ansible.builtin.set_fact:
     _opencode_install_path: "{{ opencode_install_path | expanduser }}"
 
-- name: Check if version {{ opencode_version }} is installed
+- name: Fetch latest release from GitHub
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/anomalyco/opencode/releases/latest
+    headers:
+      Accept: application/vnd.github+json
+  register: _gh_release
+  when: opencode_version == "latest"
+
+- name: Set target version and URL for latest
+  ansible.builtin.set_fact:
+    _target_version: "{{ _gh_release.json.tag_name | regex_replace('^v', '') }}"
+    # yamllint disable-line rule:line-length
+    _target_url: https://github.com/anomalyco/opencode/releases/download/{{ _gh_release.json.tag_name }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
+  when: opencode_version == "latest"
+
+- name: Set target version and URL for pinned version
+  ansible.builtin.set_fact:
+    _target_version: "{{ opencode_version }}"
+    # yamllint disable-line rule:line-length
+    _target_url: https://github.com/anomalyco/opencode/releases/download/v{{ opencode_version }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
+  when: opencode_version != "latest"
+
+- name: Check if version {{ _target_version }} is installed
   ansible.builtin.command: >
     {{ _opencode_install_path }} --version
   register: _check_version
@@ -17,25 +39,20 @@
     state: directory
     mode: "0755"
   become: "{{ opencode_install_become }}"
-  when: >
-    _check_version.rc != 0
-    or (opencode_enable_upgrade and opencode_version not in _check_version.stdout)
+  when: _check_version.rc != 0 or _target_version not in _check_version.stdout
 
 - name: Install binary
   ansible.builtin.unarchive:
     remote_src: true
-    src: "{{ opencode_archive_url }}"
+    src: "{{ _target_url }}"
     dest: "{{ opencode_install_path | dirname }}"
     include:
       - opencode
     mode: "0755"
   become: "{{ opencode_install_become }}"
-  when: >
-    not ansible_check_mode
-    and (
-      _check_version.rc != 0
-      or (opencode_enable_upgrade and opencode_version not in _check_version.stdout)
-    )
+  when:
+    - not ansible_check_mode
+    - _check_version.rc != 0 or _target_version not in _check_version.stdout
 
 - name: Create symlink to binary
   ansible.builtin.file:
