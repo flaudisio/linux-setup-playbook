@@ -26,7 +26,7 @@
         }}"
       when: discord_version == "latest"
 
-    - name: Set variables for non-latest version
+    - name: Set variables for pinned version
       ansible.builtin.set_fact:
         # Reuse download URL structure
         discord_package_url: "{{ _api_uri.url | regex_replace('[0-9]+\\.[0-9]+\\.[0-9]+', discord_version) }}"
