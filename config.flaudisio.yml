@@ -309,6 +309,7 @@ xubuntu_remove_keyboard_shortcuts:
   - <Primary>Escape
   - <Primary><Alt>t
   - <Primary><Alt>Escape
+  - <Primary><Shift>Escape
   - <Super>f
   - XF86Messenger
 
