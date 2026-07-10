@@ -26,7 +26,9 @@ function main()
         fi
     fi
 
-    command -v ansible &> /dev/null || cmd=( mise exec -- "${cmd[@]}" )
+    if ! command -v ansible &> /dev/null ; then
+        cmd=( mise exec -- "${cmd[@]}" )
+    fi
 
     _run "${cmd[@]}"
 }
