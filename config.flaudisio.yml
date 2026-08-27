@@ -242,6 +242,10 @@ docker_daemon_options:
     # Ref: ipcalc-ng 192.168.244.0/22 -S 27
     - base: 192.168.244.0/22
       size: 27
+  # The Docker userland proxy (docker-proxy) is a legacy background process to handle traffic routing.
+  # Modern Linux systems utilize native hairpin NAT via iptables, making the userland proxy redundant,
+  # inefficient, and a potential security risk
+  userland-proxy: false
 
 # kvm
 kvm_install_server_packages: true
