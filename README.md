@@ -1,3 +1,5 @@
+
+
 # Linux Setup Playbook
 
 Ansible playbooks and roles that I use to provision my Linux-based machines.
@@ -57,7 +59,7 @@ docker_daemon_options:
       size: 27
 ```
 
-For all available options, see roles' variable files in the [local](roles/local) folder.
+For all available options, see roles' variable files in the [local](roles/local) and [public](roles/public) folders.
 
 ## Running the playbook
 
