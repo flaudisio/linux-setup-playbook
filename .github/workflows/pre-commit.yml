@@ -1,8 +1,7 @@
 ---
 name: pre-commit
 
-# yamllint disable-line rule:truthy
-on:
+"on":
   pull_request:
   push:
     branches: [main]
@@ -14,7 +13,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
-          python-version: "3.12"
+          python-version: "3.13"
       - uses: pre-commit/action@v3.0.1
         with:
           extra_args: --all-files --verbose
