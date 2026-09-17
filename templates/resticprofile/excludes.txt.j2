@@ -165,3 +165,7 @@ restic-ignored/
 # Work-related
 dr-git-repos/
 *-dr-git-repos/
+
+{% for path in __rp_extra_excludes | default([]) %}
+{{ path }}
+{% endfor %}
