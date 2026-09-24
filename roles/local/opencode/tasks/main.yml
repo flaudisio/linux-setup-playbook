@@ -3,22 +3,21 @@
   ansible.builtin.set_fact:
     _opencode_install_path: "{{ opencode_install_path | expanduser }}"
 
-- name: Fetch latest release from GitHub
+- name: Fetch latest version from the update API
   ansible.builtin.uri:
-    url: https://api.github.com/repos/anomalyco/opencode/releases/latest
-    headers:
-      Accept: application/vnd.github+json
-  register: _gh_release
+    url: https://opencode.ai/update/api/latest/cli/npm
+  register: _update_meta
   when: opencode_version == "latest"
 
 - name: Set target version
   ansible.builtin.set_fact:
-    _target_version: "{{ opencode_version if opencode_version != 'latest' else (_gh_release.json.tag_name | regex_replace('^v', '')) }}"
+    # yamllint disable-line rule:line-length
+    _target_version: "{{ (opencode_version | regex_replace('^v', '')) if opencode_version != 'latest' else (_update_meta.json.version | regex_replace('^v', '')) }}"
 
 - name: Set target URL
   ansible.builtin.set_fact:
     # yamllint disable-line rule:line-length
-    _target_url: https://github.com/anomalyco/opencode/releases/download/v{{ _target_version }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
+    _target_url: https://registry.npmjs.org/@opencode/cli-{{ opencode_dl_target }}/-/cli-{{ opencode_dl_target }}-{{ _target_version }}.tgz
 
 - name: Check if version {{ _target_version }} is installed
   ansible.builtin.command: >
@@ -42,7 +41,9 @@
     src: "{{ _target_url }}"
     dest: "{{ opencode_install_path | dirname }}"
     include:
-      - opencode
+      - package/bin/opencode
+    extra_opts:
+      - --strip-components=2
     mode: "0755"
   become: "{{ opencode_install_become }}"
   when:
