@@ -17,7 +17,7 @@
 - name: Set target URL
   ansible.builtin.set_fact:
     # yamllint disable-line rule:line-length
-    _target_url: https://registry.npmjs.org/@opencode/cli-{{ opencode_dl_target }}/-/cli-{{ opencode_dl_target }}-{{ _target_version }}.tgz
+    _target_url: https://opencode.ai/files/bin/{{ _target_version }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
 
 - name: Check if version {{ _target_version }} is installed
   ansible.builtin.command: >
@@ -41,9 +41,7 @@
     src: "{{ _target_url }}"
     dest: "{{ opencode_install_path | dirname }}"
     include:
-      - package/bin/opencode
-    extra_opts:
-      - --strip-components=2
+      - opencode
     mode: "0755"
   become: "{{ opencode_install_become }}"
   when:

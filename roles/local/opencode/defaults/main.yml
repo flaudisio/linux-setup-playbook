@@ -3,8 +3,6 @@ opencode_version: latest  # or specific version, e.g. '2.0.16'
 
 opencode_dl_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'x64' }}"
 
-opencode_dl_target: "linux-{{ opencode_dl_arch }}"
-
 opencode_install_path: ~/.opencode/bin/opencode
 opencode_install_become: false
 
