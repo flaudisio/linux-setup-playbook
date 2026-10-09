@@ -135,15 +135,14 @@ packages_apt_autoremove: true
 
 # packages - pipx
 packages_pipx_install:
-  - name: pre-commit
-    state: latest
   - name: ps-mem
     state: latest
     global: true
 
 packages_post_commands:
-  # Ref: https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories
-  - cmd: pre-commit init-templatedir ~/.git-template
+  # Avoids 'prek util init-template-dir' bug in 0.5.5 that exits 2 when
+  # init.templateDir contains ~
+  - cmd: prek -V && prek install --git-dir ~/.git-template --allow-missing-config --force
     creates: ~/.git-template
 
 # git
@@ -153,7 +152,7 @@ git_repos:
     version: main
     update_dest: true
     scripts:
-      - pre-commit install
+      - prek install
       - cmd: ./install.sh
         changed_stdout: "' -> '"  # 'ln' output
 
