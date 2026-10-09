@@ -26,6 +26,6 @@ dotfiles_extra_files: []
 
 # dotfiles_post_commands:
 #   - mkdir /etc/example
-#   - cmd: pre-commit init-templatedir ~/.git-template
+#   - cmd: prek util init-template-dir ~/.git-template
 #     creates: ~/.git-template
 dotfiles_post_commands: []

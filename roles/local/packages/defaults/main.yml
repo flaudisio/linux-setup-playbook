@@ -28,6 +28,6 @@ packages_pipx_install: []
 
 # packages_post_commands:
 #   - mkdir /etc/example
-#   - cmd: pre-commit init-templatedir ~/.git-template
+#   - cmd: prek util init-template-dir ~/.git-template
 #     creates: ~/.git-template
 packages_post_commands: []

@@ -12,9 +12,9 @@ ROLES_PATH = "roles/public"
 [env]
 _.python.venv = { path = "{{ vars.VENV_DIR }}", create = true }
 
-[tasks.pre-commit]
-description = "Run pre-commit"
-run = "pre-commit run --all-files --color always"
+[tasks.lint]
+description = "Run lint"
+run = "prek run --all-files --color always"
 
 [tasks.bump-version]
 description = "Bump the project version"
