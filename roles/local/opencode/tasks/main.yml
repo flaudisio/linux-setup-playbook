@@ -7,6 +7,9 @@
   ansible.builtin.uri:
     url: https://opencode.ai/update/api/latest/cli/npm
   register: _update_meta
+  until: _update_meta.status == 200
+  retries: 2
+  delay: 3
   when: opencode_version == "latest"
 
 - name: Set target version
