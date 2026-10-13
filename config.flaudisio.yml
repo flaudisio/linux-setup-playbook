@@ -82,7 +82,6 @@ packages_apt_install:
   - vlc
   - vlc-plugin-notify
   # Utilities
-  - ack
   - atool
   - atril
   - mate-calc
