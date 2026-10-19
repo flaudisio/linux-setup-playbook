@@ -13,6 +13,14 @@
   when: _snap_version.rc == 0
   tags: firefox:snap
 
+- name: Ensure old APT sources are absent
+  community.general.file_remove:
+    path: /etc/apt/sources.list.d
+    pattern: mozilla.list*
+  tags:
+    - firefox:repo
+    - firefox:install
+
 - name: Download repository key
   ansible.builtin.get_url:
     url: "{{ firefox_apt_repo_key_url }}"
@@ -25,11 +33,21 @@
     - firefox:install
 
 - name: Configure repository
-  ansible.builtin.apt_repository:
-    repo: "{{ firefox_apt_repo_line }}"
-    filename: "{{ firefox_apt_repo_file }}"
+  ansible.builtin.deb822_repository:
+    name: "{{ firefox_apt_repo_name }}"
+    types: deb
+    uris: "{{ firefox_apt_repo_uri }}"
+    suites: "{{ firefox_apt_repo_suite }}"
+    components: "{{ firefox_apt_repo_component }}"
+    signed_by: "{{ firefox_apt_repo_key_file }}"
     state: present
-    update_cache: true
+  notify: firefox - apt update
+  tags:
+    - firefox:repo
+    - firefox:install
+
+- name: Flush handlers to update the APT cache
+  ansible.builtin.meta: flush_handlers
   tags:
     - firefox:repo
     - firefox:install
