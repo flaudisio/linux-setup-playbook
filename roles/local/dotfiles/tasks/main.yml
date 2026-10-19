@@ -22,7 +22,7 @@
   ansible.builtin.import_tasks: extra-files.yml
   tags: dotfiles:extra-files
 
-- name: Run post commands
+- name: Run post commands  # noqa: command-instead-of-shell
   ansible.builtin.shell:
     cmd: "{{ item.cmd | default(item) }}"
     creates: "{{ item.creates | default(omit) }}"

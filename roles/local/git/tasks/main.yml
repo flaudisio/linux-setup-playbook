@@ -40,7 +40,7 @@
   become: "{{ item.become | default(false) }}"
   tags: git:repos
 
-- name: Run repository scripts
+- name: Run repository scripts  # noqa: command-instead-of-shell
   ansible.builtin.shell:
     cmd: "{{ item.1.cmd | default(item.1) }}"
     creates: "{{ item.1.creates | default(omit) }}"
