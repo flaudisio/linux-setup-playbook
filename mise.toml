@@ -17,6 +17,10 @@ _.python.venv = { path = "{{ vars.VENV_DIR }}", create = true }
 description = "Run lint"
 run = "prek run --all-files --color always"
 
+[tasks."lint:ansible"]
+description = "Run ansible-lint"
+run = "VAULT_DISABLE_KEYRING=1 VAULT_PASSWORD=dummy ansible-lint"
+
 [tasks.bump-version]
 description = "Bump the project version"
 run = "bump-my-version bump patch"
