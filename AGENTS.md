@@ -12,7 +12,7 @@ Ansible playbooks that provision this machine (Xubuntu 24.04). Inventory uses
   `.pre-commit-config.yaml`. A `prek` git hook also runs on every commit.
 - `mise run bump-version`: `bump-my-version` CalVer `YYYY.0M.patch`. `VERSION` is the source of
   truth; tags are `v<version>`.
-- `prek` is NOT listed in `mise.toml` `[tools]`; CI installs it with `mise use prek`.
+- `prek` is pinned in `mise.toml` `[tools]`.
 
 ## Running playbooks
 

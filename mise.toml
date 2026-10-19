@@ -1,4 +1,5 @@
 [tools]
+prek = "latest"
 python = "3.14.8"
 shellcheck = "0.11"
 uv = "latest"
