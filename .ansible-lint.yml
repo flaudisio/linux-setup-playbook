@@ -1,0 +1,15 @@
+---
+profile: basic
+
+skip_list:
+  - role-name
+  - var-naming[no-role-prefix]
+
+exclude_paths:
+  - collections/
+  - roles/public/
+  - .venv/
+  # Need the vault password to syntax-check these.
+  - playbooks/common.yml
+  - playbooks/personal.yml
+  - playbooks/work.yml

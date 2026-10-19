@@ -12,7 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v5
+      - name: Install project dependencies
+        run: mise run install
       - name: Run lint
-        run: |
-          mise use prek
-          mise run lint
+        run: mise run lint
+      - name: Run ansible-lint
+        run: mise run lint:ansible
