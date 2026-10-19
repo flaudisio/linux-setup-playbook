@@ -11,22 +11,30 @@
     - syncthing:repo
     - syncthing:install
 
-- name: Ensure unused repository channels are absent
-  ansible.builtin.apt_repository:
-    repo: "{{ syncthing_apt_repo_base }} {{ item }}"
-    filename: "{{ syncthing_apt_repo_file }}"
-    state: absent
-  loop: "{{ ['stable', 'stable-v2', 'candidate'] | difference([syncthing_apt_repo_channel]) }}"
+- name: Ensure old APT sources are absent
+  community.general.file_remove:
+    path: /etc/apt/sources.list.d
+    pattern: syncthing.list*
   tags:
     - syncthing:repo
     - syncthing:install
 
 - name: Configure repository
-  ansible.builtin.apt_repository:
-    repo: "{{ syncthing_apt_repo_base }} {{ syncthing_apt_repo_channel }}"
-    filename: "{{ syncthing_apt_repo_file }}"
+  ansible.builtin.deb822_repository:
+    name: "{{ syncthing_apt_repo_name }}"
+    types: deb
+    uris: "{{ syncthing_apt_repo_uri }}"
+    suites: "{{ syncthing_apt_repo_suite }}"
+    components: "{{ syncthing_apt_repo_component }}"
+    signed_by: "{{ syncthing_apt_repo_key_file }}"
     state: present
-    update_cache: true
+  notify: syncthing - apt update
+  tags:
+    - syncthing:repo
+    - syncthing:install
+
+- name: Flush handlers to update the APT cache
+  ansible.builtin.meta: flush_handlers
   tags:
     - syncthing:repo
     - syncthing:install

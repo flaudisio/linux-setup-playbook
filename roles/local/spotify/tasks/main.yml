@@ -1,4 +1,14 @@
 ---
+- name: Keep package-managed source list disabled
+  ansible.builtin.copy:
+    content: |
+      # Managed by Ansible. Spotify's postinst recreates this file if it is
+      # missing; the active repository lives in spotify.sources.
+    dest: /etc/apt/sources.list.d/spotify.list
+    owner: root
+    group: root
+    mode: "0644"
+
 - name: Install repository key
   ansible.builtin.get_url:
     url: "{{ spotify_apt_repo_key_url }}"
@@ -9,11 +19,18 @@
     mode: "0644"
 
 - name: Configure repository
-  ansible.builtin.apt_repository:
-    repo: "{{ spotify_apt_repo_line }}"
-    filename: "{{ spotify_apt_repo_file }}"
+  ansible.builtin.deb822_repository:
+    name: "{{ spotify_apt_repo_name }}"
+    types: deb
+    uris: "{{ spotify_apt_repo_uri }}"
+    suites: "{{ spotify_apt_repo_suite }}"
+    components: "{{ spotify_apt_repo_component }}"
+    signed_by: "{{ spotify_apt_repo_key_file }}"
     state: present
-    update_cache: true
+  notify: spotify - apt update
+
+- name: Flush handlers to update the APT cache
+  ansible.builtin.meta: flush_handlers
 
 - name: Install package
   ansible.builtin.apt:

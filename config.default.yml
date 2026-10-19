@@ -2,6 +2,7 @@
 packages_apt_install:
   - apt-transport-https
   - ca-certificates
+  - python3-debian
   - curl
   - tmux
   - jq
