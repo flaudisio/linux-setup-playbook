@@ -1,2 +1,2 @@
-ansible-core==2.20.*
+ansible-core==2.21.*
 keyring==25.*
