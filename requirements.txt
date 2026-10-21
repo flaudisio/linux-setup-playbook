@@ -1,2 +1,2 @@
 ansible-core==2.21.*
-ansible-lint==26.10.*
+ansible-lint==26.*
