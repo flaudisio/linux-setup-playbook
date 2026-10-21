@@ -468,6 +468,7 @@ $RECYCLE.BIN/
 ### Ansible ###
 
 .ansible/
+local.sops.yml
 .vault-password
 vault.yml
 *.vault.yml

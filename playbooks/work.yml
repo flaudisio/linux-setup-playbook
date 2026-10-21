@@ -17,7 +17,6 @@
   vars_files:
     - "{{ playbook_dir }}/../config.flaudisio.yml"
     - "{{ playbook_dir }}/../config.yml"
-    - "{{ playbook_dir }}/../vault.yml"
 
   roles:
     - role: cinc-workstation
