@@ -14,6 +14,7 @@
   ansible.builtin.command: >
     pro enable --assume-yes {{ item }}
   loop: "{{ ubuntu_pro_enable_services }}"
+  changed_when: true
   when:
     - item not in _pro_enabled_services
     - item not in ubuntu_pro_disable_services
@@ -23,6 +24,7 @@
   ansible.builtin.command: >
     pro disable --assume-yes {{ item }}
   loop: "{{ ubuntu_pro_disable_services }}"
+  changed_when: true
   when: item in _pro_enabled_services
 
 - name: Flush handlers to ensure packages are upgraded

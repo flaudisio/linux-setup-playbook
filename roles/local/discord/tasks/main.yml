@@ -46,6 +46,7 @@
       ansible.builtin.get_url:
         url: "{{ discord_package_url }}"
         dest: /tmp/discord.deb
+        mode: "0644"
       retries: 2
       delay: 3
       register: _download_result

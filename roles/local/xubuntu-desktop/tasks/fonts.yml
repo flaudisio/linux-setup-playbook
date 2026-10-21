@@ -8,6 +8,7 @@
   ansible.builtin.file:
     path: "{{ _font_dir }}"
     state: directory
+    mode: "0755"
   loop: "{{ xubuntu_fonts_archives }}"
   loop_control:
     label: "{{ _font_dir }}"

@@ -40,6 +40,7 @@
       eval "$( {{ mise_activate_command }} )"
     create: true
     backup: false
+    mode: "0644"
     state: "{{ mise_configure_bashrc | bool | ternary('present', 'absent') }}"
   become: "{{ mise_bashrc_become }}"
 

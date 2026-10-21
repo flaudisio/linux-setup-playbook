@@ -1,5 +1,5 @@
 ---
-- name: Check if version {{ restic_version }} is installed
+- name: Check installed version of restic {{ restic_version }}
   ansible.builtin.command: >
     {{ restic_bin_path }} version
   register: _check_version
@@ -25,12 +25,14 @@
         url: "{{ restic_archive_url }}"
         dest: "{{ _archive_local_file }}"
         checksum: sha256:{{ restic_sha256sums_url }}
+        mode: "0644"
 
     # The 'unarchive' module does not handle .bz2 files that do not contain a .tar archive
     # Ref: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unarchive_module.html#notes
     - name: Extract binary from the archive
       ansible.builtin.shell: >
         bzip2 --decompress --stdout '{{ _archive_local_file }}' > '{{ restic_bin_path }}'
+      changed_when: true
 
     - name: Remove temporary directory
       ansible.builtin.file:
