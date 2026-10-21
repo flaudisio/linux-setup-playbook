@@ -1,5 +1,5 @@
 ---
-- name: Check if version {{ cinc_workstation_version }} is installed
+- name: Check installed version of Cinc Workstation {{ cinc_workstation_version }}
   ansible.builtin.command: cinc --version
   register: _check_version
   changed_when: false
@@ -44,6 +44,7 @@
         url: "{{ _package_url }}"
         dest: "{{ _package_local_file }}"
         checksum: "{{ _package_get_url_checksum | default(omit) }}"
+        mode: "0644"
 
     - name: Install package (APT)
       ansible.builtin.apt:

@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: "{{ xubuntu_autostart_dir }}"
     state: directory
+    mode: "0755"
 
 - name: Disable autostart of selected applications
   ansible.builtin.copy:
@@ -10,4 +11,5 @@
       [Desktop Entry]
       Hidden=true
     dest: "{{ xubuntu_autostart_dir }}/{{ item }}.desktop"
+    mode: "0644"
   loop: "{{ xubuntu_autostart_disable_apps }}"

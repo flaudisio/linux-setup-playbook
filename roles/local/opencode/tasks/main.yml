@@ -22,7 +22,7 @@
     # yamllint disable-line rule:line-length
     _target_url: https://opencode.ai/files/bin/{{ _target_version }}/opencode-linux-{{ opencode_dl_arch }}.tar.gz
 
-- name: Check if version {{ _target_version }} is installed
+- name: Check installed version of opencode {{ _target_version }}
   ansible.builtin.command: >
     {{ _opencode_install_path }} --version
   register: _check_version

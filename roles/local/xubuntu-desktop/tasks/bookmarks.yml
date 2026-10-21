@@ -3,9 +3,11 @@
   ansible.builtin.file:
     path: "{{ xubuntu_bookmarks_file | dirname }}"
     state: directory
+    mode: "0755"
 
 - name: Configure bookmarks
   ansible.builtin.template:
     src: gtk-3.0-bookmarks.j2
     dest: "{{ xubuntu_bookmarks_file }}"
+    mode: "0644"
     lstrip_blocks: true

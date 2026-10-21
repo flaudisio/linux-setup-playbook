@@ -20,7 +20,7 @@
   tags: base-system:lightdm
 
 - name: Configure systemd Journal disk usage
-  ansible.builtin.ini_file:
+  community.general.ini_file:
     path: /etc/systemd/journald.conf
     section: Journal
     option: SystemMaxUse

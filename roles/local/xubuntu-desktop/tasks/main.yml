@@ -71,6 +71,7 @@
   ansible.builtin.template:
     src: xfce4/helpers.rc.j2
     dest: "{{ xubuntu_config_dir }}/xfce4/helpers.rc"
+    mode: "0644"
     lstrip_blocks: true
   become: false
   tags: xubuntu:default-apps

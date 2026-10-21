@@ -14,10 +14,12 @@
   ansible.builtin.file:
     path: "{{ ulauncher_config_dir }}"
     state: directory
+    mode: "0755"
   become: false
 
 - name: Create settings file
   ansible.builtin.copy:
     content: "{{ ulauncher_default_config | combine(ulauncher_config) | to_nice_json }}"
     dest: "{{ ulauncher_config_dir }}/settings.json"
+    mode: "0644"
   become: false

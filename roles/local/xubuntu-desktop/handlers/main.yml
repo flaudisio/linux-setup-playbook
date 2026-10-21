@@ -2,5 +2,6 @@
 - name: Rebuild fonts cache
   ansible.builtin.command: >
     fc-cache -f -v
+  changed_when: false
   become: false
   listen: xubuntu-desktop - rebuild fonts cache

@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: "{{ xubuntu_home_dir }}/{{ item }}"
     state: directory
+    mode: "0755"
   loop:
     - "{{ xubuntu_xdg_documents_dir }}"
     - "{{ xubuntu_xdg_download_dir }}"
@@ -16,3 +17,4 @@
   ansible.builtin.template:
     src: user-dirs.dirs.j2
     dest: "{{ xubuntu_xdg_user_dirs_file }}"
+    mode: "0644"
