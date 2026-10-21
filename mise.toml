@@ -1,5 +1,6 @@
 [tools]
 age = "1.3.2"
+doppler = "3"
 prek = "latest"
 python = "3.14.8"
 shellcheck = "0.11"
