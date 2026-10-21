@@ -1,7 +1,9 @@
 [tools]
+age = "1.3.2"
 prek = "latest"
 python = "3.14.8"
 shellcheck = "0.11"
+sops = "3.13.3"
 uv = "latest"
 
 [vars]
@@ -12,6 +14,8 @@ ROLES_PATH = "roles/public"
 
 [env]
 _.python.venv = { path = "{{ vars.VENV_DIR }}", create = true }
+SOPS_DISABLE_VERSION_CHECK = "1"
+SOPS_AGE_KEY_FILE = "{{ env.HOME }}/.config/sops/age/{{ vars.PROJECT_NAME }}.keys.txt"
 
 [tasks.lint]
 description = "Run lint"
@@ -19,7 +23,7 @@ run = "prek run --all-files --color always"
 
 [tasks."lint:ansible"]
 description = "Run ansible-lint"
-run = "VAULT_DISABLE_KEYRING=1 VAULT_PASSWORD=dummy ansible-lint"
+run = "SOPS_ANSIBLE_AWX_DISABLE_VARS_PLUGIN_TEMPORARILY=1 ansible-lint"
 
 [tasks.bump-version]
 description = "Bump the project version"
@@ -53,24 +57,9 @@ run = [
   "ansible-galaxy role list",
 ]
 
-[tasks."vault:password"]
-description = "Configure Ansible Vault password"
-run = "doppler secrets get VAULT_PASSWORD --project {{ vars.PROJECT_NAME }} --plain | ./scripts/vault-keyring.sh --debug"
-
-[tasks."vault:download"]
-description = "Create the variables file containing Vault secrets"
+[tasks."sops:key"]
+description = "Install the SOPS age key from Doppler"
 run = [
-  "doppler secrets get VAULT_YAML --project {{ vars.PROJECT_NAME }} --plain > vault.yml",
-  "chmod 600 vault.yml",
-]
-
-[tasks."vault:upload"]
-description = "Upload the variables file to the cloud"
-run = "cat vault.yml | doppler secrets set VAULT_YAML --project {{ vars.PROJECT_NAME }} --silent"
-
-[tasks."vault:setup"]
-description = "Setup the repository to use Ansible Vault"
-run = [
-  "mise run vault:password",
-  "mise run vault:download",
+  'mkdir -p -m 700 "{{ env.SOPS_AGE_KEY_FILE | dirname }}"',
+  'doppler secrets get SOPS_AGE_KEY --project {{ vars.PROJECT_NAME }} --plain | install -m 600 /dev/stdin "{{ env.SOPS_AGE_KEY_FILE }}"',
 ]
