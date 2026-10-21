@@ -33,7 +33,7 @@ The script will:
 ## Secrets
 
 `playbooks/personal.yml` and `playbooks/work.yml` read their secrets from
-`host_vars/localhost/vault.sops.yml`, encrypted with [SOPS](https://getsops.io) and an age key.
+`host_vars/localhost/secrets.sops.yml`, encrypted with [SOPS](https://getsops.io) and an age key.
 Install the key on every machine that runs them:
 
 ```bash

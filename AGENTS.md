@@ -32,20 +32,22 @@ Ansible playbooks that provision this machine (Xubuntu 24.04). Inventory uses
 - Roles are referenced by bare name; resolution order is `roles_path = roles/public:roles/local`
   (see `ansible.cfg`).
 - Variable precedence: `config.default.yml` -> `config.yml` (local overrides) ->
-  `config.flaudisio.yml` (this author's personal machine) -> `host_vars/localhost/vault.sops.yml`
+  `config.flaudisio.yml` (this author's personal machine) -> `host_vars/localhost/secrets.sops.yml`
   (SOPS-encrypted secrets). Per-role examples live in each role's `defaults/main.yml`.
 
 ## Secrets
 
-- `host_vars/localhost/vault.sops.yml` holds the secrets, encrypted with SOPS and loaded by the
+- `host_vars/localhost/secrets.sops.yml` holds the secrets, encrypted with SOPS and loaded by the
   `community.sops.sops` vars plugin (see `ansible.cfg`). It is committed; plaintext never is.
 - The age private key lives in Doppler project `linux-setup-playbook` as `SOPS_AGE_KEY`. Install
   it with `mise run sops:key`, which writes
   `~/.config/sops/age/linux-setup-playbook.keys.txt`; `sops` finds it through
   `SOPS_AGE_KEY_FILE` (set in `mise.toml`). Every machine that runs `personal.yml` or `work.yml`
   needs it.
-- Edit secrets with `sops host_vars/localhost/vault.sops.yml`. CI has no key, so `mise run
+- Edit secrets with `sops host_vars/localhost/secrets.sops.yml`. CI has no key, so `mise run
   lint:ansible` sets `SOPS_ANSIBLE_AWX_DISABLE_VARS_PLUGIN_TEMPORARILY=1`.
+- Secrets that must not be committed go in `host_vars/localhost/local.sops.yml` (gitignored); the
+  same plugin loads it.
 
 ## Conventions
 
