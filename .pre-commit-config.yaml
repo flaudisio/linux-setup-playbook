@@ -16,3 +16,10 @@ repos:
     hooks:
       - id: yamllint
         entry: yamllint --strict
+  - repo: local
+    hooks:
+      - id: sops-encrypted
+        name: secrets must be SOPS-encrypted
+        language: system
+        files: '\.sops\.yml$'
+        entry: bash -c 'for f in "$@"; do grep -q "^sops:" "$f" || { echo "$f is not SOPS-encrypted"; exit 1; }; done' --

@@ -9,7 +9,7 @@ exclude_paths:
   - collections/
   - roles/public/
   - .venv/
-  # Need the vault password to syntax-check these.
+  # SOPS age key is not available in CI.
   - playbooks/common.yml
   - playbooks/personal.yml
   - playbooks/work.yml

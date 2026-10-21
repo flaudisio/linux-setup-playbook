@@ -30,6 +30,19 @@ The script will:
 - Clone this repository
 - Install Ansible (in a virtualenv) and collections/roles used by this repository
 
+## Secrets
+
+`playbooks/personal.yml` and `playbooks/work.yml` read their secrets from
+`host_vars/localhost/secrets.sops.yml`, encrypted with [SOPS](https://getsops.io) and an age key.
+Install the key on every machine that runs them:
+
+```bash
+doppler login
+mise run sops:key
+```
+
+`playbooks/default.yml` does not need secrets.
+
 ## Overriding defaults
 
 You can override variables defined in `config.default.yml` (or define new ones) by creating a `config.yml`

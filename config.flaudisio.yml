@@ -14,7 +14,7 @@ __templates_dir: "{{ playbook_dir }}/../templates"
 
 # ubuntu-pro
 ubuntu_pro_enabled: true
-ubuntu_pro_token: "{{ vault_ubuntu_pro_token }}"
+ubuntu_pro_token: "{{ secret_ubuntu_pro_token }}"
 ubuntu_pro_upgrade_all_packages: true
 
 ubuntu_pro_enable_services:

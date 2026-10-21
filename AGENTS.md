@@ -21,7 +21,7 @@ Ansible playbooks that provision this machine (Xubuntu 24.04). Inventory uses
   Running `./run` with no args (or `shell`) opens a shell inside the mise env.
 - `playbooks/default.yml` is standalone: loads only `config.default.yml` + `config.yml`.
   `playbooks/common.yml` is the shared base imported by `personal.yml` and `work.yml`; those also
-  load `config.flaudisio.yml` and `vault.yml`.
+  load `config.flaudisio.yml`.
 - Ansible log: `/tmp/ansible.linux-setup-playbook.log`.
 
 ## Layout and config
@@ -32,15 +32,22 @@ Ansible playbooks that provision this machine (Xubuntu 24.04). Inventory uses
 - Roles are referenced by bare name; resolution order is `roles_path = roles/public:roles/local`
   (see `ansible.cfg`).
 - Variable precedence: `config.default.yml` -> `config.yml` (local overrides) ->
-  `config.flaudisio.yml` (this author's personal machine) -> `vault.yml` (secrets). Per-role
-  examples live in each role's `defaults/main.yml`.
+  `config.flaudisio.yml` (this author's personal machine) -> `host_vars/localhost/secrets.sops.yml`
+  (SOPS-encrypted secrets). Per-role examples live in each role's `defaults/main.yml`.
 
 ## Secrets
 
-- `vault.yml` is gitignored; never commit it. The vault password lives in the OS keyring and is
-  read by `scripts/vault-keyring.sh` (wired via `ansible.cfg` `vault_password_file`).
-- Manage secrets with `mise run vault:*` (Doppler-backed). For non-interactive runs, set
-  `VAULT_DISABLE_KEYRING` and `VAULT_PASSWORD` to bypass the keyring.
+- `host_vars/localhost/secrets.sops.yml` holds the secrets, encrypted with SOPS and loaded by the
+  `community.sops.sops` vars plugin (see `ansible.cfg`). It is committed; plaintext never is.
+- The age private key lives in Doppler project `linux-setup-playbook` as `SOPS_AGE_KEY`. Install
+  it with `mise run sops:key`, which writes
+  `~/.config/sops/age/linux-setup-playbook.keys.txt`; `sops` finds it through
+  `SOPS_AGE_KEY_FILE` (set in `mise.toml`). Every machine that runs `personal.yml` or `work.yml`
+  needs it.
+- Edit secrets with `sops host_vars/localhost/secrets.sops.yml`. CI has no key, so `mise run
+  lint:ansible` sets `SOPS_ANSIBLE_AWX_DISABLE_VARS_PLUGIN_TEMPORARILY=1`.
+- Secrets that must not be committed go in `host_vars/localhost/local.sops.yml` (gitignored); the
+  same plugin loads it.
 
 ## Conventions
 
