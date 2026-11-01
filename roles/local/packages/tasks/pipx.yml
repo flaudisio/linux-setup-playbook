@@ -1,4 +1,10 @@
 ---
+- name: Ensure the venv module is available
+  ansible.builtin.package:
+    name: python3-venv
+    state: present
+  tags: packages:pipx:setup
+
 - name: Install pipx using pip
   ansible.builtin.pip:
     name: pipx

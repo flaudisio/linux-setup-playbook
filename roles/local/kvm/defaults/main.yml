@@ -5,7 +5,7 @@ kvm_server_packages:
   - bridge-utils
   - libvirt-clients
   - libvirt-daemon-system
-  - qemu-kvm
+  - qemu-system-x86
 
 kvm_install_virt_manager: false
 
@@ -34,3 +34,7 @@ kvm_system_groups:
 kvm_users: []
 
 kvm_disable_libvirt_qemu_security_driver: false
+
+kvm_libvirt_manage_networks: false
+kvm_libvirt_enable_networks: []
+kvm_libvirt_disable_networks: []

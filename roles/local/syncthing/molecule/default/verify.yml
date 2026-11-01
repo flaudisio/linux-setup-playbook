@@ -1,0 +1,43 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed syncthing version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show syncthing
+      register: _syncthing_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert syncthing is installed
+      ansible.builtin.assert:
+        that:
+          - _syncthing_version.rc == 0
+          - _syncthing_version.stdout | length > 0
+        success_msg: "syncthing {{ _syncthing_version.stdout }}"
+
+    - name: Read the syncthing version
+      ansible.builtin.command:
+        cmd: syncthing --version
+      register: _syncthing_cli
+      changed_when: false
+
+    - name: Assert the binary is the v2 series from the role's repository
+      ansible.builtin.assert:
+        that:
+          - _syncthing_cli.stdout is match('^syncthing v2\.')
+        success_msg: "{{ _syncthing_cli.stdout_lines[0] }}"
+
+    - name: Read the deb822 repository file
+      ansible.builtin.slurp:
+        src: /etc/apt/sources.list.d/{{ syncthing_apt_repo_name }}.sources
+      register: _syncthing_sources
+
+    - name: Assert the repository uses the stable-v2 component
+      ansible.builtin.assert:
+        that:
+          - syncthing_apt_repo_component in (_syncthing_sources.content | b64decode)

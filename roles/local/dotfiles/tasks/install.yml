@@ -43,6 +43,18 @@
     state: link
   loop: "{{ _found_src_files.files | map(attribute='path') }}"
 
+- name: Ensure the parent directories of the directory symlinks exist
+  ansible.builtin.file:
+    path: "{{ _link_path | dirname }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ _found_src_dirs.files | map(attribute='path') }}"
+  loop_control:
+    label: "{{ _link_path }}"
+  vars:
+    _rel_path: "{{ item | replace(_dotfiles_search_base_dir, '') | trim('/') }}"
+    _link_path: "{{ _dotfiles_home_expanded }}/{{ _rel_path }}"
+
 - name: Create directory symlinks
   ansible.builtin.file:
     src: "{{ item }}"

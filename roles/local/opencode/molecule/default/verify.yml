@@ -1,0 +1,31 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed OpenCode version
+      ansible.builtin.command:
+        cmd: "{{ opencode_install_path }} --version"
+      register: _opencode_cli
+      changed_when: false
+
+    - name: Assert the binary runs and reports a version
+      ansible.builtin.assert:
+        that:
+          - _opencode_cli.stdout is match('^opencode v[0-9]+\.[0-9]+\.[0-9]+')
+        success_msg: "{{ _opencode_cli.stdout }}"
+
+    - name: Stat the symlink in PATH
+      ansible.builtin.stat:
+        path: "{{ opencode_symlink_path }}"
+      register: _opencode_link
+
+    - name: Assert the symlink in PATH
+      ansible.builtin.assert:
+        that:
+          - _opencode_link.stat.exists
+          - _opencode_link.stat.islnk
+          - _opencode_link.stat.lnk_target == opencode_install_path

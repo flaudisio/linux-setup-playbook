@@ -13,8 +13,8 @@
 - name: Enable services
   ansible.builtin.command: >
     pro enable --assume-yes {{ item }}
-  loop: "{{ ubuntu_pro_enable_services }}"
   changed_when: true
+  loop: "{{ ubuntu_pro_enable_services }}"
   when:
     - item not in _pro_enabled_services
     - item not in ubuntu_pro_disable_services

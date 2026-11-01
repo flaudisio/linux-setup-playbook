@@ -10,6 +10,13 @@
     state: present
   when: rclone_version not in ansible_facts['packages']['rclone'] | default([]) | map(attribute='version')
 
+- name: Ensure the bash completion directory exists
+  ansible.builtin.file:
+    path: /etc/bash_completion.d
+    state: directory
+    mode: "0755"
+  when: rclone_enable_bash_completion | bool
+
 - name: Configure Bash completion
   ansible.builtin.command: >
     rclone completion bash /etc/bash_completion.d/rclone

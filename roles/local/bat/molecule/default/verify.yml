@@ -1,0 +1,55 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed bat version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show bat
+      register: _bat_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert bat is installed
+      ansible.builtin.assert:
+        that:
+          - _bat_version.rc == 0
+          - _bat_version.stdout | length > 0
+        success_msg: "bat {{ _bat_version.stdout }}"
+
+    - name: Read the bat version
+      ansible.builtin.command:
+        cmd: bat --version
+      register: _bat_cli
+      changed_when: false
+
+    - name: Assert the binary reports bat_version
+      ansible.builtin.assert:
+        that:
+          - _bat_cli.stdout is match('^bat ' ~ bat_version ~ ' ')
+        success_msg: "{{ _bat_cli.stdout }}"
+
+    - name: Stat the configuration file
+      ansible.builtin.stat:
+        path: "{{ bat_config_file }}"
+      register: _bat_config
+
+    - name: Assert the configuration file
+      ansible.builtin.assert:
+        that:
+          - _bat_config.stat.exists
+          - _bat_config.stat.mode == bat_config_mode
+          - _bat_config.stat.pw_name == bat_config_owner
+
+    - name: Assert the Ubuntu package is pinned away
+      ansible.builtin.stat:
+        path: /etc/apt/preferences.d/bat
+      register: _bat_pin
+
+    - name: Assert the APT pin exists
+      ansible.builtin.assert:
+        that:
+          - _bat_pin.stat.exists

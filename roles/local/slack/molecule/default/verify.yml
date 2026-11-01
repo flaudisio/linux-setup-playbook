@@ -1,0 +1,31 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed slack-desktop version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show slack-desktop
+      register: _slack_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert slack-desktop is installed
+      ansible.builtin.assert:
+        that:
+          - _slack_version.rc == 0
+          - _slack_version.stdout | length > 0
+        success_msg: "slack-desktop {{ _slack_version.stdout }}"
+    - name: Stat the Slack launcher
+      ansible.builtin.stat:
+        path: "/usr/bin/slack"
+      register: _slack_launcher
+
+    - name: Assert the Slack launcher
+      ansible.builtin.assert:
+        that:
+          - _slack_launcher.stat.exists
+          - _slack_launcher.stat.executable

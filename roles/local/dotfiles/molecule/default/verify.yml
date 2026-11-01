@@ -1,0 +1,36 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Stat the symlinks the role creates
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      loop:
+        - "{{ ansible_facts['user_dir'] }}/.bash_aliases"
+        - "{{ ansible_facts['user_dir'] }}/.config/htop"
+      register: _dotfiles_links
+
+    - name: Assert every dotfile is a symlink into the cloned repository
+      ansible.builtin.assert:
+        that:
+          - item.stat.exists
+          - item.stat.islnk
+          - (item.stat.lnk_target | dirname) is search('/\.files/')
+        fail_msg: "{{ item.item }} is not a symlink into the clone"
+      loop: "{{ _dotfiles_links.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: Read a linked dotfile
+      ansible.builtin.slurp:
+        src: "{{ ansible_facts['user_dir'] }}/.bash_aliases"
+      register: _dotfiles_content
+
+    - name: Assert the symlink resolves to the repository content
+      ansible.builtin.assert:
+        that:
+          - "'EDITOR=vim' in (_dotfiles_content.content | b64decode)"

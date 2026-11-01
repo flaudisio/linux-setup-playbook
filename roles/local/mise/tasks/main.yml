@@ -32,7 +32,7 @@
 
 - name: Configure .bashrc
   ansible.builtin.blockinfile:
-    path: "{{ mise_bashrc_file | expanduser }}"
+    path: "{{ mise_bashrc_file }}"
     marker: "### {mark} Managed by Ansible ###"
     block: |
       {{ mise_pre_activate_commands }}

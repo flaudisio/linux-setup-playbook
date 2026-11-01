@@ -1,0 +1,28 @@
+---
+# Role directories here use hyphens, which the Galaxy role-name pattern rejects.
+role_name_check: 2
+dependency:
+  name: galaxy
+  options:
+    ignore-errors: true
+driver:
+  name: docker
+platforms:
+  - &base
+    name: ${MOLECULE_PLATFORM_PREFIX:-bat-}ubuntu2404
+    image: geerlingguy/docker-ubuntu2404-ansible:latest
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+  - <<: *base
+    name: ${MOLECULE_PLATFORM_PREFIX:-bat-}ubuntu2604
+    image: geerlingguy/docker-ubuntu2604-ansible:latest
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/..
+  options:
+    diff: true

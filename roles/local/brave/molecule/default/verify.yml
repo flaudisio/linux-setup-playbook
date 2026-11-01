@@ -1,0 +1,44 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed brave-browser version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show brave-browser
+      register: _brave_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert brave-browser is installed
+      ansible.builtin.assert:
+        that:
+          - _brave_version.rc == 0
+          - _brave_version.stdout | length > 0
+        success_msg: "brave-browser {{ _brave_version.stdout }}"
+
+    - name: Read the configured repository
+      ansible.builtin.slurp:
+        src: /etc/apt/sources.list.d/{{ brave_apt_repo_name }}.sources
+      register: _brave_sources
+
+    - name: Assert the repository uses the role's URI and key
+      ansible.builtin.assert:
+        that:
+          - brave_apt_repo_uri in (_brave_sources.content | b64decode)
+          - brave_apt_repo_key_file in (_brave_sources.content | b64decode)
+          - brave_apt_repo_suite in (_brave_sources.content | b64decode)
+
+    - name: Stat the browser launcher
+      ansible.builtin.stat:
+        path: "/usr/bin/brave-browser"
+      register: _brave_launcher
+
+    - name: Assert the browser launcher
+      ansible.builtin.assert:
+        that:
+          - _brave_launcher.stat.exists
+          - _brave_launcher.stat.executable

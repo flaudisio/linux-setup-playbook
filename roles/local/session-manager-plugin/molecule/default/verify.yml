@@ -1,0 +1,31 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed session-manager-plugin version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show session-manager-plugin
+      register: _smp_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert session-manager-plugin is installed
+      ansible.builtin.assert:
+        that:
+          - _smp_version.rc == 0
+          - _smp_version.stdout | length > 0
+        success_msg: "session-manager-plugin {{ _smp_version.stdout }}"
+    - name: Stat the plugin binary
+      ansible.builtin.stat:
+        path: "/usr/local/sessionmanagerplugin/bin/session-manager-plugin"
+      register: _smp_bin
+
+    - name: Assert the plugin binary
+      ansible.builtin.assert:
+        that:
+          - _smp_bin.stat.exists
+          - _smp_bin.stat.executable

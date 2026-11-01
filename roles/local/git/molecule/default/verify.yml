@@ -1,0 +1,56 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the git version
+      ansible.builtin.command:
+        cmd: git --version  # noqa: command-instead-of-module
+      register: _git_cli
+      changed_when: false
+
+    - name: Assert git runs
+      ansible.builtin.assert:
+        that:
+          - _git_cli.stdout is match('^git version [0-9]+\.')
+        success_msg: "{{ _git_cli.stdout }}"
+
+    - name: Stat the git-open helper
+      ansible.builtin.stat:
+        path: "{{ git_open_bin_path }}"
+      register: _git_open
+
+    - name: Assert the git-open helper
+      ansible.builtin.assert:
+        that:
+          - _git_open.stat.exists
+          - _git_open.stat.executable
+
+    - name: Read the rendered gitconfig
+      ansible.builtin.slurp:
+        src: "{{ ansible_facts['user_dir'] }}/.gitconfig"
+      register: _git_config
+
+    - name: Assert the gitconfig holds the configured values
+      ansible.builtin.assert:
+        that:
+          - "'name = Molecule' in (_git_config.content | b64decode)"
+
+    - name: Read every extra package version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${db:Status-Abbrev}' --show {{ item }}
+      loop: "{{ git_extra_packages }}"
+      register: _git_packages
+      changed_when: false
+
+    - name: Assert every extra package is installed
+      ansible.builtin.assert:
+        that:
+          - item.stdout is search('^ii')
+        fail_msg: "{{ item.item }} is not installed"
+      loop: "{{ _git_packages.results }}"
+      loop_control:
+        label: "{{ item.item }}"

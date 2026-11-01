@@ -1,0 +1,39 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the mise version
+      ansible.builtin.command:
+        cmd: mise --version
+      register: _mise_cli
+      changed_when: false
+
+    - name: Assert mise runs
+      ansible.builtin.assert:
+        that:
+          - _mise_cli.stdout is match('^[0-9]{4}\.[0-9]+\.[0-9]+ ')
+        success_msg: "{{ _mise_cli.stdout }}"
+
+    - name: Read the configured bashrc
+      ansible.builtin.slurp:
+        src: "{{ mise_bashrc_file }}"
+      register: _mise_bashrc
+
+    - name: Assert the activation snippet is in the bashrc
+      ansible.builtin.assert:
+        that:
+          - mise_activate_command in (_mise_bashrc.content | b64decode)
+
+    - name: Assert the repository is configured
+      ansible.builtin.stat:
+        path: /etc/apt/sources.list.d/mise.sources
+      register: _mise_repo
+
+    - name: Assert the APT source exists
+      ansible.builtin.assert:
+        that:
+          - _mise_repo.stat.exists

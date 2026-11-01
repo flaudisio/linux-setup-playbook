@@ -1,0 +1,21 @@
+---
+dependencies: []
+
+collections:
+  - community.general
+
+galaxy_info:
+  author: flaudisio
+  description: Ansible role that installs Google Chrome from the vendor package
+  license: MIT
+  min_ansible_version: "2.20.0"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble
+        - resolute
+  galaxy_tags:
+    - browser
+    - chrome
+    - google
+    - system

@@ -1,0 +1,32 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed ulauncher version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show ulauncher
+      register: _ulauncher_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert ulauncher is installed
+      ansible.builtin.assert:
+        that:
+          - _ulauncher_version.rc == 0
+          - _ulauncher_version.stdout | length > 0
+        success_msg: "ulauncher {{ _ulauncher_version.stdout }}"
+
+    - name: Read the rendered settings file
+      ansible.builtin.slurp:
+        src: "{{ ulauncher_config_dir }}/settings.json"
+      register: _ulauncher_settings
+
+    - name: Assert the file holds the default and the override
+      ansible.builtin.assert:
+        that:
+          - (_ulauncher_settings.content | b64decode | from_json)['theme-name'] == 'dark'
+          - "'hotkey-show-app' in (_ulauncher_settings.content | b64decode)"

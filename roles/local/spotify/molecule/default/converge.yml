@@ -1,0 +1,37 @@
+---
+- name: Converge
+  hosts: all
+
+  pre_tasks:
+    - name: Update APT cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      changed_when: false
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Wait for systemd to complete initialization  # noqa: command-instead-of-module
+      ansible.builtin.command: >
+        systemctl is-system-running
+      register: systemctl_status
+      until: >
+        "running" in systemctl_status.stdout
+        or "degraded" in systemctl_status.stdout
+      retries: 10
+      delay: 6
+      changed_when: false
+      failed_when: systemctl_status.rc > 1
+      when: ansible_facts["service_mgr"] == "systemd"
+
+    - name: Install python3-debian for deb822_repository
+      ansible.builtin.apt:
+        name: python3-debian
+        state: present
+      register: _python3_debian
+      # The image can still be running its own apt on first boot.
+      until: _python3_debian is succeeded
+      retries: 5
+      delay: 10
+
+  roles:
+    - role: spotify

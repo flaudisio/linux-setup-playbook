@@ -1,0 +1,43 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed firefox version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show firefox
+      register: _firefox_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert firefox is installed
+      ansible.builtin.assert:
+        that:
+          - _firefox_version.rc == 0
+          - _firefox_version.stdout | length > 0
+        success_msg: "firefox {{ _firefox_version.stdout }}"
+
+    - name: Read the Firefox version
+      ansible.builtin.command:
+        cmd: firefox --version
+      register: _firefox_cli
+      changed_when: false
+
+    - name: Assert the binary runs and reports a Firefox version
+      ansible.builtin.assert:
+        that:
+          - _firefox_cli.stdout is match('^Mozilla Firefox [0-9]+\.')
+        success_msg: "{{ _firefox_cli.stdout }}"
+
+    - name: Read the package priority
+      ansible.builtin.slurp:
+        src: /etc/apt/preferences.d/firefox
+      register: _firefox_pin
+
+    - name: Assert the Snap build stays pinned away
+      ansible.builtin.assert:
+        that:
+          - "'snap' in (_firefox_pin.content | b64decode)"

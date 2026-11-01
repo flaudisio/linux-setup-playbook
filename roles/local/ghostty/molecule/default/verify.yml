@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed ghostty version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show ghostty
+      register: _ghostty_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert ghostty is installed
+      ansible.builtin.assert:
+        that:
+          - _ghostty_version.rc == 0
+          - _ghostty_version.stdout | length > 0
+        success_msg: "ghostty {{ _ghostty_version.stdout }}"
+
+    - name: Assert the installed version matches ghostty_pkg_version
+      ansible.builtin.assert:
+        that:
+          - _ghostty_version.stdout == ghostty_pkg_version
+
+    - name: Stat the configuration file
+      ansible.builtin.stat:
+        path: "{{ ghostty_config_file }}"
+      register: _ghostty_config
+
+    - name: Assert the configuration file
+      ansible.builtin.assert:
+        that:
+          - _ghostty_config.stat.exists
+          - _ghostty_config.stat.mode == ghostty_config_mode
+
+    - name: Read the configuration file
+      ansible.builtin.slurp:
+        src: "{{ ghostty_config_file }}"
+      register: _ghostty_conf
+
+    - name: Assert the configured font size was written
+      ansible.builtin.assert:
+        that:
+          - "'font-size = 12' in (_ghostty_conf.content | b64decode)"

@@ -55,3 +55,8 @@
   notify: kvm - restart libvirtd
   when: kvm_disable_libvirt_qemu_security_driver | bool
   tags: kvm:config
+
+- name: Include libvirt network tasks
+  ansible.builtin.import_tasks: libvirt-network.yml
+  when: kvm_libvirt_manage_networks | bool
+  tags: kvm:libvirt-network

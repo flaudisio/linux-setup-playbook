@@ -1,0 +1,16 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: flaudisio
+  description: Ansible role that installs Cinc Workstation from Omnitruck
+  license: MIT
+  min_ansible_version: "2.20.0"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble
+  galaxy_tags:
+    - chef
+    - cinc
+    - system

@@ -1,0 +1,16 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: flaudisio
+  description: Ansible role that clones a dotfiles repository and symlinks it into a home directory
+  license: MIT
+  min_ansible_version: "2.20.0"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble
+        - resolute
+  galaxy_tags:
+    - dotfiles
+    - system

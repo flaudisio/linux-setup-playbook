@@ -1,0 +1,86 @@
+---
+name: molecule
+
+"on":
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      roles: ${{ steps.roles.outputs.roles }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Detect changed role and shared files
+        id: changed
+        if: github.event_name != 'workflow_dispatch'
+        uses: tj-actions/changed-files@v47
+        with:
+          files: |
+            roles/local/**
+            ansible.cfg
+            requirements.txt
+            requirements.yml
+            mise.toml
+      - name: Compute the roles to test
+        id: roles
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed.outputs.all_changed_files }}
+        run: |
+          set -euo pipefail
+
+          # A manual run tests every role; otherwise a shared file change can break
+          # every scenario, so it tests every role too.
+          shared=false
+          changed_roles=""
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            changed_roles=$(ls roles/local)
+          else
+            for file in $ALL_CHANGED_FILES; do
+              if [[ "$file" == roles/local/*/* ]]; then
+                changed_roles+=" $(cut -d/ -f3 <<<"$file")"
+              else
+                shared=true
+              fi
+            done
+            if [[ "$shared" == true ]]; then
+              changed_roles=$(ls roles/local)
+            fi
+          fi
+
+          # Only roles that ship a scenario can run one.
+          roles=""
+          for role in $(printf '%s\n' $changed_roles | sort -u); do
+            if [[ -f "roles/local/$role/molecule/default/molecule.yml" ]]; then
+              roles+=" $role"
+            fi
+          done
+
+          list=$(printf '%s\n' $roles | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "roles=${list}" >> "$GITHUB_OUTPUT"
+
+  molecule:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.roles != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        role: ${{ fromJSON(needs.detect-changes.outputs.roles) }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v5
+      - name: Install project dependencies
+        run: mise run install
+      - name: Run the role scenario
+        working-directory: roles/local/${{ matrix.role }}
+        run: mise run test:role

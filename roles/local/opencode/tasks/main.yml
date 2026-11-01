@@ -1,7 +1,7 @@
 ---
 - name: Set variable with expanded path
   ansible.builtin.set_fact:
-    _opencode_install_path: "{{ opencode_install_path | expanduser }}"
+    _opencode_install_path: "{{ opencode_install_path }}"
 
 - name: Fetch latest version from the update API
   ansible.builtin.uri:
@@ -10,6 +10,7 @@
   until: _update_meta.status == 200
   retries: 2
   delay: 3
+  changed_when: false
   when: opencode_version == "latest"
 
 - name: Set target version
@@ -51,10 +52,18 @@
     - not ansible_check_mode
     - _check_version.rc != 0 or _target_version not in _check_version.stdout
 
+- name: Ensure the symlink directory exists
+  ansible.builtin.file:
+    path: "{{ opencode_symlink_path | dirname }}"
+    state: directory
+    mode: "0755"
+  become: "{{ opencode_install_become }}"
+  when: opencode_symlink_path != ""
+
 - name: Create symlink to binary
   ansible.builtin.file:
     src: "{{ opencode_install_path }}"
-    dest: "{{ opencode_symlink_path | expanduser }}"
+    dest: "{{ opencode_symlink_path }}"
     state: link
   become: "{{ opencode_install_become }}"
   when: opencode_symlink_path != ""

@@ -1,0 +1,44 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed code version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show code
+      register: _vscode_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert code is installed
+      ansible.builtin.assert:
+        that:
+          - _vscode_version.rc == 0
+          - _vscode_version.stdout | length > 0
+        success_msg: "code {{ _vscode_version.stdout }}"
+
+    - name: Read the Visual Studio Code version
+      ansible.builtin.command:
+        # VS Code refuses to run as root without these two flags.
+        cmd: code --no-sandbox --user-data-dir=/tmp/vscode-molecule --version
+      register: _vscode_cli
+      changed_when: false
+
+    - name: Assert the binary runs and reports a version
+      ansible.builtin.assert:
+        that:
+          - _vscode_cli.stdout_lines[0] is match('^[0-9]+\.[0-9]+\.[0-9]+')
+        success_msg: "code {{ _vscode_cli.stdout_lines[0] }}"
+
+    - name: Read the deb822 repository file
+      ansible.builtin.slurp:
+        src: /etc/apt/sources.list.d/{{ vscode_apt_repo_name }}.sources
+      register: _vscode_sources
+
+    - name: Assert the repository uses the role's URI
+      ansible.builtin.assert:
+        that:
+          - vscode_apt_repo_uri in (_vscode_sources.content | b64decode)

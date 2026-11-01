@@ -1,2 +1,6 @@
 ansible-core==2.21.*
+
+# Development
 ansible-lint==26.*
+molecule==26.*
+molecule-plugins[docker]==26.*

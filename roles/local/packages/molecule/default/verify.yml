@@ -1,0 +1,50 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the tree version
+      ansible.builtin.command:
+        cmd: tree --version
+      register: _packages_tree
+      changed_when: false
+
+    - name: Assert the requested APT package is installed
+      ansible.builtin.assert:
+        that:
+          - _packages_tree.stdout is match('^tree v[0-9]+\.')
+        success_msg: "{{ _packages_tree.stdout }}"
+
+    - name: Read the version pinning file
+      ansible.builtin.slurp:
+        src: /etc/apt/preferences.d/ansible-version-pinning
+      register: _packages_pin
+
+    - name: Assert the pinning file holds the requested package
+      ansible.builtin.assert:
+        that:
+          - "'Package: tree' in (_packages_pin.content | b64decode)"
+
+    - name: Stat the snapd pin that keeps the package out
+      ansible.builtin.stat:
+        path: "/etc/apt/preferences.d/snapd-disabled"
+      register: _packages_snapd_pin
+
+    - name: Assert the snapd pin that keeps the package out
+      ansible.builtin.assert:
+        that:
+          - _packages_snapd_pin.stat.exists
+
+    - name: Read the list of installed pipx packages
+      ansible.builtin.command:
+        cmd: /usr/local/bin/pipx list
+      register: _packages_pipx
+      changed_when: false
+
+    - name: Assert the requested pipx package is installed
+      ansible.builtin.assert:
+        that:
+          - "'pyclean' in _packages_pipx.stdout"

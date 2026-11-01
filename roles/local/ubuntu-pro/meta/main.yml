@@ -1,0 +1,16 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: flaudisio
+  description: Ansible role that attaches a host to Ubuntu Pro and toggles its services
+  license: MIT
+  min_ansible_version: "2.20.0"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble
+        - resolute
+  galaxy_tags:
+    - system
+    - ubuntu
