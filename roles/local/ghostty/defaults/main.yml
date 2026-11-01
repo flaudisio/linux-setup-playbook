@@ -7,6 +7,7 @@ ghostty_pkg_url: >-
   https://github.com/mkasberg/ghostty-ubuntu/releases/download/{{ ghostty_pkg_version | replace('~', '-') }}/ghostty_{{ ghostty_pkg_version | replace('~', '.') }}_{{ ghostty_pkg_arch }}_{{ ansible_facts['distribution_version'] }}.deb
 
 ghostty_config_file: ~/.config/ghostty/config
+ghostty_config_mode: "0644"
 
 ghostty_config_content: ""
 # ghostty_config_content: |
