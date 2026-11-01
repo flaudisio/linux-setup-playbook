@@ -43,6 +43,14 @@ None.
         mise_configure_bash_completion: true
 ```
 
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
+```
+
 ## License
 
 MIT

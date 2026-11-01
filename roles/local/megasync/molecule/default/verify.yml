@@ -1,0 +1,31 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed megasync version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show megasync
+      register: _megasync_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert megasync is installed
+      ansible.builtin.assert:
+        that:
+          - _megasync_version.rc == 0
+          - _megasync_version.stdout | length > 0
+        success_msg: "megasync {{ _megasync_version.stdout }}"
+    - name: Stat the MEGAsync launcher
+      ansible.builtin.stat:
+        path: "/usr/bin/megasync"
+      register: _megasync_launcher
+
+    - name: Assert the MEGAsync launcher
+      ansible.builtin.assert:
+        that:
+          - _megasync_launcher.stat.exists
+          - _megasync_launcher.stat.executable

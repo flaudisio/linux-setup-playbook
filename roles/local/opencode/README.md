@@ -16,10 +16,10 @@ opencode_version: latest  # or specific version, e.g. '2.0.16'
 
 opencode_dl_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'x64' }}"
 
-opencode_install_path: ~/.opencode/bin/opencode
+opencode_install_path: "{{ ansible_facts['user_dir'] }}/.opencode/bin/opencode"
 opencode_install_become: false
 
-opencode_symlink_path: ~/.local/bin/opencode
+opencode_symlink_path: "{{ ansible_facts['user_dir'] }}/.local/bin/opencode"
 ```
 
 With `opencode_version: latest` the role asks the update API which release to install. It compares
@@ -38,6 +38,14 @@ None.
     - role: opencode
       vars:
         opencode_version: 2.0.16
+```
+
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
 ```
 
 ## License

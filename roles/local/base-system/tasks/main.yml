@@ -17,7 +17,10 @@
     owner: root
     group: root
     mode: "0644"
-  tags: base-system:lightdm
+  tags:
+    - base-system:lightdm
+    # Containers have no LightDM.
+    - molecule-notest
 
 - name: Configure systemd Journal disk usage
   community.general.ini_file:
@@ -41,7 +44,10 @@
     mode: "0644"
     create: false
     state: present
-  tags: base-system:numlock
+  tags:
+    - base-system:numlock
+    # The file only exists where the numlockx package is installed.
+    - molecule-notest
 
 - name: Include sudoers tasks
   ansible.builtin.import_tasks: sudoers.yml
@@ -49,7 +55,10 @@
 
 - name: Include hosts file tasks
   ansible.builtin.import_tasks: hosts-file.yml
-  tags: base-system:hosts
+  tags:
+    - base-system:hosts
+    # Docker bind-mounts /etc/hosts, so writes fail with "Device or resource busy".
+    - molecule-notest
 
 - name: Configure alternatives
   community.general.alternatives:

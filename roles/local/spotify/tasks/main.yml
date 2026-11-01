@@ -26,6 +26,7 @@
     suites: "{{ spotify_apt_repo_suite }}"
     components: "{{ spotify_apt_repo_component }}"
     signed_by: "{{ spotify_apt_repo_key_file }}"
+    install_python_debian: true
     state: present
   notify: spotify - apt update
 

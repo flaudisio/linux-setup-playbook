@@ -1,0 +1,53 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed spotify-client version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show spotify-client
+      register: _spotify_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert spotify-client is installed
+      ansible.builtin.assert:
+        that:
+          - _spotify_version.rc == 0
+          - _spotify_version.stdout | length > 0
+        success_msg: "spotify-client {{ _spotify_version.stdout }}"
+    - name: Stat the Spotify launcher
+      ansible.builtin.stat:
+        path: "/usr/bin/spotify"
+      register: _spotify_launcher
+
+    - name: Assert the Spotify launcher
+      ansible.builtin.assert:
+        that:
+          - _spotify_launcher.stat.exists
+          - _spotify_launcher.stat.executable
+
+    - name: Read the deb822 repository file
+      ansible.builtin.slurp:
+        src: /etc/apt/sources.list.d/{{ spotify_apt_repo_name }}.sources
+      register: _spotify_sources
+
+    - name: Assert the repository uses the role's URI and component
+      ansible.builtin.assert:
+        that:
+          - spotify_apt_repo_uri in (_spotify_sources.content | b64decode)
+          - spotify_apt_repo_component in (_spotify_sources.content | b64decode)
+
+    - name: Read the stub source list
+      ansible.builtin.slurp:
+        src: /etc/apt/sources.list.d/spotify.list
+      register: _spotify_stub
+
+    - name: Assert the source list stays a comment-only stub
+      ansible.builtin.assert:
+        that:
+          - "'Managed by Ansible' in (_spotify_stub.content | b64decode)"
+          - "'deb ' not in (_spotify_stub.content | b64decode)"

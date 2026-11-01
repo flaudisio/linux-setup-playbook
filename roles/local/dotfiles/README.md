@@ -5,6 +5,7 @@ adds Vim plugins, literal files and post-install commands.
 
 ## Requirements
 
+- Git on the target host: the role clones the repository with the `ansible.builtin.git` module.
 - A Git repository whose `dotfiles_repo_src_dir` (default `src`) holds the files and directories to
   symlink. Entries directly under `src/` land in `$HOME`; for each directory under `src/`, its own
   subdirectories are linked into `$HOME` keeping their path, so `src/.config/htop/rc` becomes
@@ -70,6 +71,14 @@ None.
           - path: ~/.config/htop/htoprc
             content: |
               hide_kernel_threads=1
+```
+
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
 ```
 
 ## License

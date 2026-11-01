@@ -1,0 +1,49 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the journald configuration
+      ansible.builtin.slurp:
+        src: /etc/systemd/journald.conf
+      register: _base_journald
+
+    - name: Assert the journal size limit was applied
+      ansible.builtin.assert:
+        that:
+          - ("SystemMaxUse = " ~ base_journald_system_max_use) in (_base_journald.content | b64decode)
+
+    - name: Stat the sudo insults drop-in
+      ansible.builtin.stat:
+        path: "/etc/sudoers.d/90-ansible-insults"
+      register: _base_insults
+
+    - name: Assert the sudo insults drop-in
+      ansible.builtin.assert:
+        that:
+          - _base_insults.stat.exists
+          - _base_insults.stat.mode == '0440'
+          - _base_insults.stat.pw_name == 'root'
+    - name: Stat the custom sudoers drop-in
+      ansible.builtin.stat:
+        path: "/etc/sudoers.d/90-ansible-custom"
+      register: _base_sudoers
+
+    - name: Assert the custom sudoers drop-in
+      ansible.builtin.assert:
+        that:
+          - _base_sudoers.stat.exists
+          - _base_sudoers.stat.mode == '0440'
+
+    - name: Read the configured sysctl drop-in
+      ansible.builtin.slurp:
+        src: /etc/sysctl.d/90-linux-setup-playbook.conf
+      register: _base_sysctl
+
+    - name: Assert the swappiness value was written
+      ansible.builtin.assert:
+        that:
+          - ("vm.swappiness=" ~ base_vm_swappiness) in (_base_sysctl.content | b64decode)

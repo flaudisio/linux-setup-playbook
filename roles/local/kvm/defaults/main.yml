@@ -5,7 +5,7 @@ kvm_server_packages:
   - bridge-utils
   - libvirt-clients
   - libvirt-daemon-system
-  - qemu-kvm
+  - qemu-system-x86
 
 kvm_install_virt_manager: false
 

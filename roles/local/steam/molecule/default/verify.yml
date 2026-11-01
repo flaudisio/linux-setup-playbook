@@ -1,0 +1,30 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed steam-launcher version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show steam-launcher
+      register: _steam_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert steam-launcher is installed
+      ansible.builtin.assert:
+        that:
+          - _steam_version.rc == 0
+          - _steam_version.stdout | length > 0
+        success_msg: "steam-launcher {{ _steam_version.stdout }}"
+    - name: Stat the Steam launcher
+      ansible.builtin.stat:
+        path: "/usr/bin/steam"
+      register: _steam_launcher
+
+    - name: Assert the Steam launcher
+      ansible.builtin.assert:
+        that:
+          - _steam_launcher.stat.exists

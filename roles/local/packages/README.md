@@ -5,7 +5,7 @@ commands.
 
 ## Requirements
 
-- `python3` with the `venv` module: the pipx CLI is installed into a dedicated virtual environment.
+None. The role installs `python3-venv` for the pipx environment.
 
 ## Role Variables
 
@@ -75,6 +75,14 @@ None.
         packages_pipx_install:
           - name: prek
             state: upgrade
+```
+
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
 ```
 
 ## License

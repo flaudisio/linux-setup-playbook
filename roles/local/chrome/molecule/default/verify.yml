@@ -1,0 +1,44 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed google-chrome-stable version
+      ansible.builtin.command:
+        cmd: dpkg-query --showformat='${Version}' --show google-chrome-stable
+      register: _chrome_version
+      changed_when: false
+      failed_when: false
+
+    - name: Assert google-chrome-stable is installed
+      ansible.builtin.assert:
+        that:
+          - _chrome_version.rc == 0
+          - _chrome_version.stdout | length > 0
+        success_msg: "google-chrome-stable {{ _chrome_version.stdout }}"
+
+    - name: Read the Chrome version
+      ansible.builtin.command:
+        cmd: google-chrome --version
+      register: _chrome_cli
+      changed_when: false
+
+    - name: Assert the binary runs and reports a Chrome version
+      ansible.builtin.assert:
+        that:
+          - _chrome_cli.stdout is match('^Google Chrome [0-9]+\.')
+        success_msg: "{{ _chrome_cli.stdout }}"
+
+    - name: Stat the Chrome launcher
+      ansible.builtin.stat:
+        path: "/usr/bin/google-chrome-stable"
+      register: _chrome_launcher
+
+    - name: Assert the Chrome launcher
+      ansible.builtin.assert:
+        that:
+          - _chrome_launcher.stat.exists
+          - _chrome_launcher.stat.executable

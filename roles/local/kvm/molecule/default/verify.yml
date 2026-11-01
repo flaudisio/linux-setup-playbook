@@ -1,0 +1,55 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the libvirt and QEMU versions
+      ansible.builtin.command:
+        cmd: "{{ item }} --version"
+      loop:
+        - virsh
+        - qemu-system-x86_64
+      register: _kvm_bins
+      changed_when: false
+
+    - name: Assert the libvirt and QEMU binaries run
+      ansible.builtin.assert:
+        that:
+          - item.rc == 0
+          - item.stdout | length > 0
+        fail_msg: "{{ item.item }} is not usable"
+      loop: "{{ _kvm_bins.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: Read the system groups
+      ansible.builtin.command:
+        cmd: getent group {{ item }}
+      loop: "{{ kvm_system_groups }}"
+      register: _kvm_groups
+      changed_when: false
+      failed_when: false
+
+    - name: Assert the virtualization groups exist
+      ansible.builtin.assert:
+        that:
+          - item.rc == 0
+        fail_msg: "group {{ item.item }} is missing"
+      loop: "{{ _kvm_groups.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: Read the QEMU configuration
+      ansible.builtin.slurp:
+        src: /etc/libvirt/qemu.conf
+      register: _kvm_qemu
+
+    - name: Assert the QEMU security driver is disabled
+      ansible.builtin.assert:
+        that:
+          - _kvm_security_driver in (_kvm_qemu.content | b64decode)
+      vars:
+        _kvm_security_driver: 'security_driver = "none"'

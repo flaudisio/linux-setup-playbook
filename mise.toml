@@ -26,6 +26,14 @@ run = "prek run --all-files --color always"
 description = "Run ansible-lint"
 run = "SOPS_ANSIBLE_AWX_DISABLE_VARS_PLUGIN_TEMPORARILY=1 ansible-lint"
 
+[tasks."test:role"]
+description = "Run the molecule scenario of the role in the current directory"
+run = [
+  "test -f molecule/default/molecule.yml || { echo 'no molecule scenario in {{ cwd }}'; exit 1; }",
+  "molecule test",
+]
+dir = "{{ cwd }}"
+
 [tasks.bump-version]
 description = "Bump the project version"
 run = "bump-my-version bump patch"

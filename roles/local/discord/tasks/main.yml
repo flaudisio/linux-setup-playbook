@@ -16,6 +16,7 @@
       until: _api_uri.status == 200
       retries: 2
       delay: 3
+      changed_when: false
 
     - name: Set variables for the latest version
       ansible.builtin.set_fact:

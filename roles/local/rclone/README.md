@@ -24,7 +24,7 @@ rclone_enable_bash_completion: true
 
 The role skips the download when the installed `rclone` version already matches `rclone_version`.
 The completion script is written to `/etc/bash_completion.d/rclone`, which bash-completion sources
-on Ubuntu.
+on Ubuntu; the role creates that directory, because bash-completion 2.11 no longer ships it.
 
 ## Dependencies
 
@@ -38,6 +38,14 @@ None.
     - role: rclone
       vars:
         rclone_version: 1.75.1
+```
+
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
 ```
 
 ## License

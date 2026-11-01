@@ -18,7 +18,7 @@ kvm_server_packages:
   - bridge-utils
   - libvirt-clients
   - libvirt-daemon-system
-  - qemu-kvm
+  - qemu-system-x86
 
 kvm_install_virt_manager: false
 
@@ -68,6 +68,14 @@ None.
         kvm_install_virt_manager: true
         kvm_users:
           - ubuntu
+```
+
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
 ```
 
 ## License

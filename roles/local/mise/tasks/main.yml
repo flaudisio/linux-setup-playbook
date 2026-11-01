@@ -19,6 +19,7 @@
     suites: "{{ mise_apt_repo_suite }}"
     components: "{{ mise_apt_repo_component }}"
     signed_by: "{{ mise_apt_repo_key_file }}"
+    install_python_debian: true
     state: present
   notify: mise - apt update
 
@@ -32,7 +33,7 @@
 
 - name: Configure .bashrc
   ansible.builtin.blockinfile:
-    path: "{{ mise_bashrc_file | expanduser }}"
+    path: "{{ mise_bashrc_file }}"
     marker: "### {mark} Managed by Ansible ###"
     block: |
       {{ mise_pre_activate_commands }}

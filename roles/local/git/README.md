@@ -78,6 +78,14 @@ None.
             owner: "{{ ansible_user }}"
 ```
 
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
+```
+
 ## License
 
 MIT

@@ -10,7 +10,6 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - noble
-        - resolute
   galaxy_tags:
     - chef
     - cinc

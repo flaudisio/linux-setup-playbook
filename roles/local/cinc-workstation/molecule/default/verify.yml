@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the installed Cinc Workstation version
+      ansible.builtin.command:
+        cmd: cinc --version
+      register: _cinc_cli
+      changed_when: false
+
+    - name: Assert the binary reports cinc_workstation_version
+      ansible.builtin.assert:
+        that:
+          - "'Cinc Workstation version: ' ~ cinc_workstation_version in _cinc_cli.stdout"
+        success_msg: "{{ _cinc_cli.stdout_lines | first }}"

@@ -12,7 +12,7 @@
 
 - name: Ensure configuration directory exists
   ansible.builtin.file:
-    path: "{{ ghostty_config_file | expanduser | dirname }}"
+    path: "{{ ghostty_config_file | dirname }}"
     state: directory
     mode: "0755"
   become: "{{ ghostty_config_become }}"

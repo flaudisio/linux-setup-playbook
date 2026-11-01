@@ -44,6 +44,14 @@ None.
         firefox_set_as_default_browser: true
 ```
 
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
+```
+
 ## License
 
 MIT

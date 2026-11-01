@@ -1,0 +1,29 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Read the rclone version
+      ansible.builtin.command:
+        cmd: rclone version
+      register: _rclone_cli
+      changed_when: false
+
+    - name: Assert the report version matches rclone_version
+      ansible.builtin.assert:
+        that:
+          - _rclone_cli.stdout_lines[0] is match('^rclone v' ~ rclone_version ~ '$')
+        success_msg: "{{ _rclone_cli.stdout_lines[0] }}"
+
+    - name: Stat the bash completion script
+      ansible.builtin.stat:
+        path: "/etc/bash_completion.d/rclone"
+      register: _rclone_completion
+
+    - name: Assert the bash completion script
+      ansible.builtin.assert:
+        that:
+          - _rclone_completion.stat.exists

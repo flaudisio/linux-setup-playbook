@@ -7,6 +7,8 @@ Workstation) from the Omnitruck package service.
 
 - Outbound access to `https://omnitruck.cinc.sh`, unless `cinc_workstation_package_url` points to a
   mirror.
+- An Ubuntu release Cinc publishes packages for: Omnitruck has no build for 26.04 yet, so the
+  molecule scenario covers 24.04 only.
 
 ## Role Variables
 
@@ -40,6 +42,14 @@ None.
     - role: cinc-workstation
       vars:
         cinc_workstation_version: 24.12.1073
+```
+
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
 ```
 
 ## License

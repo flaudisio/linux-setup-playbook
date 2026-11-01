@@ -33,6 +33,14 @@ None.
         discord_version: 0.0.81
 ```
 
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
+```
+
 ## License
 
 MIT

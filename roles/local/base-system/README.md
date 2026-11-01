@@ -59,6 +59,18 @@ None.
             priority: 100
 ```
 
+## Testing
+
+The role ships a molecule scenario using the Docker driver:
+
+```bash
+molecule test
+```
+
+The scenario runs in a privileged systemd container, which has no LightDM, no
+`/etc/default/numlockx` and a bind-mounted `/etc/hosts`: the tasks that write to them are tagged
+`molecule-notest` and skipped there.
+
 ## License
 
 MIT
