@@ -21,10 +21,16 @@ Ansible playbooks that provision this machine (Xubuntu 24.04). Inventory uses
 ## Role tests
 
 - Every `roles/local` role that can converge in a container ships `molecule/default/`:
-  `molecule.yml` (Docker driver, `ubuntu2404` + `ubuntu2604`, `ANSIBLE_ROLES_PATH` pointing at
-  `roles/local`), `converge.yml` (apt cache and systemd wait pre-tasks, then the role) and
-  `verify.yml` (assertions against the role's own defaults, loaded with `vars_files`).
-  `collections.yml` is required when the role imports a collection.
+  `molecule.yml` (Docker driver, `ANSIBLE_ROLES_PATH` pointing at `roles/local`), `converge.yml`
+  (apt cache and systemd wait pre-tasks, then the role) and `verify.yml` (assertions against the
+  role's own defaults, loaded with `vars_files`). `collections.yml` is required when the role
+  imports a collection.
+- Platform names carry the role prefix: `name: ${MOLECULE_PLATFORM_PREFIX:-<role>-}ubuntu2404` and
+  the same for `ubuntu2604`. The platform name is also the Docker container and inventory host name,
+  so a bare `ubuntu2404` makes scenarios collide, and concurrent runs of one role destroy each
+  other's container. `MOLECULE_PLATFORM_PREFIX=zz-` runs parallel copies; the default must not be
+  empty, because molecule rejects `${MOLECULE_PLATFORM_PREFIX:-}`.
+- The platform name is the key for `molecule test -p <role>-ubuntu2404`.
 - Container-only setup the role must not carry belongs in `converge.yml` pre-tasks, for example
   `python3-debian` for `deb822_repository` or `libasound2t64` for a vendor `.deb`.
 - Tasks that cannot work in a container are tagged `molecule-notest`; molecule passes

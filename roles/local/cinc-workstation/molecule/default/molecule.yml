@@ -9,7 +9,7 @@ driver:
   name: docker
 platforms:
   # Omnitruck publishes no Cinc Workstation build for Ubuntu 26.04 yet.
-  - name: ubuntu2404
+  - name: ${MOLECULE_PLATFORM_PREFIX:-cinc-workstation-}ubuntu2404
     image: geerlingguy/docker-ubuntu2404-ansible:latest
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
