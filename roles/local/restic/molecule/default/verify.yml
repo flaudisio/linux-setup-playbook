@@ -1,0 +1,43 @@
+---
+- name: Verify
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  vars:
+    goss_version: "0.4.10"
+    goss_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'x86_64' }}"
+
+  tasks:
+    - name: Install goss
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: >-
+          https://github.com/goss-org/goss/releases/download/v{{ goss_version }}/goss_{{
+          goss_version }}_linux_{{ goss_arch }}.tar.gz
+        dest: /usr/local/bin
+        include: goss
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Render the goss spec
+      ansible.builtin.template:
+        src: templates/goss.yaml.j2
+        dest: /tmp/goss.yaml
+        mode: "0644"
+
+    - name: Validate the converged container with goss
+      ansible.builtin.command:
+        cmd: goss --gossfile /tmp/goss.yaml validate --format documentation
+      register: _goss
+      changed_when: false
+      failed_when: false
+
+    - name: Assert every goss check passed
+      ansible.builtin.assert:
+        that:
+          - _goss.rc == 0
+        success_msg: "{{ _goss.stdout_lines | last }}"
+        fail_msg: "{{ _goss.stdout }}"

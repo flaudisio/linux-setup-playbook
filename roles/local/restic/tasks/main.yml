@@ -1,5 +1,5 @@
 ---
-- name: Check installed version of restic {{ restic_version }}
+- name: Check installed version {{ restic_version }}
   ansible.builtin.command: >
     {{ restic_bin_path }} version
   register: _check_version
@@ -10,6 +10,11 @@
   when:
     - "('restic ' ~ restic_version ~ ' compiled') not in _check_version.stdout"
   block:
+    - name: Ensure bzip2 is installed
+      ansible.builtin.package:
+        name: bzip2
+        state: present
+
     - name: Create temporary directory
       ansible.builtin.tempfile:
         state: directory
@@ -25,7 +30,7 @@
         url: "{{ restic_archive_url }}"
         dest: "{{ _archive_local_file }}"
         checksum: sha256:{{ restic_sha256sums_url }}
-        mode: "0644"
+        mode: "0600"
 
     # The 'unarchive' module does not handle .bz2 files that do not contain a .tar archive
     # Ref: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unarchive_module.html#notes
@@ -55,6 +60,20 @@
   # Module is not idempotent, ignore changes for now
   # Ref: https://github.com/ansible-collections/community.general/issues/4067
   changed_when: false
+
+- name: Ensure bash-completion is installed
+  ansible.builtin.package:
+    name: bash-completion
+    state: present
+  when: restic_configure_bash_completion | bool
+
+# bash-completion sources this directory (BASH_COMPLETION_COMPAT_DIR) but no longer ships it. Leave
+# mode and ownership alone in case another role manages it.
+- name: Ensure bash completion directory exists  # noqa: risky-file-permissions
+  ansible.builtin.file:
+    path: /etc/bash_completion.d
+    state: directory
+  when: restic_configure_bash_completion | bool
 
 - name: Configure Bash completion
   ansible.builtin.command: >

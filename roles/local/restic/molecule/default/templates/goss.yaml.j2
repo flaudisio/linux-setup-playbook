@@ -1,0 +1,19 @@
+# Rendered by molecule's verify playbook; goss validates the converged container.
+
+file:
+  {{ restic_bin_path }}:
+    exists: true
+    mode: "{{ restic_bin_mode }}"
+    owner: "{{ restic_bin_owner }}"
+  /etc/bash_completion.d/restic:
+    exists: true
+
+package:
+  bzip2:
+    installed: true
+
+command:
+  "{{ restic_bin_path }} version":
+    exit-status: 0
+    stdout:
+      - "restic {{ restic_version }} compiled with go"
