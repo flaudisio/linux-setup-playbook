@@ -23,5 +23,15 @@
       failed_when: systemctl_status.rc > 1
       when: ansible_facts["service_mgr"] == "systemd"
 
+    - name: Install python3-debian for deb822_repository
+      ansible.builtin.apt:
+        name: python3-debian
+        state: present
+      register: _python3_debian
+      # The image can still be running its own apt on first boot.
+      until: _python3_debian is succeeded
+      retries: 5
+      delay: 10
+
   roles:
     - role: firefox

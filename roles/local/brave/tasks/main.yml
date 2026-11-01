@@ -22,7 +22,6 @@
     components: "{{ brave_apt_repo_component }}"
     architectures: "{{ brave_apt_repo_architectures }}"
     signed_by: "{{ brave_apt_repo_key_file }}"
-    install_python_debian: true
     state: present
   notify: brave - apt update
 

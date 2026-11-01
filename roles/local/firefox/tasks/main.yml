@@ -40,7 +40,6 @@
     suites: "{{ firefox_apt_repo_suite }}"
     components: "{{ firefox_apt_repo_component }}"
     signed_by: "{{ firefox_apt_repo_key_file }}"
-    install_python_debian: true
     state: present
   notify: firefox - apt update
   tags:

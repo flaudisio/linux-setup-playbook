@@ -27,7 +27,6 @@
     components: "{{ vscode_apt_repo_component }}"
     architectures: "{{ vscode_apt_repo_architectures }}"
     signed_by: "{{ vscode_apt_repo_key_file }}"
-    install_python_debian: true
     state: present
   notify: vscode - apt update
 

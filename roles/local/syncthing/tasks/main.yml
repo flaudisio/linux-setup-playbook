@@ -27,7 +27,6 @@
     suites: "{{ syncthing_apt_repo_suite }}"
     components: "{{ syncthing_apt_repo_component }}"
     signed_by: "{{ syncthing_apt_repo_key_file }}"
-    install_python_debian: true
     state: present
   notify: syncthing - apt update
   tags:
