@@ -31,13 +31,20 @@ Ansible playbooks that provision this machine (Xubuntu 24.04). Inventory uses
   other's container. `MOLECULE_PLATFORM_PREFIX=zz-` runs parallel copies; the default must not be
   empty, because molecule rejects `${MOLECULE_PLATFORM_PREFIX:-}`.
 - The platform name is the key for `molecule test -p <role>-ubuntu2404`.
+- `.github/workflows/molecule.yml` runs `mise run test:role` in one matrix job per role whose
+  scenario can be affected: a change under `roles/local/<role>/` tests that role, while a change
+  to `ansible.cfg`, `requirements.txt`, `requirements.yml` or `mise.toml` tests every role.
+  `workflow_dispatch` runs the whole matrix.
+- Running the scenarios locally in parallel costs two containers per role (`molecule test` creates
+  both platforms up front). This host holds about 7 systemd containers next to the semaphore stack,
+  so three roles at a time is the safe ceiling; above it containers die at boot with exit 255 and
+  Ansible reports the host as unreachable.
 - Container-only setup the role must not carry belongs in `converge.yml` pre-tasks, for example
   `python3-debian` for `deb822_repository` or `libasound2t64` for a vendor `.deb`.
 - Tasks that cannot work in a container are tagged `molecule-notest`; molecule passes
   `--skip-tags molecule-notest,notest`. Say in the role README which tasks those are.
 - Assert observed state (the binary runs, dpkg reports the version, the file is a symlink), never a
   re-rendered template or a variable compared with itself.
-- Scenarios are local-only: CI runs lint, not molecule.
 - No scenario for `xubuntu-desktop` (needs the user's D-Bus session) or `ubuntu-pro` (needs a Pro
   token); `cinc-workstation` covers 24.04 only, because Omnitruck publishes no 26.04 build.
 
