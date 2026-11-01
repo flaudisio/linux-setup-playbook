@@ -1,0 +1,30 @@
+# Rendered by molecule's verify playbook; goss validates the converged container.
+
+file:
+  {{ resticprofile_bin_path }}:
+    exists: true
+    mode: "0755"
+    owner: root
+  {{ resticprofile_config_file }}:
+    exists: true
+    contains:
+      - "repository: /tmp/restic-repo"
+      - 'schedule: 03:00'
+  /etc/logrotate.d/resticprofile:
+    exists: true
+    contains:
+      - "weekly"
+  {{ resticprofile_log_dir }}:
+    exists: true
+    filetype: directory
+
+service:
+  resticprofile-backup@profile-default.timer:
+    enabled: true
+    running: true
+
+command:
+  "{{ resticprofile_bin_path }} version":
+    exit-status: 0
+    stdout:
+      - "resticprofile version {{ resticprofile_version }} commit"

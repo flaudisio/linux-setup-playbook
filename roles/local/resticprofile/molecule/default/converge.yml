@@ -1,0 +1,43 @@
+---
+- name: Converge
+  hosts: all
+
+  pre_tasks:
+    - name: Update APT cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      changed_when: false
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Wait for systemd to complete initialization  # noqa: command-instead-of-module
+      ansible.builtin.command: >
+        systemctl is-system-running
+      register: systemctl_status
+      until: >
+        "running" in systemctl_status.stdout
+        or "degraded" in systemctl_status.stdout
+      retries: 10
+      delay: 6
+      changed_when: false
+      failed_when: systemctl_status.rc > 1
+      when: ansible_facts["service_mgr"] == "systemd"
+
+  roles:
+    - role: resticprofile
+      vars:
+        resticprofile_config:
+          # The role schedules jobs but does not ship restic; the scenario only needs
+          # a binary to exist, and the restic role covers the real one.
+          global:
+            restic-binary: /usr/bin/true
+          default:
+            repository: /tmp/restic-repo
+            password-file: /tmp/restic-password
+            backup:
+              stdin: false
+              schedule: "03:00"
+        resticprofile_config_templates:
+          - profiles.yaml.j2
+        resticprofile_enable_schedules:
+          - default
