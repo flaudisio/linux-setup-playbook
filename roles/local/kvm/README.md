@@ -1,11 +1,11 @@
 # Ansible Role: KVM
 
-Ansible role that installs KVM/QEMU and libvirt, adds users to the virtualization groups and can
-switch off the libvirt QEMU security driver.
+Ansible role that installs KVM/QEMU and libvirt, adds users to the virtualization groups and manages
+libvirt networks.
 
 ## Requirements
 
-- A CPU with hardware virtualization enabled. The role asserts this before installing anything.
+- A CPU with hardware virtualization enabled.
 
 ## Role Variables
 
@@ -47,12 +47,21 @@ kvm_system_groups:
 kvm_users: []
 
 kvm_disable_libvirt_qemu_security_driver: false
+
+kvm_libvirt_manage_networks: false
+kvm_libvirt_enable_networks: []
+kvm_libvirt_disable_networks: []
 ```
 
 `kvm_users` only appends the listed users to `kvm_system_groups`; it never removes the groups they
 already belong to. Turning on `kvm_disable_libvirt_qemu_security_driver` sets
 `security_driver = "none"` in `/etc/libvirt/qemu.conf` and restarts libvirtd, which avoids
 permission errors on `/var/lib/libvirt/images` for the Terraform libvirt provider.
+
+With `kvm_libvirt_manage_networks` on, the role starts and autostarts the networks listed in
+`kvm_libvirt_enable_networks`, and destroys and disables autostart for the ones in
+`kvm_libvirt_disable_networks`. Both lists are diffed against `virsh net-list`, so a second run
+changes nothing, and a network listed in both is left disabled.
 
 ## Dependencies
 

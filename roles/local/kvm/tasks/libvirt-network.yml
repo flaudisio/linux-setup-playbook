@@ -1,0 +1,39 @@
+---
+- name: List enabled libvirt networks
+  ansible.builtin.command: >
+    virsh --quiet net-list --name
+  register: _virsh_net_list
+  changed_when: false
+
+- name: Set libvirt network variables
+  ansible.builtin.set_fact:
+    _libvirt_enable_networks: "{{
+      kvm_libvirt_enable_networks
+      | difference(_virsh_net_list.stdout_lines + kvm_libvirt_disable_networks)
+      | unique
+    }}"
+    _libvirt_disable_networks: "{{ kvm_libvirt_disable_networks | intersect(_virsh_net_list.stdout_lines) | unique }}"
+
+- name: Start selected libvirt networks
+  ansible.builtin.command: >
+    virsh net-start '{{ item }}'
+  loop: "{{ _libvirt_enable_networks }}"
+  changed_when: true
+
+- name: Enable autostart of selected libvirt networks
+  ansible.builtin.command: >
+    virsh net-autostart '{{ item }}'
+  loop: "{{ _libvirt_enable_networks }}"
+  changed_when: true
+
+- name: Disable selected libvirt networks
+  ansible.builtin.command: >
+    virsh net-destroy '{{ item }}'
+  loop: "{{ _libvirt_disable_networks }}"
+  changed_when: true
+
+- name: Disable autostart of selected libvirt networks
+  ansible.builtin.command: >
+    virsh net-autostart --disable '{{ item }}'
+  loop: "{{ _libvirt_disable_networks }}"
+  changed_when: true

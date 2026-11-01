@@ -34,3 +34,7 @@ kvm_system_groups:
 kvm_users: []
 
 kvm_disable_libvirt_qemu_security_driver: false
+
+kvm_libvirt_manage_networks: false
+kvm_libvirt_enable_networks: []
+kvm_libvirt_disable_networks: []
