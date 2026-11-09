@@ -6,14 +6,17 @@ published by `mkasberg/ghostty-ubuntu` and renders an optional configuration fil
 ## Requirements
 
 - An Ubuntu release covered by the `ghostty-ubuntu` release, which publishes one `.deb` per
-  distribution version.
+  distribution version. Ghostty 1.4 needs GTK 4.18 and libadwaita 1.7, so Ubuntu 24.04 has no
+  1.4 build and the role installs 1.3.1 there instead.
 
 ## Role Variables
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
 ```yaml
-ghostty_pkg_version: 1.3.1-0~ppa2
+# 1.4 requires GTK 4.18, so Ubuntu 24.04 keeps the last release that supports it.
+ghostty_pkg_version: >-
+  {{ '1.3.1-0~ppa2' if ansible_facts['distribution_version'] == '24.04' else '1.4.0-0~ppa2' }}
 
 ghostty_pkg_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
 
