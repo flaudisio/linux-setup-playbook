@@ -3,7 +3,9 @@ opencode_version: latest  # or specific version, e.g. '2.0.16'
 
 opencode_dl_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'x64' }}"
 
-opencode_install_path: "{{ ansible_facts['user_dir'] }}/.opencode/bin/opencode"
+# '~' is the invoking user; ansible_facts['user_dir'] is /root under --become.
+opencode_home_dir: "{{ '~' | expanduser }}"
+opencode_install_path: "{{ opencode_home_dir }}/.opencode/bin/opencode"
 opencode_install_become: false
 
-opencode_symlink_path: "{{ ansible_facts['user_dir'] }}/.local/bin/opencode"
+opencode_symlink_path: "{{ opencode_home_dir }}/.local/bin/opencode"

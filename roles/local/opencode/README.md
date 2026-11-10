@@ -16,15 +16,19 @@ opencode_version: latest  # or specific version, e.g. '2.0.16'
 
 opencode_dl_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'x64' }}"
 
-opencode_install_path: "{{ ansible_facts['user_dir'] }}/.opencode/bin/opencode"
+opencode_home_dir: "{{ '~' | expanduser }}"
+opencode_install_path: "{{ opencode_home_dir }}/.opencode/bin/opencode"
 opencode_install_become: false
 
-opencode_symlink_path: "{{ ansible_facts['user_dir'] }}/.local/bin/opencode"
+opencode_symlink_path: "{{ opencode_home_dir }}/.local/bin/opencode"
 ```
 
 With `opencode_version: latest` the role asks the update API which release to install. It compares
 the reported version of the binary at `opencode_install_path` with the target and only unpacks the
 archive when they differ. Set `opencode_symlink_path: ""` to skip the symlink.
+
+`opencode_home_dir` expands `~` to the user running Ansible. Do not use
+`ansible_facts['user_dir']` here: it is `/root` whenever the playbook runs with `--become`.
 
 ## Dependencies
 

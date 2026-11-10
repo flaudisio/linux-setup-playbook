@@ -8,7 +8,7 @@
   tasks:
     - name: Read the installed OpenCode version
       ansible.builtin.command:
-        cmd: "{{ opencode_install_path }} --version"
+        cmd: "{{ ansible_facts['user_dir'] }}/.opencode/bin/opencode --version"
       register: _opencode_cli
       changed_when: false
 
@@ -20,7 +20,7 @@
 
     - name: Stat the symlink in PATH
       ansible.builtin.stat:
-        path: "{{ opencode_symlink_path }}"
+        path: "{{ ansible_facts['user_dir'] }}/.local/bin/opencode"
       register: _opencode_link
 
     - name: Assert the symlink in PATH
@@ -28,4 +28,4 @@
         that:
           - _opencode_link.stat.exists
           - _opencode_link.stat.islnk
-          - _opencode_link.stat.lnk_target == opencode_install_path
+          - _opencode_link.stat.lnk_target == ansible_facts['user_dir'] ~ '/.opencode/bin/opencode'
