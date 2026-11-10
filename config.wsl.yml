@@ -8,7 +8,6 @@ packages_apt_install:
   - bash-completion
   - ca-certificates
   - curl
-  - python3-debian
   - tmux
   - tree
   # Secrets management

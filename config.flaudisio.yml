@@ -32,7 +32,6 @@ packages_apt_install:
   - ca-certificates
   - curl
   - dkms
-  - python3-debian
   - tmux
   - tree
   # Secrets management

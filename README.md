@@ -32,16 +32,14 @@ The script will:
 
 ## Secrets
 
-`playbooks/personal.yml` and `playbooks/work.yml` read their secrets from
-`host_vars/localhost/secrets.sops.yml`, encrypted with [SOPS](https://getsops.io) and an age key.
-Install the key on every machine that runs them:
+Every playbook, `playbooks/default.yml` included, loads `host_vars/localhost/secrets.sops.yml`
+through the `community.sops.sops` vars plugin, so every machine needs the SOPS age key. The file is
+encrypted with [SOPS](https://getsops.io). Install the key before running any playbook:
 
 ```bash
 doppler login
 mise run sops:key
 ```
-
-`playbooks/default.yml` does not need secrets.
 
 ## Overriding defaults
 

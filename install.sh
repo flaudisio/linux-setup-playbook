@@ -23,7 +23,8 @@ function main()
     _msg "==> Installing dependencies"
 
     _run sudo apt-get update -q
-    _run sudo apt-get install -q -y curl git
+    # python3-debian is required by ansible's deb822_repository module.
+    _run sudo apt-get install -q -y curl git python3-debian
 
     if [[ ! -d "$INSTALL_DIR" ]] ; then
         _msg "==> Cloning repository"
@@ -32,8 +33,8 @@ function main()
     else
         _msg "==> Directory '$INSTALL_DIR' already exists, updating repository"
 
-        _run git -C "$INSTALL_DIR" switch main
-        _run git -C "$INSTALL_DIR" pull origin main
+        _run git -C "$INSTALL_DIR" switch "$BRANCH"
+        _run git -C "$INSTALL_DIR" pull --ff-only origin "$BRANCH"
     fi
 
     if ! command -v mise > /dev/null ; then
@@ -55,9 +56,13 @@ function main()
 --------------------------------------------------
 Ansible successfully installed!
 
-Use the following commands to run the playbook:
+Install the SOPS age key before running any playbook:
 
 cd $INSTALL_DIR
+mise exec -- doppler login
+mise run sops:key
+
+Use the following commands to run the playbook:
 
 ./run playbooks/default.yml --list-tasks
 --------------------------------------------------
