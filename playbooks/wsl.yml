@@ -1,0 +1,44 @@
+---
+- name: WSL setup
+  hosts: all
+  gather_facts: "{{ not (skip_facts | default(false)) }}"
+
+  vars_files:
+    - "{{ playbook_dir }}/../config.flaudisio.yml"
+    - "{{ playbook_dir }}/../config.wsl.yml"
+    - "{{ playbook_dir }}/../config.yml"
+
+  roles:
+    # Core packages & system/user configuration
+    - role: packages
+      tags: packages
+    - role: git
+      tags: git
+    - role: dotfiles
+      tags: dotfiles
+
+    # Base utilities
+    - role: mise
+      tags: mise
+    - role: bat
+      tags: bat
+
+    # Backup & file sharing
+    - role: rclone
+      tags: rclone
+    - role: restic
+      tags: restic
+    - role: resticprofile
+      tags: resticprofile
+    - role: syncthing
+      tags: syncthing
+
+    # Infrastructure & cloud tools
+    - role: geerlingguy.docker
+      tags: docker
+    - role: session-manager-plugin
+      tags: session-manager-plugin
+
+    # Development tools
+    - role: opencode
+      tags: opencode

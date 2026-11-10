@@ -1,0 +1,50 @@
+---
+# Overrides for hosts provisioned by playbooks/wsl.yml
+
+# CLI-only subset of the desktop package list: no fonts, desktop editors, media tools or X11 helpers.
+packages_apt_install:
+  # Base
+  - apt-transport-https
+  - bash-completion
+  - ca-certificates
+  - curl
+  - python3-debian
+  - tmux
+  - tree
+  # Secrets management
+  - makepasswd
+  # Development
+  - jq
+  - ripgrep
+  - vim
+  # Sysadmin
+  - arping
+  - htop
+  - iotop
+  - iptraf-ng
+  - lsof
+  - mtr-tiny
+  - netcat-openbsd
+  - nmap
+  - openssh-client
+  - rsync
+  - traceroute
+  - whois
+  # Utilities
+  - atool
+  - dos2unix
+  - ipcalc-ng
+  - moreutils
+  - multitail
+  - p7zip-full
+  - pbzip2
+  - pigz
+  - rename
+  - sqlite3
+  - unar
+  - unzip
+
+# git-gui, gitk and qgit are desktop applications.
+git_extra_packages:
+  - git-doc
+  - tig
