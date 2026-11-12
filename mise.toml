@@ -69,6 +69,6 @@ run = [
 [tasks."sops:key"]
 description = "Install the SOPS age key from Doppler"
 run = [
-  'mkdir -p -m 700 "{{ env.SOPS_AGE_KEY_FILE | dirname }}"',
-  'doppler secrets get SOPS_AGE_KEY --project {{ vars.PROJECT_NAME }} --plain | install -m 600 /dev/stdin "{{ env.SOPS_AGE_KEY_FILE }}"',
+  "mkdir -p -m 700 '{{ env.SOPS_AGE_KEY_FILE | dirname }}'",
+  "doppler secrets get SOPS_AGE_KEY --project {{ vars.PROJECT_NAME }} --plain | install -m 600 /dev/stdin '{{ env.SOPS_AGE_KEY_FILE }}'",
 ]
