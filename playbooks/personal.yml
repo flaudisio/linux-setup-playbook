@@ -7,8 +7,8 @@
   gather_facts: "{{ not (skip_facts | default(false)) }}"
 
   vars_files:
-    - "{{ playbook_dir }}/../config.flaudisio.yml"
-    - "{{ playbook_dir }}/../config.yml"
+    - "{{ playbook_dir }}/../config/common.yml"
+    - "{{ playbook_dir }}/../config/local.yml"
 
   roles:
     - role: brave

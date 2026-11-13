@@ -2,6 +2,10 @@
 
 Ansible playbooks and roles that I use to provision my Linux-based machines.
 
+This repository provisions my machines: the `config/` variables carry my settings and `host_vars/`
+holds my secrets. There is no machine-agnostic baseline. To reuse it, follow
+[docs/generalizing.md](docs/generalizing.md).
+
 ## Compatibility
 
 This repository is currently tested against **Xubuntu 24.04**, but most roles should work with any Ubuntu
@@ -32,9 +36,9 @@ The script will:
 
 ## Secrets
 
-Every playbook, `playbooks/default.yml` included, loads `host_vars/localhost/secrets.sops.yml`
-through the `community.sops.sops` vars plugin, so every machine needs the SOPS age key. The file is
-encrypted with [SOPS](https://getsops.io). Install the key before running any playbook:
+Every playbook loads `host_vars/localhost/secrets.sops.yml` through the `community.sops.sops` vars
+plugin, so every machine needs the SOPS age key. The file is encrypted with
+[SOPS](https://getsops.io). Install the key before running any playbook:
 
 ```bash
 doppler login
@@ -43,8 +47,8 @@ mise run sops:key
 
 ## Overriding defaults
 
-You can override variables defined in `config.default.yml` (or define new ones) by creating a `config.yml`
-file.
+You can override variables defined in `config/common.yml` (or define new ones) by creating a
+`config/local.yml` file.
 
 Example:
 
@@ -75,7 +79,7 @@ For all available options, see roles' variable files in the [local](roles/local)
 ```bash
 cd ~/.local/share/linux-setup-playbook
 
-./run playbooks/default.yml
+./run playbooks/personal.yml
 ```
 
 The [run](run) helper is a tiny wrapper for the `ansible-playbook` command. By default it uses the
@@ -91,10 +95,10 @@ Example:
 
 ```bash
 ./run --help
-./run playbooks/default.yml --list-tasks
-./run playbooks/default.yml -t packages
-./run playbooks/default.yml -t packages --diff --check
-./run playbooks/default.yml -t git -t chrome
+./run playbooks/personal.yml --list-tasks
+./run playbooks/personal.yml -t packages
+./run playbooks/personal.yml -t packages --diff --check
+./run playbooks/personal.yml -t git -t chrome
 ```
 
 ## Thanks

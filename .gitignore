@@ -484,4 +484,4 @@ logs/*
 !logs/.gitkeep
 
 # Custom configs
-config.yml
+config/local.yml
