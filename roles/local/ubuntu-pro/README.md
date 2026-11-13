@@ -11,15 +11,15 @@ Ansible role that attaches a host to Ubuntu Pro with a token and enables or disa
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
 ```yaml
-# Ref: https://documentation.ubuntu.com/pro/attach-tutorial/
-
+# Attach only when this is true and a token is set.
 ubuntu_pro_enabled: false
-
 ubuntu_pro_token: ""
 
+# Services to enable or disable after attaching.
 ubuntu_pro_enable_services: []
 ubuntu_pro_disable_services: []
 
+# Upgrade every installed package as part of the attach.
 ubuntu_pro_upgrade_all_packages: false
 ```
 
