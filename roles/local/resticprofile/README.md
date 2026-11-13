@@ -14,7 +14,7 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```yaml
 # Version to install.
-resticprofile_version: 0.33.1
+resticprofile_version: 0.34.0
 resticprofile_dl_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
 
 # Binary location, and an optional extra name to symlink to it.
