@@ -1,13 +1,13 @@
 ---
 - name: Linux setup - common
-  ansible.builtin.import_playbook: flaudisio.common.yml
+  ansible.builtin.import_playbook: common.yml
 
 - name: Linux setup - personal machine
   hosts: all
   gather_facts: "{{ not (skip_facts | default(false)) }}"
 
   vars_files:
-    - "{{ playbook_dir }}/../config/flaudisio.common.yml"
+    - "{{ playbook_dir }}/../config/common.yml"
     - "{{ playbook_dir }}/../config/local.yml"
 
   roles:

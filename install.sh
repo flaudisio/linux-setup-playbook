@@ -62,9 +62,19 @@ cd $INSTALL_DIR
 mise exec -- doppler login
 mise run sops:key
 
-Use the following commands to run the playbook:
+Use the following commands to run the playbooks:
 
-./run playbooks/flaudisio.personal.yml --list-tasks
+# Baseline (any machine)
+./run playbooks/common.yml
+
+# Personal machine
+./run playbooks/personal.yml
+
+# Work machine
+./run playbooks/work.yml
+
+# WSL
+./run playbooks/wsl.yml
 --------------------------------------------------
 EOM
 }

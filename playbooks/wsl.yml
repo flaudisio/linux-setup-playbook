@@ -1,22 +1,19 @@
 ---
-- name: Linux setup - common tasks
+- name: WSL setup
   hosts: all
   gather_facts: "{{ not (skip_facts | default(false)) }}"
 
   vars_files:
-    - "{{ playbook_dir }}/../config/flaudisio.common.yml"
+    - "{{ playbook_dir }}/../config/common.yml"
+    - "{{ playbook_dir }}/../config/wsl.yml"
     - "{{ playbook_dir }}/../config/local.yml"
 
   roles:
     # Core packages & system/user configuration
-    - role: ubuntu-pro
-      tags: ubuntu-pro
     - role: packages
       tags: packages
     - role: git
       tags: git
-    - role: base-system
-      tags: base-system
     - role: dotfiles
       tags: dotfiles
 
@@ -25,17 +22,6 @@
       tags: mise
     - role: bat
       tags: bat
-    - role: firefox
-      tags: firefox
-    - role: chrome
-      tags: chrome
-
-    # Desktop UI/UX
-    - role: xubuntu-desktop
-      tags: xubuntu
-      when: lookup('ansible.builtin.env', 'DESKTOP_SESSION') == 'xubuntu'
-    - role: ulauncher
-      tags: ulauncher
 
     # Backup & file sharing
     - role: rclone
@@ -44,6 +30,8 @@
       tags: restic
     - role: resticprofile
       tags: resticprofile
+    - role: syncthing
+      tags: syncthing
 
     # Infrastructure & cloud tools
     - role: geerlingguy.docker
@@ -52,15 +40,5 @@
       tags: session-manager-plugin
 
     # Development tools
-    - role: ghostty
-      tags: ghostty
-    - role: vscode
-      tags: vscode
     - role: opencode
       tags: opencode
-
-    # Misc. applications
-    - role: discord
-      tags: discord
-    - role: spotify
-      tags: spotify

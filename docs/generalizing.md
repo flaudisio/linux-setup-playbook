@@ -8,9 +8,9 @@ personal and how to replace it, in an order that keeps the repository runnable a
 
 | Piece | Why it is yours |
 |---|---|
-| `config/flaudisio.common.yml` | All of the author's machine settings. |
-| `config/flaudisio.wsl.yml` | Package subset for the author's WSL instance. |
-| `playbooks/flaudisio.*.yml` | Entry points for the author's personal and work machines. |
+| `config/common.yml` | All of the author's machine settings. |
+| `config/wsl.yml` | Package subset for the author's WSL instance. |
+| `playbooks/*.yml` | Entry points for the author's baseline, personal, work and WSL machines. |
 | `host_vars/localhost/*.sops.yml` | Encrypted secrets, exposed as `secret_*` variables. |
 | `.sops.yaml` | The author's age public key, as the encryption recipient. |
 | `ansible.cfg` | `vars_plugins_enabled` includes `community.sops.sops`. |
@@ -24,11 +24,11 @@ Already generic: every role under `roles/local/`, their molecule scenarios, `./r
 ## 1. Fork and trim
 
 1. Fork the repository and clone your fork.
-2. Delete what you do not want: `config/flaudisio.*.yml`, `playbooks/flaudisio.*.yml`,
-   `host_vars/`, `.sops.yaml` and `config/resticprofile/`.
-3. Build your own baseline from `playbooks/flaudisio.common.yml` and
-   `config/flaudisio.common.yml`: rename them, then keep only the roles and settings you want.
-   `flaudisio.personal.yml` and `flaudisio.wsl.yml` are the per-machine entry points.
+2. Trim `config/common.yml` to your settings, and delete what is only the author's:
+   `config/wsl.yml`, `host_vars/`, `.sops.yaml`, `config/resticprofile/` and the playbooks you do
+   not need.
+3. Keep `playbooks/common.yml` as your baseline, renaming it if you like; `personal.yml`,
+   `work.yml` and `wsl.yml` are the per-machine entry points.
 4. Point `install.sh` at your fork, or leave it alone and use its environment overrides:
    `REPO_URL=... BRANCH=... INSTALL_DIR=... wget -q -O - ... | bash`.
 
@@ -63,7 +63,7 @@ into a directory with a different name also changes the project `sops:key` looks
 
 ```bash
 mise run install
-./run playbooks/flaudisio.common.yml --list-tasks
+./run playbooks/common.yml --list-tasks
 mise run lint
 cd roles/local/<role> && mise run test:role
 ```
@@ -73,6 +73,6 @@ without a key; a real one does not.
 
 ## 4. What stays yours
 
-There is no machine-agnostic baseline, and `flaudisio.common.yml` is not a minimal one: it
+There is no machine-agnostic baseline, and `common.yml` is not a minimal one: it
 installs Chrome, VS Code and Docker on every host. Treat it as an example to rewrite, not as a
 distribution default.
