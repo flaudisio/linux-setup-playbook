@@ -2,7 +2,7 @@
 
 Variables loaded by the playbooks through `vars_files`, in ascending precedence (later wins):
 
-- `common.yml`: this author's settings, shared by every machine.
+- `common.yml`: my settings, shared by every machine.
 - `wsl.yml`: WSL-only overrides, loaded by `playbooks/wsl.yml`.
 - `local.yml`: per-machine overrides, gitignored.
 

@@ -1,22 +1,22 @@
 # Generalizing this playbook
 
-This repository is tuned for the author's machines. The baseline, the secrets and the playbooks
-all assume one setup, so a plain fork does not run anywhere else. This guide lists what is
-personal and how to replace it, in an order that keeps the repository runnable at every step.
+This repository is tuned for my machines. The baseline, the secrets and the playbooks all assume
+one setup, so a plain fork does not run anywhere else. This guide lists what is personal and how to
+replace it, in an order that keeps the repository runnable at every step.
 
 ## What is personal
 
-| Piece | Why it is yours |
+| Piece | Why it is mine |
 |---|---|
-| `config/common.yml` | All of the author's machine settings. |
-| `config/wsl.yml` | Package subset for the author's WSL instance. |
-| `playbooks/*.yml` | Entry points for the author's baseline, personal, work and WSL machines. |
+| `config/common.yml` | All of my machine settings. |
+| `config/wsl.yml` | Package subset for my WSL instance. |
+| `playbooks/*.yml` | Entry points for my baseline, personal, work and WSL machines. |
 | `host_vars/localhost/*.sops.yml` | Encrypted secrets, exposed as `secret_*` variables. |
-| `.sops.yaml` | The author's age public key, as the encryption recipient. |
+| `.sops.yaml` | My age public key, as the encryption recipient. |
 | `ansible.cfg` | `vars_plugins_enabled` includes `community.sops.sops`. |
 | `mise.toml` | `SOPS_AGE_KEY_FILE` and `sops:key`, scoped to a Doppler project. |
-| `config/resticprofile/templates/` | The author's restic repositories and credentials. |
-| `install.sh` | Clones the author's repository. |
+| `config/resticprofile/templates/` | My restic repositories and credentials. |
+| `install.sh` | Clones my repository. |
 
 Already generic: every role under `roles/local/`, their molecule scenarios, `./run`, and
 `.github/workflows/`.
@@ -24,7 +24,7 @@ Already generic: every role under `roles/local/`, their molecule scenarios, `./r
 ## 1. Fork and trim
 
 1. Fork the repository and clone your fork.
-2. Trim `config/common.yml` to your settings, and delete what is only the author's:
+2. Trim `config/common.yml` to your settings, and delete what is only mine:
    `config/wsl.yml`, `host_vars/`, `.sops.yaml`, `config/resticprofile/` and the playbooks you do
    not need.
 3. Keep `playbooks/common.yml` as your baseline, renaming it if you like; `personal.yml`,
@@ -73,6 +73,5 @@ without a key; a real one does not.
 
 ## 4. What stays yours
 
-There is no machine-agnostic baseline, and `common.yml` is not a minimal one: it
-installs Chrome, VS Code and Docker on every host. Treat it as an example to rewrite, not as a
-distribution default.
+There is no machine-agnostic baseline, and `common.yml` is not a minimal one: it installs Chrome,
+VS Code and Docker on every host. Treat it as an example to rewrite, not as a distribution default.
