@@ -43,8 +43,8 @@ mise run sops:key
 
 ## Overriding defaults
 
-You can override variables defined in `config.default.yml` (or define new ones) by creating a `config.yml`
-file.
+You can override variables defined in `config/default.yml` (or define new ones) by creating a
+`config/local.yml` file.
 
 Example:
 

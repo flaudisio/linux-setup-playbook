@@ -1,5 +1,5 @@
 ---
-# Overrides for hosts provisioned by playbooks/wsl.yml
+# Overrides for hosts provisioned by playbooks/flaudisio.wsl.yml
 
 # CLI-only subset of the desktop package list: no fonts, desktop editors, media tools or X11 helpers.
 packages_apt_install:

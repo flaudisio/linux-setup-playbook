@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------
 
 __current_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
-__templates_dir: "{{ playbook_dir }}/../templates"
+__resticprofile_templates_dir: "{{ playbook_dir }}/../config/resticprofile/templates"
 
 # ------------------------------------------------------------------------------
 # Tasks configuration
@@ -212,14 +212,14 @@ resticprofile_config_dir: "{{ '~/.config/resticprofile' | expanduser }}"
 resticprofile_config_owner: "{{ __current_user }}"
 
 resticprofile_config_templates:
-  - src: "{{ __templates_dir }}/resticprofile/.env.j2"
+  - src: "{{ __resticprofile_templates_dir }}/.env.j2"
     sensitive: true
-  - src: "{{ __templates_dir }}/resticprofile/repo-password.txt.j2"
+  - src: "{{ __resticprofile_templates_dir }}/repo-password.txt.j2"
     sensitive: true
-  - "{{ __templates_dir }}/resticprofile/excludes.txt.j2"
-  - "{{ __templates_dir }}/resticprofile/includes.txt.j2"
-  - "{{ __templates_dir }}/resticprofile/systemd-timer.tmpl.j2"
-  - "{{ __templates_dir }}/resticprofile/profiles.yaml.j2"
+  - "{{ __resticprofile_templates_dir }}/excludes.txt.j2"
+  - "{{ __resticprofile_templates_dir }}/includes.txt.j2"
+  - "{{ __resticprofile_templates_dir }}/systemd-timer.tmpl.j2"
+  - "{{ __resticprofile_templates_dir }}/profiles.yaml.j2"
 
 __rp_default_profile: main
 

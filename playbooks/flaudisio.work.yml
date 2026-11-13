@@ -1,6 +1,6 @@
 ---
 - name: Linux setup - common
-  ansible.builtin.import_playbook: common.yml
+  ansible.builtin.import_playbook: flaudisio.common.yml
 
   module_defaults:
     ansible.builtin.setup:
@@ -15,8 +15,8 @@
       gather_subset: "all,!ohai"
 
   vars_files:
-    - "{{ playbook_dir }}/../config.flaudisio.yml"
-    - "{{ playbook_dir }}/../config.yml"
+    - "{{ playbook_dir }}/../config/flaudisio.common.yml"
+    - "{{ playbook_dir }}/../config/local.yml"
 
   roles:
     - role: cinc-workstation

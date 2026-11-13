@@ -10,6 +10,6 @@ exclude_paths:
   - collections/
   - roles/public/
   # SOPS age key is not available in CI.
-  - playbooks/common.yml
-  - playbooks/personal.yml
-  - playbooks/work.yml
+  - playbooks/flaudisio.common.yml
+  - playbooks/flaudisio.personal.yml
+  - playbooks/flaudisio.work.yml
