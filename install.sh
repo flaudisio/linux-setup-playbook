@@ -64,7 +64,7 @@ mise run sops:key
 
 Use the following commands to run the playbook:
 
-./run playbooks/default.yml --list-tasks
+./run playbooks/flaudisio.personal.yml --list-tasks
 --------------------------------------------------
 EOM
 }
