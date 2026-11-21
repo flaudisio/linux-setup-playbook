@@ -12,7 +12,7 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```yaml
 # Version to install, and the release archive and checksums it is downloaded from.
-restic_version: 0.19.1
+restic_version: 0.20.0
 restic_dl_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
 restic_archive_url: >-
   https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_{{ restic_dl_arch }}.bz2
@@ -42,7 +42,7 @@ None.
   roles:
     - role: restic
       vars:
-        restic_version: 0.19.1
+        restic_version: 0.20.0
 ```
 
 ## Testing
